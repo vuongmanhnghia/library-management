@@ -33,7 +33,7 @@ function Header() {
           </Form>
         </Navbar.Collapse>
         <Button variant="primary" href="/login" className="ms-2">
-          Login
+          Login/ Register
         </Button>
       </Container>
     </Navbar>
