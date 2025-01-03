@@ -1,20 +1,34 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { publicRoutes } from "./routes";
+import DefaultLayout from "./components/layouts/DefaultLayout/";
+import { Fragment } from "react";
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          {publicRoutes.map((route, index) => {
+            // Handle layout logic
+            const Layout = route.layout === null ? Fragment : (route.layout || DefaultLayout);
+            const Page = route.component;
+
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            );
+          })}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
