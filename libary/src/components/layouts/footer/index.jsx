@@ -1,17 +1,14 @@
-import React from 'react'
-import NavBar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/esm/Container';
+import React from "react";
+import { Layout } from "antd";
+
+const { Footer: AntFooter } = Layout;
 
 const Footer = () => {
   return (
-    <NavBar className="bg-body-tertiary">
-        <Container fluid className='text-center'>
-          <div className="text-center p-3">
-            Copyright © 2024 : Team Chivas Probation GDGOC PTIT 
-          </div>
-        </Container>
-    </NavBar>
-  )
-}
+    <AntFooter style={{ textAlign: "center", padding: "16px" }}>
+      Copyright © 2024 : Team Chivas Probation GDGOC PTIT
+    </AntFooter>
+  );
+};
 
-export default Footer
+export default Footer;

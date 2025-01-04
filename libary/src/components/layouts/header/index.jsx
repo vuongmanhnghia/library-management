@@ -1,16 +1,32 @@
 import React from "react";
-import {Button, Form, NavLink, Stack} from "react-bootstrap";
+import { Input, Divider, Typography } from "antd";
+import { Link } from "react-router-dom";
+
+const { Search } = Input;
+const { Text } = Typography;
 
 function Header() {
-  return (
-    <Stack direction="horizontal" gap={3} className="p-4" fixed="top">
-      <Form.Control className="me-auto" placeholder="Search for a book or author here" />
-      <Button variant="primary">Search</Button>
-      <div className="vr" />
-      <NavLink href="/profile" ><p className="fw-bold mb-0" style={{whiteSpace: "nowrap"}} variant="primary">Hi, Chivas</p></NavLink>
-      
-    </Stack>
+  const onSearch = (value) => {
     
+  };
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", margin: "16px", background: "#fff" }}>
+      <Search
+        placeholder="Search for a book or author here"
+        allowClear
+        enterButton="Search"
+        size="large"
+        onSearch={onSearch}
+        style={{ flex: 1, marginRight: "16px" }}
+      />
+      <Divider type="vertical" />
+      <Link to="/profile" style={{ whiteSpace: "nowrap", marginLeft: "16px" }}>
+        <Text strong style={{ fontSize: "16px" }}>
+          Hi, Chivas
+        </Text>
+      </Link>
+    </div>
   );
 }
 

@@ -1,45 +1,76 @@
 import React from "react";
-import { Container, Col, Row, NavLink } from "react-bootstrap";
+import { Layout, Menu, Divider } from "antd";
+import { Link } from "react-router-dom";
+import {
+  HomeOutlined,
+  BookOutlined,
+  WechatOutlined,
+  LineChartOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
+
+const { Sider } = Layout;
 
 const Sidebar = () => {
   return (
-    <Container className="d-flex flex-column vh-100 p-3 ">
-      {/* Phần đầu sidebar */}
-      <Row className="flex-shrink-0">
-        <Col md={12} className="fw-bold py-2">
-          <NavLink href="/">Library</NavLink>
-        </Col>
-        <Col md={12} className="fw-bold py-2">
-          <NavLink href="/add-new-book">Add new book</NavLink>
-        </Col>
-        <Col md={12} className="fw-bold py-2">
-          <NavLink href="/conversation">Conversation</NavLink>
-        </Col>
-        <Col md={12} className="fw-bold py-2">
-          <NavLink href="/dashboards">Dashboards</NavLink>
-        </Col>
-        <Col md={12} className="fw-bold py-2">
-          <NavLink href="/support">Support</NavLink>
-        </Col>
-      </Row>
+    <Sider
+      width={200}
+      style={{
+        height: "100vh",
+        position: "fixed",
+        left: 0,
+        background: "#fff",
+        overflow: "auto",
+      }}
+    >
+      {/* Menu chính */}
+      <Menu
+        style={{
+          height: "100%",
+          fontWeight: "bold",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        
+        <Menu defaultSelectedKeys={["1"]} style={{ borderRight: "none"}} >
+          <Menu.Item key="1">
+            <HomeOutlined style={{ marginRight: "8px" }} />
+            <Link to="/">Library</Link>
+          </Menu.Item>
+          <Menu.Item key="2">
+            <BookOutlined style={{ marginRight: "8px" }} />
+            <Link to="/add-new-book">Add new book</Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <WechatOutlined style={{ marginRight: "8px" }} />
+            <Link to="/conversation">Conversation</Link>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <LineChartOutlined style={{ marginRight: "8px" }} />
+            <Link to="/dashboards">Dashboards</Link>
+          </Menu.Item>
+          <Menu.Item key="5">
+            <QuestionCircleOutlined style={{ marginRight: "8px" }} />
+            <Link to="/support">Support</Link>
+          </Menu.Item>
+        </Menu>
 
-      {/* Khoảng trống giữa */}
-      <div className="flex-grow-1"></div>
-
-      {/* Phần cuối sidebar */}
-      <Row className="flex-shrink-0">
-        <hr className="w-100 my-2" />
-        <Col md={12} className="fw-bold py-2">
-          <NavLink href="/settings">Settings</NavLink>
-        </Col>
-        <Col md={12} className="fw-bold py-2">
-          <NavLink href="/profile">Profile</NavLink>
-        </Col>
-        <Col md={12} className="fw-bold py-2">
-          <NavLink href="/logout">Logout</NavLink>
-        </Col>
-      </Row>
-    </Container>
+        <Menu style={{ borderRight: "none", position: "absolute", bottom: "0", width: "100%"}}>
+          {/* Divider */}
+          <Divider style={{ margin: "12px 0" }} />
+          <Menu.Item key="6">
+            <Link to="/settings">Settings</Link>
+          </Menu.Item>
+          <Menu.Item key="7">
+            <Link to="/profile">Profile</Link>
+          </Menu.Item>
+          <Menu.Item key="8">
+            <Link to="/logout">Logout</Link>
+          </Menu.Item>
+        </Menu>
+      </Menu>
+    </Sider>
   );
 };
 

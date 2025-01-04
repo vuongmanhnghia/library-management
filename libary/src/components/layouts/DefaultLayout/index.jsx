@@ -1,28 +1,63 @@
-import Header from "../header";
-import Footer from "../footer";
-import Sidebar from "../sidebar";
-import {Container, Row, Col} from "react-bootstrap";
+    import React from "react";
+    import Header from "../header";
+    import Footer from "../footer";
+    import Sidebar from "../sidebar";
+    import { Layout } from "antd";
 
-const DefaultLayout = ({ children }) => {
+    const { Sider, Content } = Layout;
+
+    const DefaultLayout = ({ children }) => {
     return (
-        <Row style={{ "--bs-gutter-x": "0" }}>
-            <Col md={2} className="p-0" >
-                <div
-                className="flex-shrink-0 ps-3 pe-3 bg-body-tertiary"
-                style={{minHeight: `100vh`, position: "sticky", top: 0}}
-                >
-                    <Sidebar />
-                </div>
-            </Col>
-            <Col>
-                <Header />
-                <Container fluid className="d-flex" style={{ "--bs-gutter-x": "0" }}>
-                    <div className="content">{children}</div>
-                </Container>
-                <Footer />
-            </Col>
-        </Row>
-    );
-};
+        <Layout style={{ minHeight: "100vh" }}>
+        {/* Sidebar */}
+        <Sider
+            width={200}
+            style={{
+            background: "#fff",
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            }}
+        >
+            <Sidebar />
+        </Sider>
 
-export default DefaultLayout;
+        {/* Content */}
+        <Layout>
+            {/* Header */}
+            <Layout.Header
+            style={{
+                background: "#fff",
+                padding: "0 16px",
+                marginBottom: 16, 
+            }}
+            >
+            <Header />
+            </Layout.Header>
+
+            {/* Main Content */}
+            <Content
+            style={{
+                padding: "16px",
+                background: "#fff",
+            }}
+            >
+            {children}
+            </Content>
+
+            {/* Footer */}
+            <Layout.Footer
+            style={{
+                textAlign: "center",
+                background: "#fff",
+                paddingTop: 16, 
+            }}
+            >
+            <Footer />
+            </Layout.Footer>
+        </Layout>
+        </Layout>
+    );
+    };
+
+    export default DefaultLayout;

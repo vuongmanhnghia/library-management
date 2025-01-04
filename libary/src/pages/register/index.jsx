@@ -1,40 +1,111 @@
-import React from 'react'
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import React from "react";
+import { Form, Input, Button, Row, Col, Card } from "antd";
 
 const Register = () => {
-    return (
-        <Container fluid>
-            <Row className="vh-100 d-flex justify-content-center align-items-center">
-                <Col className='col-md-3 p-5 rounded-5 shadow'>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="formBasicName">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control type="text" placeholder="Enter name" />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="phoneNumber">
-                            <Form.Label>Phone Number</Form.Label>
-                            <Form.Control type="text" placeholder="Enter phone number" />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
-                        </Form.Group>
-                        <Button variant="primary" type="submit" className='w-100'>
-                            Submit
-                        </Button>
-                        <hr />
-                        <Button variant="success" className='w-100' href="/login">
-                            Login
-                        </Button>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
-    )
-}
+const onFinish = (values) => {
+    console.log("Success:", values);
+};
 
-export default Register
+const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+};
+
+return (
+    <Row
+    style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    }}
+    >
+    <Col xs={24} sm={16} md={12} lg={7}>
+        <Card
+        className="shadow"
+        style={{ borderRadius: "16px", padding: "0 24px", backgroundColor: "#fafafa" }}
+        >
+        <Form
+            name="register"
+            layout="vertical"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+        >
+            {/* Name Field */}
+            <Form.Item
+            label="Name"
+            name="name"
+            rules={[
+                { required: true, message: "Please input your name!" },
+                { min: 2, message: "Name must be at least 2 characters long!" },
+            ]}
+            >
+            <Input placeholder="Enter name" />
+            </Form.Item>
+
+            {/* Email Field */}
+            <Form.Item
+            label="Email address"
+            name="email"
+            rules={[
+                { required: true, message: "Please input your email!" },
+                { type: "email", message: "Please enter a valid email!" },
+            ]}
+            >
+            <Input placeholder="Enter email" />
+            </Form.Item>
+
+            {/* Phone Number Field */}
+            <Form.Item
+            label="Phone Number"
+            name="phoneNumber"
+            rules={[
+                { required: true, message: "Please input your phone number!" },
+                {
+                pattern: /^\d{10,15}$/,
+                message: "Phone number must be 10-15 digits!",
+                },
+            ]}
+            >
+            <Input placeholder="Enter phone number" />
+            </Form.Item>
+
+            {/* Password Field */}
+            <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+                { required: true, message: "Please input your password!" },
+                { min: 6, message: "Password must be at least 6 characters!" },
+            ]}
+            >
+            <Input.Password placeholder="Password" />
+            </Form.Item>
+
+            {/* Submit Button */}
+            <Form.Item>
+            <Button type="primary" htmlType="submit" block>
+                Submit
+            </Button>
+            </Form.Item>
+
+            <hr />
+
+            {/* Login Button */}
+            <Form.Item>
+            <Button
+                type="default"
+                block
+                href="/login"
+                style={{ backgroundColor: "#52c41a", color: "white" }}
+            >
+                Login
+            </Button>
+            </Form.Item>
+        </Form>
+        </Card>
+    </Col>
+    </Row>
+);
+};
+
+export default Register;

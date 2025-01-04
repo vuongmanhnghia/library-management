@@ -1,36 +1,81 @@
-import React from 'react'
-import { Container, Row, Col, Form} from 'react-bootstrap'
-import {Button} from 'antd'
+import React from "react";
+import { Form, Input, Button, Row, Col, Card } from "antd";
 
 const Login = () => {
-    return (
-        <Container fluid>
-            <Row className="vh-100 d-flex justify-content-center align-items-center">
-                <Col className='col-md-3 p-5 rounded-5 shadow'>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
-                        </Form.Group>
-                        <Button variant="primary" type="submit" className='w-100'>
-                            Submit
-                        </Button>
-                        <hr />
-                        <Button variant="success" className='w-100' href="/register">
-                            Register
-                        </Button>
-                        <p className='text-center text-muted mt-4'>
-                            <a href="/forgot-password">Forgot Password?</a>
-                        </p>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
-    )
-}
+const onFinish = (values) => {
+    console.log("Success:", values);
+};
 
-export default Login
+const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+};
+
+return (
+    <Row
+    style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    }}
+    >
+    <Col xs={20} sm={14} md={10} lg={6}>
+        <Card
+        className="shadow"
+        style={{ borderRadius: "16px", padding: "0 16px", backgroundColor: "#fafafa"}}
+        >
+        <Form
+            name="login"
+            layout="vertical"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+        >
+            {/* Email Field */}
+            <Form.Item
+            label="Email address"
+            name="email"
+            rules={[
+                { required: true, message: "Please input your email!" },
+                { type: "email", message: "Please enter a valid email!" },
+            ]}
+            >
+            <Input placeholder="Enter email" />
+            </Form.Item>
+
+            {/* Password Field */}
+            <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+                { required: true, message: "Please input your password!" },
+                { min: 6, message: "Password must be at least 6 characters!" },
+            ]}
+            >
+            <Input.Password placeholder="Password" />
+            </Form.Item>
+
+            {/* Submit Button */}
+            <Form.Item>
+            <Button type="primary" htmlType="submit" block>
+                Login
+            </Button>
+            </Form.Item>
+            <hr />
+            {/* Register Button */}
+            <Form.Item>
+            <Button
+                type="primary"
+                block
+                href="/register"
+            >
+                Register
+            </Button>
+            </Form.Item>
+        </Form>
+        </Card>
+    </Col>
+    </Row>
+);
+};
+
+export default Login;
