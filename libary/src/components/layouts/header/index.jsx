@@ -3,7 +3,7 @@ import {Button, Form, NavLink, Stack} from "react-bootstrap";
 
 function Header() {
   return (
-    <Stack direction="horizontal" gap={3} className="p-4" >
+    <Stack direction="horizontal" gap={3} className="p-4" fixed="top">
       <Form.Control className="me-auto" placeholder="Search for a book or author here" />
       <Button variant="primary">Search</Button>
       <div className="vr" />

@@ -3,7 +3,7 @@ import { Container, Col, Row, NavLink } from "react-bootstrap";
 
 const Sidebar = () => {
   return (
-    <Container className="d-flex flex-column vh-100 p-3">
+    <Container className="d-flex flex-column vh-100 p-3 ">
       {/* Phần đầu sidebar */}
       <Row className="flex-shrink-0">
         <Col md={12} className="fw-bold py-2">
