@@ -32,8 +32,8 @@ const Sidebar = () => {
           flexDirection: "column",
         }}
       >
-        
-        <Menu defaultSelectedKeys={["1"]} style={{ borderRight: "none"}} >
+        <Menu defaultSelectedKeys={["1"]} style={{ borderRight: "none" }}>
+          <img src="static/imgs/logo-LM.png" alt="logo" style={{ width: "70%", display: "flex", justifySelf: "center"}} draggable={false}/>
           <Menu.Item key="1">
             <HomeOutlined style={{ marginRight: "8px" }} />
             <Link to="/">Library</Link>
@@ -48,15 +48,22 @@ const Sidebar = () => {
           </Menu.Item>
           <Menu.Item key="4">
             <LineChartOutlined style={{ marginRight: "8px" }} />
-            <Link to="/dashboards">Dashboards</Link>
+            <Link to="/dashboard">Dashboard</Link>
           </Menu.Item>
-          <Menu.Item key="5">
+          <Menu.Item>
             <QuestionCircleOutlined style={{ marginRight: "8px" }} />
-            <Link to="/support">Support</Link>
+            Support
           </Menu.Item>
         </Menu>
 
-        <Menu style={{ borderRight: "none", position: "absolute", bottom: "0", width: "100%"}}>
+        <Menu
+          style={{
+            borderRight: "none",
+            position: "absolute",
+            bottom: "0",
+            width: "100%",
+          }}
+        >
           {/* Divider */}
           <Divider style={{ margin: "12px 0" }} />
           <Menu.Item key="6">

@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Divider, Typography } from "antd";
+import { Input, Divider, Typography, Space, Select } from "antd";
 import { Link } from "react-router-dom";
 
 const { Search } = Input;
@@ -7,11 +7,35 @@ const { Text } = Typography;
 
 function Header() {
   const onSearch = (value) => {
-    
+    console.log("Search:", value);
+  };
+
+  const handleChange = (value) => {
+    console.log(`Selected: ${value}`);
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center", margin: "16px", background: "#fff" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        margin: "16px",
+        background: "#fff",
+      }}
+    >
+      <Space wrap>
+        <Select
+        size="large"
+          defaultValue="name"
+          style={{ width: 150, marginRight: "16px" }}
+          onChange={handleChange}
+          options={[
+            { value: "author", label: "Author" },
+            { value: "name", label: "Name book" },
+            { value: "genre", label: "Genre" },
+          ]}
+        />
+      </Space>
       <Search
         placeholder="Search for a book or author here"
         allowClear
