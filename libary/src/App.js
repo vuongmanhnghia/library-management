@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { privateRoutes, publicRoutes } from "./routes";
+import { publicRoutes } from "./routes";
 import DefaultLayout from "./components/layouts/DefaultLayout/";
 import { Fragment } from "react";
 
@@ -11,7 +11,14 @@ function App() {
         <Routes>
           {publicRoutes.map((route, index) => {
             // Handle layout logic
-            const Layout = route.layout === null ? Fragment : (route.layout || DefaultLayout);
+            let Layout = DefaultLayout
+            if (route.layout) {
+              Layout = route.layout
+            }
+            else if (route.layout === null) {
+              Layout = Fragment
+            }
+          
             const Page = route.component;
 
             return (
