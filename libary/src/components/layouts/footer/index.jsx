@@ -5,7 +5,7 @@ const { Footer: AntFooter } = Layout;
 
 const Footer = () => {
   return (
-    <AntFooter style={{ textAlign: "center", padding: "0", fontWeight: "bold", opacity: "0.3", lineHeight: "24px" }}>
+    <AntFooter style={{ textAlign: "center", padding: "0", fontWeight: "bold", opacity: "0.3", lineHeight: "24px", fontSize: "90%" }}>
       Copyright © 2024 : Team Chivas Probation <br/>
       Google Developer Group - GDG on Campus: PTIT
     </AntFooter>

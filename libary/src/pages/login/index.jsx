@@ -29,6 +29,7 @@ return (
             layout="vertical"
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
+            size="large"
         >
             {/* Email Field */}
             <Form.Item
@@ -60,11 +61,9 @@ return (
                 Login
             </Button>
             </Form.Item>
-            <hr />
             {/* Register Button */}
             <Form.Item>
             <Button
-                type="primary"
                 block
                 href="/register"
             >
