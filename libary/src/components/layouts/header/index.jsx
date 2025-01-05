@@ -46,7 +46,7 @@ function Header() {
       />
       <Divider type="vertical" />
       <Link to="/profile" style={{ whiteSpace: "nowrap", marginLeft: "16px" }}>
-        <Text strong style={{ fontSize: "16px" }}>
+        <Text strong style={{ fontSize: "18px" }}>
           Hi, Chivas
         </Text>
       </Link>

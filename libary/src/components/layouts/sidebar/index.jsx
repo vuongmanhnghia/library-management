@@ -67,7 +67,7 @@ const Sidebar = () => {
           {/* Divider */}
           <Divider style={{ margin: "12px 0" }} />
           <Menu.Item key="6">
-            <Link to="/settings">Settings</Link>
+            <Link to="/setting">Setting</Link>
           </Menu.Item>
           <Menu.Item key="7">
             <Link to="/profile">Profile</Link>
