@@ -1,33 +1,51 @@
-// Import các thư viện cần thiết
 import React, { useState } from 'react';
-import { Layout, Form, Input, Button, Upload, message, Row, Col, Modal, Avatar, Select, DatePicker, Typography } from 'antd';
+import {
+    Layout,
+    Form,
+    Input,
+    Button,
+    Upload,
+    message,
+    Row,
+    Col,
+    Modal,
+    Avatar,
+    Select,
+    DatePicker,
+    Typography,
+} from 'antd';
 import { UserOutlined, UploadOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Option } = Select;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const ProfilePage = () => {
     const [form] = Form.useForm();
     const [avatar, setAvatar] = useState(null);
 
+    // Handle profile update
     const handleUpdate = (values) => {
-        message.success('Profile updated successfully!');
+        message.success('Your profile has been updated successfully!');
         console.log('Updated Profile:', values);
     };
 
+    // Handle profile deletion
     const handleDelete = () => {
         Modal.confirm({
             title: 'Are you sure you want to delete your profile?',
-            okText: 'Yes',
-            cancelText: 'No',
+            content: 'This action cannot be undone. All your data will be permanently removed.',
+            okText: 'Delete',
+            okType: 'danger',
+            cancelText: 'Cancel',
             onOk: () => {
-                message.success('Profile deleted successfully!');
+                message.success('Your profile has been deleted successfully!');
                 console.log('Profile deleted');
             },
         });
     };
 
+    // Handle avatar upload
     const handleAvatarUpload = (info) => {
         if (info.file.status === 'done') {
             setAvatar(URL.createObjectURL(info.file.originFileObj));
@@ -37,20 +55,35 @@ const ProfilePage = () => {
         }
     };
 
+    // Custom avatar upload handler
+    const customUpload = ({ file, onSuccess }) => {
+        setTimeout(() => {
+            onSuccess('ok');
+            handleAvatarUpload({ file, status: 'done' });
+        }, 1000);
+    };
+
     return (
         <Layout style={{ padding: '24px' }}>
-            <Content style={{ background: '#fff', padding: '24px', borderRadius: '8px' }}>
-                <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                    <Title style={{ margin: '0', marginBottom: '16px'}} level={3}>Profile</Title>
-
+            <Content
+                style={{
+                    background: '#fff',
+                    padding: '32px',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                }}
+            >
+                <Row justify="center" style={{ marginBottom: '24px' }}>
+                    <Title level={2}>User Profile</Title>
                 </Row>
-                <Row gutter={[16, 16]} justify="center">
-                    {/* Cột Thông tin cá nhân */}
+
+                <Row gutter={[32, 32]} justify="center">
+                    {/* User Information Section */}
                     <Col xs={24} md={14}>
                         <Form
-                        size='large'
                             form={form}
                             layout="vertical"
+                            size="large"
                             initialValues={{
                                 username: 'Admin',
                                 email: 'example@email.com',
@@ -64,7 +97,7 @@ const ProfilePage = () => {
                             <Form.Item
                                 label="Username"
                                 name="username"
-                                rules={[{ required: true, message: 'Please input your username!' }]}
+                                rules={[{ required: true, message: 'Please enter your username!' }]}
                             >
                                 <Input placeholder="Enter your username" />
                             </Form.Item>
@@ -72,7 +105,7 @@ const ProfilePage = () => {
                             <Form.Item
                                 label="Email"
                                 name="email"
-                                rules={[{ required: true, type: 'email', message: 'Please input a valid email!' }]}
+                                rules={[{ required: true, type: 'email', message: 'Please enter a valid email!' }]}
                             >
                                 <Input placeholder="Enter your email" />
                             </Form.Item>
@@ -80,15 +113,12 @@ const ProfilePage = () => {
                             <Form.Item
                                 label="Phone Number"
                                 name="phone"
-                                rules={[{ required: true, message: 'Please input your phone number!' }]}
+                                rules={[{ required: true, message: 'Please enter your phone number!' }]}
                             >
                                 <Input placeholder="Enter your phone number" />
                             </Form.Item>
-                            
-                            <Form.Item
-                                label="Gender"
-                                name="gender"
-                            >
+
+                            <Form.Item label="Gender" name="gender">
                                 <Select placeholder="Select your gender">
                                     <Option value="male">Male</Option>
                                     <Option value="female">Female</Option>
@@ -96,10 +126,7 @@ const ProfilePage = () => {
                                 </Select>
                             </Form.Item>
 
-                            <Form.Item
-                                label="Date of Birth"
-                                name="birth"
-                            >
+                            <Form.Item label="Date of Birth" name="birth">
                                 <DatePicker style={{ width: '100%' }} placeholder="Select your birth date" />
                             </Form.Item>
 
@@ -117,37 +144,36 @@ const ProfilePage = () => {
                                 </Select>
                             </Form.Item>
 
-                            <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
+                            <Form.Item style={{ textAlign: 'center' }}>
                                 <Button type="primary" htmlType="submit" style={{ marginRight: '8px' }}>
-                                    Update Profile
-                                </Button>
-                                <Button type="danger" icon={<DeleteOutlined />} onClick={handleDelete}>
-                                    Delete Profile
+                                    Save Changes
                                 </Button>
                             </Form.Item>
                         </Form>
                     </Col>
-                    {/* Cột Avatar */}
-                    <Col xs={24} md={8} style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+                    {/* Avatar Section */}
+                    <Col
+                        xs={24}
+                        md={8}
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
                         <Avatar
                             size={256}
                             icon={!avatar ? <UserOutlined /> : null}
                             src={avatar || undefined}
-                            style={{ margin: '24px' }}
+                            style={{ marginBottom: '16px', backgroundColor: '#f0f0f0' }}
                         />
-                        <Upload
-                            name="avatar"
-                            accept="image/*"
-                            showUploadList={false}
-                            customRequest={({ file, onSuccess }) => {
-                                setTimeout(() => {
-                                    onSuccess('ok');
-                                    handleAvatarUpload({ file, status: 'done' });
-                                }, 1000);
-                            }}
-                        >
+                        <Upload name="avatar" accept="image/*" showUploadList={false} customRequest={customUpload}>
                             <Button icon={<UploadOutlined />}>Change Avatar</Button>
                         </Upload>
+                        <Text type="secondary" style={{ marginTop: '8px' }}>
+                            Upload a new profile picture
+                        </Text>
                     </Col>
                 </Row>
             </Content>
