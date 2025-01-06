@@ -4,7 +4,6 @@ import Login from '../pages/login';
 import Register from '../pages/register';
 import AddBook from '../pages/addBook';
 import Convarsation from '../pages/conversation';
-import Dashboard from '../pages/dashboard';
 import Setting from '../pages/setting';
 
 import OnlyFooter from '../components/layouts/OnlyFooter';
@@ -19,7 +18,6 @@ const publicRoutes = [
     { path: '/register', component: Register, layout: OnlyFooter },
     { path: '/add-new-book', component: AddBook, layout: OnlySideBarAndFooter },
     { path: '/conversation', component: Convarsation, layout: OnlySideBarAndFooter },
-    { path: '/dashboard', component: Dashboard },
     { path: '/setting', component: Setting, layout: OnlySideBarAndFooter },
 ];
 

@@ -1,63 +1,74 @@
-    import React from "react";
-    import Header from "../header";
-    import Footer from "../footer";
-    import Sidebar from "../sidebar";
-    import { Layout } from "antd";
+import React from 'react';
+import Header from '../header';
+import Footer from '../footer';
+import Sidebar from '../sidebar';
+import { Layout } from 'antd';
+import { CustomerServiceOutlined } from '@ant-design/icons';
+import { FloatButton } from 'antd';
 
-    const { Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
-    const DefaultLayout = ({ children }) => {
+const DefaultLayout = ({ children }) => {
     return (
-        <Layout style={{ minHeight: "100vh" }}>
-        {/* Sidebar */}
-        <Sider
-            width={200}
-            style={{
-            background: "#fff",
-            position: "sticky",
-            top: 0,
-            height: "100vh",
-            }}
-        >
-            <Sidebar />
-        </Sider>
-
-        {/* Content */}
-        <Layout>
-            {/* Header */}
-            <Layout.Header
-            style={{
-                background: "#fff",
-                padding: "0 16px",
-                marginBottom: 16, 
-            }}
+        <Layout style={{ minHeight: '100vh' }}>
+            {/* Sidebar */}
+            <Sider
+                width={200}
+                style={{
+                    background: '#fff',
+                    position: 'sticky',
+                    top: 0,
+                    height: '100vh',
+                }}
             >
-            <Header />
-            </Layout.Header>
+                <Sidebar />
+            </Sider>
 
-            {/* Main Content */}
-            <Content
-            style={{
-                padding: "16px",
-                background: "#fff",
-            }}
-            >
-            {children}
-            </Content>
+            {/* Content */}
+            <Layout>
+                {/* Header */}
+                <Layout.Header
+                    style={{
+                        background: '#fff',
+                        padding: '0 16px',
+                        marginBottom: 16,
+                    }}
+                >
+                    <Header />
+                </Layout.Header>
 
-            {/* Footer */}
-            <Layout.Footer
-            style={{
-                textAlign: "center",
-                background: "#fff",
-                paddingTop: 16, 
-            }}
-            >
-            <Footer />
-            </Layout.Footer>
-        </Layout>
+                {/* Main Content */}
+                <Content
+                    style={{
+                        padding: '16px',
+                        background: '#fff',
+                    }}
+                >
+                    {children}
+                </Content>
+
+                {/* Footer */}
+                <Layout.Footer
+                    style={{
+                        textAlign: 'center',
+                        background: '#fff',
+                        paddingTop: 16,
+                    }}
+                >
+                    <Footer />
+                </Layout.Footer>
+            </Layout>
+            <FloatButton
+                shape="circle"
+                type="primary"
+                style={{
+                    insetInlineEnd: 30,
+                    bottom: 30,
+                }}
+                icon={<CustomerServiceOutlined />}
+            />
         </Layout>
     );
-    };
+};
 
-    export default DefaultLayout;
+export default DefaultLayout;

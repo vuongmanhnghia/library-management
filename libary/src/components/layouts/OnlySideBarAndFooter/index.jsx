@@ -2,7 +2,8 @@ import React from 'react'
 import Sidebar from "../sidebar";
 import Footer from "../footer";
 import { Layout } from "antd";
-
+import { CustomerServiceOutlined } from '@ant-design/icons';
+import { FloatButton } from 'antd';
 const { Sider, Content } = Layout;
 
 const OnlySideBarAndFooter = ({children}) => {
@@ -44,6 +45,15 @@ const OnlySideBarAndFooter = ({children}) => {
             <Footer />
             </Layout.Footer>
         </Layout>
+        <FloatButton
+                shape="circle"
+                type="primary"
+                style={{
+                    insetInlineEnd: 50,
+                    bottom: 50,
+                }}
+                icon={<CustomerServiceOutlined />}
+            />
         </Layout>
     )
 }

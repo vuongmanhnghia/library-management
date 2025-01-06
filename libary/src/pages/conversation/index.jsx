@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Fragment } from 'react';
 import { Card, List, Input, Button, Avatar, Typography, Upload, Select } from 'antd';
 import { PlusOutlined, ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,15 +12,15 @@ const Conversation = () => {
     const [newPost, setNewPost] = useState('');
     const [attachments, setAttachments] = useState([]);
     const [selectedBook, setSelectedBook] = useState(null);
-    const [anonymousMode, setAnonymousMode] = useState(true); // Chế độ ẩn danh
-    const [replyingTo, setReplyingTo] = useState(null); // Theo dõi bình luận đang được trả lời
+    const [anonymousMode, setAnonymousMode] = useState(true); // Anonymous mode
+    const [replyingTo, setReplyingTo] = useState(null); // Track the comment being replied to
 
     const handleAddPost = () => {
         if (newPost.trim() || attachments.length > 0 || selectedBook) {
             setPosts([
                 {
                     id: uuidv4(),
-                    author: anonymousMode ? 'Người dùng ẩn danh' : 'Bản thân',
+                    author: anonymousMode ? 'Anonymous User' : 'Self',
                     avatar: anonymousMode
                         ? 'https://joeschmoe.io/api/v1/random'
                         : 'https://i.pravatar.cc/150?u=current_user',
@@ -39,7 +38,7 @@ const Conversation = () => {
     };
 
     const handleAddComment = (postId, comment, parentCommentId = null) => {
-        const timestamp = new Date().toLocaleString(); // Lấy thời gian hiện tại
+        const timestamp = new Date().toLocaleString(); // Get the current time
         setPosts(
             posts.map((post) =>
                 post.id === postId
@@ -55,7 +54,7 @@ const Conversation = () => {
                                                   {
                                                       id: uuidv4(),
                                                       content: comment,
-                                                      author: 'Người dùng ẩn danh',
+                                                      author: 'Anonymous User',
                                                       timestamp,
                                                   },
                                               ],
@@ -67,7 +66,7 @@ const Conversation = () => {
                                     {
                                         id: uuidv4(),
                                         content: comment,
-                                        author: 'Người dùng ẩn danh',
+                                        author: 'Anonymous User',
                                         timestamp,
                                         replies: [],
                                     },
@@ -100,19 +99,19 @@ const Conversation = () => {
             <Card>
                 <div style={{ marginBottom: '10px' }}>
                     <Select
-                        value={anonymousMode ? 'Ẩn danh' : 'Hiển thị tên'}
-                        onChange={(value) => setAnonymousMode(value === 'Ẩn danh')}
+                        value={anonymousMode ? 'Anonymous' : 'Show Name'}
+                        onChange={(value) => setAnonymousMode(value === 'Anonymous')}
                         style={{ width: 120 }}
                     >
-                        <Option value="Ẩn danh">Ẩn danh</Option>
-                        <Option value="Hiển thị tên">Hiển thị tên</Option>
+                        <Option value="Anonymous">Anonymous</Option>
+                        <Option value="Show Name">Show Name</Option>
                     </Select>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                     <TextArea
                         rows={4}
                         maxRows={4}
-                        placeholder="Chia sẻ suy nghĩ về sách của bạn..."
+                        placeholder="Share your thoughts about the book..."
                         value={newPost}
                         onChange={(e) => setNewPost(e.target.value)}
                         style={{ flex: 1, marginRight: '10px' }}
@@ -189,14 +188,14 @@ const Conversation = () => {
                         )}
                         {post.book && (
                             <p>
-                                <strong>Sách yêu thích:</strong> {post.book}
+                                <strong>Favorite Book:</strong> {post.book}
                             </p>
                         )}
 
                         <hr style={{ margin: '10px 0', border: 'none', borderTop: '1px solid #ccc' }}></hr>
                         <List
                             dataSource={post.comments}
-                            locale={{ emptyText: 'Chưa có bình luận nào.' }}
+                            locale={{ emptyText: 'No comments yet.' }}
                             renderItem={(comment) => (
                                 <div key={comment.id} style={{ marginLeft: '20px', marginTop: '10px' }}>
                                     <div
@@ -238,11 +237,11 @@ const Conversation = () => {
                                         <Input
                                             style={{ marginBottom: '10px' }}
                                             rows={2}
-                                            placeholder="Trả lời bình luận..."
+                                            placeholder="Reply to the comment..."
                                             onPressEnter={(e) => {
                                                 if (e.target.value.trim()) {
                                                     handleAddComment(post.id, e.target.value.trim(), comment.id);
-                                                    e.target.value = ''; // Xóa nội dung input
+                                                    e.target.value = ''; // Clear the input
                                                     setReplyingTo(null);
                                                 }
                                             }}

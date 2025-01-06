@@ -39,7 +39,7 @@ const CardItem = ({ title, text, src, author }) => (
                 justifyContent: 'center',
             }}
         >
-            <Button type="primary">Xem chi tiết</Button>
+            <Button type="primary">View Details</Button>
             <Button style={{ marginLeft: '8px' }}>
                 <HeartOutlined />
             </Button>
@@ -67,74 +67,38 @@ const contentStyle = {
 const Home = () => {
     const cardData = [
         {
-            title: 'Những giấc mở xanh',
+            title: 'Book 1',
+            author: 'Tran Quoc Cuong',
+            text: '1919',
+            src: '/static/imgs/image.png',
+        },
+        {
+            title: 'Green Dreams',
             author: 'Chivas',
             text: '21',
             src: '/static/imgs/image.png',
         },
         {
-            title: 'Sách 2',
-            author: 'Trần Quốc Cường',
+            title: 'Book 2',
+            author: 'Tran Quoc Cuong',
             text: '1919',
             src: '/static/imgs/image.png',
         },
         {
-            title: 'Những giấc mở xanh',
+            title: 'Book 3',
+            author: 'Tran Quoc Cuong',
+            text: '1919',
+            src: '/static/imgs/image.png',
+        },
+        {
+            title: 'Green Dreams',
             author: 'Chivas',
             text: '21',
             src: '/static/imgs/image.png',
         },
         {
-            title: 'Sách 2',
-            author: 'Trần Quốc Cường',
-            text: '1919',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Những giấc mở xanh',
-            author: 'Chivas',
-            text: '21',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Sách 2',
-            author: 'Trần Quốc Cường',
-            text: '1919',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Sách 2',
-            author: 'Trần Quốc Cường',
-            text: '1919',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Những giấc mở xanh',
-            author: 'Chivas',
-            text: '21',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Sách 2',
-            author: 'Trần Quốc Cường',
-            text: '1919',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Sách 2',
-            author: 'Trần Quốc Cường',
-            text: '1919',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Những giấc mở xanh',
-            author: 'Chivas',
-            text: '21',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Sách 2',
-            author: 'Trần Quốc Cường',
+            title: 'Book 4',
+            author: 'Tran Quoc Cuong',
             text: '1919',
             src: '/static/imgs/image.png',
         },
@@ -143,24 +107,22 @@ const Home = () => {
     return (
         <div style={{ padding: '16px' }}>
             <Row justify="center">
-                {/* Them thong tin cua thu vien o day */}
-                <Carousel autoplay  style={{ width: '80vw', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+                <Carousel autoplay style={{ width: '80vw', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
                     <div>
-                        <h3 style={contentStyle}>1</h3>
+                        <h3 style={contentStyle}>Welcome to Our Library</h3>
                     </div>
                     <div>
-                        <h3 style={contentStyle}>2</h3>
+                        <h3 style={contentStyle}>Explore Our Collections</h3>
                     </div>
                     <div>
-                        <h3 style={contentStyle}>3</h3>
+                        <h3 style={contentStyle}>Join Our Community</h3>
                     </div>
                     <div>
-                        <h3 style={contentStyle}>4</h3>
+                        <h3 style={contentStyle}>Discover New Stories</h3>
                     </div>
                 </Carousel>
             </Row>
-            {/* Sort */}
-            <Row  justify="center" style={{ marginBottom: '16px', gap: '16px' }}>
+            <Row justify="center" style={{ marginBottom: '16px', gap: '16px' }}>
                 <Col>
                     <Select size='large' defaultValue="name" style={{ width: 150 }}>
                         <Option value="name">Name</Option>
@@ -177,7 +139,6 @@ const Home = () => {
                     <Button size='large' type="primary">Apply</Button>
                 </Col>
             </Row>
-            {/* Row for cards */}
             <Row gutter={[16, 16]} justify="center">
                 {cardData.map((data, index) => (
                     <Col
@@ -193,7 +154,6 @@ const Home = () => {
                 ))}
             </Row>
 
-            {/* Pagination */}
             <Row justify="center" style={{ marginTop: '24px' }}>
                 <Pagination defaultCurrent={1} total={200} showSizeChanger={false} style={{ textAlign: 'center' }} />
             </Row>
