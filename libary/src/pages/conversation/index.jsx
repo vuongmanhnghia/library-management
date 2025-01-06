@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Fragment } from 'react';
 import { Card, List, Input, Button, Avatar, Typography, Upload, Select } from 'antd';
 import { PlusOutlined, ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,9 +12,9 @@ const Conversation = () => {
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState('');
     const [attachments, setAttachments] = useState([]);
-    const [favoriteBooks, setFavoriteBooks] = useState(['Book 1', 'Book 2', 'Book 3']);
     const [selectedBook, setSelectedBook] = useState(null);
     const [anonymousMode, setAnonymousMode] = useState(true); // Chế độ ẩn danh
+    const [replyingTo, setReplyingTo] = useState(null); // Theo dõi bình luận đang được trả lời
 
     const handleAddPost = () => {
         if (newPost.trim() || attachments.length > 0 || selectedBook) {
@@ -37,17 +38,40 @@ const Conversation = () => {
         }
     };
 
-    const handleAddComment = (postId, comment) => {
+    const handleAddComment = (postId, comment, parentCommentId = null) => {
         const timestamp = new Date().toLocaleString(); // Lấy thời gian hiện tại
         setPosts(
             posts.map((post) =>
                 post.id === postId
                     ? {
                           ...post,
-                          comments: [
-                              ...post.comments,
-                              { id: uuidv4(), content: comment, author: 'Người dùng ẩn danh', timestamp },
-                          ],
+                          comments: parentCommentId
+                              ? post.comments.map((c) =>
+                                    c.id === parentCommentId
+                                        ? {
+                                              ...c,
+                                              replies: [
+                                                  ...c.replies,
+                                                  {
+                                                      id: uuidv4(),
+                                                      content: comment,
+                                                      author: 'Người dùng ẩn danh',
+                                                      timestamp,
+                                                  },
+                                              ],
+                                          }
+                                        : c,
+                                )
+                              : [
+                                    ...post.comments,
+                                    {
+                                        id: uuidv4(),
+                                        content: comment,
+                                        author: 'Người dùng ẩn danh',
+                                        timestamp,
+                                        replies: [],
+                                    },
+                                ],
                       }
                     : post,
             ),
@@ -69,12 +93,25 @@ const Conversation = () => {
 
     return (
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-            <Title level={2}>Conversation</Title>
+            <Title level={2} style={{ display: 'flex', justifyContent: 'center' }}>
+                Conversation
+            </Title>
 
             <Card>
+                <div style={{ marginBottom: '10px' }}>
+                    <Select
+                        value={anonymousMode ? 'Ẩn danh' : 'Hiển thị tên'}
+                        onChange={(value) => setAnonymousMode(value === 'Ẩn danh')}
+                        style={{ width: 120 }}
+                    >
+                        <Option value="Ẩn danh">Ẩn danh</Option>
+                        <Option value="Hiển thị tên">Hiển thị tên</Option>
+                    </Select>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                     <TextArea
                         rows={4}
+                        maxRows={4}
                         placeholder="Chia sẻ suy nghĩ về sách của bạn..."
                         value={newPost}
                         onChange={(e) => setNewPost(e.target.value)}
@@ -101,17 +138,8 @@ const Conversation = () => {
                         )}
                     </Upload>
                 </div>
-                <div style={{ marginTop: '10px' }}>
-                    <Select
-                        value={anonymousMode ? 'Ẩn danh' : 'Hiển thị tên'}
-                        onChange={(value) => setAnonymousMode(value === 'Ẩn danh')}
-                        style={{ width: 120 }}
-                    >
-                        <Option value="Ẩn danh">Ẩn danh</Option>
-                        <Option value="Hiển thị tên">Hiển thị tên</Option>
-                    </Select>
-                </div>
             </Card>
+            <Title level={4}>Posts</Title>
 
             <List
                 itemLayout="vertical"
@@ -164,9 +192,11 @@ const Conversation = () => {
                                 <strong>Sách yêu thích:</strong> {post.book}
                             </p>
                         )}
+
                         <hr style={{ margin: '10px 0', border: 'none', borderTop: '1px solid #ccc' }}></hr>
                         <List
                             dataSource={post.comments}
+                            locale={{ emptyText: 'Chưa có bình luận nào.' }}
                             renderItem={(comment) => (
                                 <div key={comment.id} style={{ marginLeft: '20px', marginTop: '10px' }}>
                                     <div
@@ -179,7 +209,74 @@ const Conversation = () => {
                                         <span style={{ fontWeight: 'bold' }}>{comment.author}</span>
                                         <span style={{ fontSize: '12px', color: 'gray' }}>{comment.timestamp}</span>
                                     </div>
-                                    <p>{comment.content}</p>
+                                    <p style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                        {comment.content}{' '}
+                                        <div>
+                                            <Button
+                                                type="link"
+                                                onClick={() =>
+                                                    setReplyingTo(replyingTo === comment.id ? null : comment.id)
+                                                }
+                                            >
+                                                Reply
+                                            </Button>
+                                            <Button
+                                                type="text"
+                                                icon={
+                                                    post.liked ? (
+                                                        <HeartFilled style={{ color: 'black' }} />
+                                                    ) : (
+                                                        <HeartOutlined />
+                                                    )
+                                                }
+                                                onClick={() => toggleLike(post.liked)}
+                                            />
+                                        </div>
+                                    </p>
+
+                                    {replyingTo === comment.id && (
+                                        <Input
+                                            style={{ marginBottom: '10px' }}
+                                            rows={2}
+                                            placeholder="Trả lời bình luận..."
+                                            onPressEnter={(e) => {
+                                                if (e.target.value.trim()) {
+                                                    handleAddComment(post.id, e.target.value.trim(), comment.id);
+                                                    e.target.value = ''; // Xóa nội dung input
+                                                    setReplyingTo(null);
+                                                }
+                                            }}
+                                        />
+                                    )}
+                                    {comment.replies.length > 0 && (
+                                        <List
+                                            dataSource={comment.replies}
+                                            renderItem={(reply) => (
+                                                <div
+                                                    key={reply.id}
+                                                    style={{
+                                                        marginLeft: '20px',
+                                                        borderLeft: '2px solid #ccc',
+                                                        paddingLeft: '10px',
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'space-between',
+                                                        }}
+                                                    >
+                                                        <span style={{ fontWeight: 'bold' }}>{reply.author}</span>
+                                                        <span style={{ fontSize: '12px', color: 'gray' }}>
+                                                            {reply.timestamp}
+                                                        </span>
+                                                    </div>
+                                                    <p>{reply.content}</p>
+                                                </div>
+                                            )}
+                                        />
+                                    )}
                                 </div>
                             )}
                         />
