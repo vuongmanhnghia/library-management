@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Card, List, Input, Button, Avatar, Typography, Upload, Select } from 'antd';
-import { PlusOutlined, ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { UploadOutlined, ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 
-const { TextArea } = Input;
 const { Title } = Typography;
 const { Option } = Select;
 
@@ -11,12 +10,11 @@ const Conversation = () => {
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState('');
     const [attachments, setAttachments] = useState([]);
-    const [selectedBook, setSelectedBook] = useState(null);
     const [anonymousMode, setAnonymousMode] = useState(true); // Anonymous mode
     const [replyingTo, setReplyingTo] = useState(null); // Track the comment being replied to
 
     const handleAddPost = () => {
-        if (newPost.trim() || attachments.length > 0 || selectedBook) {
+        if (newPost.trim() || attachments.length > 0) {
             setPosts([
                 {
                     id: uuidv4(),
@@ -26,14 +24,12 @@ const Conversation = () => {
                         : 'https://i.pravatar.cc/150?u=current_user',
                     content: newPost,
                     attachments,
-                    book: selectedBook,
                     comments: [],
                 },
                 ...posts,
             ]);
             setNewPost('');
             setAttachments([]);
-            setSelectedBook(null);
         }
     };
 
@@ -97,31 +93,34 @@ const Conversation = () => {
             </Title>
 
             <Card>
+                <Title level={4} style={{ marginTop: '0' }}>
+                    Share your post
+                </Title>
                 <div style={{ marginBottom: '10px' }}>
                     <Select
-                        value={anonymousMode ? 'Anonymous' : 'Show Name'}
+                        value={anonymousMode ? 'Anonymous' : 'Public'}
                         onChange={(value) => setAnonymousMode(value === 'Anonymous')}
                         style={{ width: 120 }}
                     >
                         <Option value="Anonymous">Anonymous</Option>
-                        <Option value="Show Name">Show Name</Option>
+                        <Option value="Public">Public</Option>
                     </Select>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                    <TextArea
-                        rows={4}
-                        maxRows={4}
+                    <Input
+                        size="large"
                         placeholder="Share your thoughts about the book..."
                         value={newPost}
                         onChange={(e) => setNewPost(e.target.value)}
                         style={{ flex: 1, marginRight: '10px' }}
+                        onPressEnter={handleAddPost}
                     />
                     <Button type="primary" icon={<ArrowUpOutlined />} onClick={handleAddPost} />
                 </div>
                 <div>
                     <Upload
                         action="/api/upload"
-                        listType="picture-card"
+                        listType="picture"
                         fileList={attachments.map((att, index) => ({
                             uid: index,
                             name: att.name,
@@ -129,12 +128,13 @@ const Conversation = () => {
                         }))}
                         onChange={handleAttachmentChange}
                     >
-                        {attachments.length < 6 && (
-                            <div>
-                                <PlusOutlined />
-                                <div style={{ marginTop: 8 }}>Upload</div>
-                            </div>
-                        )}
+                        <Button
+                            type="primary"
+                            icon={<UploadOutlined />}
+                            disabled={attachments.length >= 6} // Vô hiệu hóa nút nếu số lượng tệp >= 6
+                        >
+                            Upload
+                        </Button>
                     </Upload>
                 </div>
             </Card>
@@ -186,11 +186,6 @@ const Conversation = () => {
                                 ))}
                             </div>
                         )}
-                        {post.book && (
-                            <p>
-                                <strong>Favorite Book:</strong> {post.book}
-                            </p>
-                        )}
 
                         <hr style={{ margin: '10px 0', border: 'none', borderTop: '1px solid #ccc' }}></hr>
                         <List
@@ -241,7 +236,7 @@ const Conversation = () => {
                                             onPressEnter={(e) => {
                                                 if (e.target.value.trim()) {
                                                     handleAddComment(post.id, e.target.value.trim(), comment.id);
-                                                    e.target.value = ''; // Clear the input
+                                                    e.target.value = '';
                                                     setReplyingTo(null);
                                                 }
                                             }}
@@ -290,17 +285,7 @@ const Conversation = () => {
                                     }
                                 }}
                             />
-                            <Button
-                                type="text"
-                                icon={<ArrowUpOutlined />}
-                                onClick={(e) => {
-                                    const commentText = e.target.previousElementSibling.value.trim(); // Get the comment text from the Input field
-                                    if (commentText) {
-                                        handleAddComment(post.id, commentText); // Call handleAddComment with post.id and commentText
-                                        e.target.previousElementSibling.value = ''; // Clear the input field after submitting
-                                    }
-                                }}
-                            ></Button>
+                            <Button type="text" icon={<ArrowUpOutlined />}></Button>
                             <Button
                                 type="text"
                                 icon={post.liked ? <HeartFilled style={{ color: 'black' }} /> : <HeartOutlined />}

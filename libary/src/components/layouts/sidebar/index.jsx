@@ -53,10 +53,6 @@ const Sidebar = () => {
                         <WechatOutlined style={{ marginRight: '8px' }} />
                         <Link to="/conversation">Conversation</Link>
                     </Menu.Item>
-                    <Menu.Item>
-                        <QuestionCircleOutlined style={{ marginRight: '8px' }} />
-                        Support
-                    </Menu.Item>
                 </Menu>
 
                 <Menu
@@ -76,11 +72,9 @@ const Sidebar = () => {
                         <UserOutlined style={{ marginRight: '8px' }} />
                         <Link to="/profile">Profile</Link>
                     </Menu.Item>
-                    <Menu.Item key="8"  style={{ color: 'red' }}>
+                    <Menu.Item key="8" style={{ color: 'red' }}>
                         <LogoutOutlined style={{ marginRight: '8px' }} />
-                        <Link to="/logout">
-                            Logout
-                        </Link>
+                        <Link to="/logout">Logout</Link>
                     </Menu.Item>
                 </Menu>
             </Menu>

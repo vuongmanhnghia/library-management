@@ -3,8 +3,7 @@ import Header from '../header';
 import Footer from '../footer';
 import Sidebar from '../sidebar';
 import { Layout } from 'antd';
-import { CustomerServiceOutlined } from '@ant-design/icons';
-import { FloatButton } from 'antd';
+import FloatAI from '../floatAI';
 
 const { Sider, Content } = Layout;
 
@@ -58,15 +57,7 @@ const DefaultLayout = ({ children }) => {
                     <Footer />
                 </Layout.Footer>
             </Layout>
-            <FloatButton
-                shape="circle"
-                type="primary"
-                style={{
-                    insetInlineEnd: 30,
-                    bottom: 30,
-                }}
-                icon={<CustomerServiceOutlined />}
-            />
+            <FloatAI/>
         </Layout>
     );
 };

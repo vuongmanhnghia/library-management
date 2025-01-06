@@ -119,9 +119,9 @@ const Setting = () => {
                 <Col span={12}>
                     <Card title="Dark Mode Settings" bordered>
                         <Radio.Group onChange={onDarkModeChange} value={darkMode}>
-                            <Radio value="system">Theo máy</Radio>
-                            <Radio value="light">Sáng</Radio>
-                            <Radio value="dark">Tối</Radio>
+                            <Radio value="system">System mpde</Radio>
+                            <Radio value="light">Light mode</Radio>
+                            <Radio value="dark">Dark mode</Radio>
                         </Radio.Group>
                     </Card>
                 </Col>
