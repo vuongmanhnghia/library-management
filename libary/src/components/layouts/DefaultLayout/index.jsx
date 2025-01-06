@@ -3,6 +3,7 @@
     import Footer from "../footer";
     import Sidebar from "../sidebar";
     import { Layout } from "antd";
+    import * as colors from "@ant-design/colors";
 
     const { Sider, Content } = Layout;
 

@@ -18,7 +18,7 @@ const publicRoutes = [
     { path: '/login', component: Login, layout: OnlyFooter },
     { path: '/register', component: Register, layout: OnlyFooter },
     { path: '/add-new-book', component: AddBook, layout: OnlySideBarAndFooter },
-    { path: '/conversation', component: Convarsation },
+    { path: '/conversation', component: Convarsation, layout: OnlySideBarAndFooter },
     { path: '/dashboard', component: Dashboard },
     { path: '/setting', component: Setting, layout: OnlySideBarAndFooter },
 ];
