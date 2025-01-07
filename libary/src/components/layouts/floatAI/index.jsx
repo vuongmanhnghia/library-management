@@ -1,30 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FloatButton, Tooltip, Popover, List, Input, Button } from 'antd';
 import { OpenAIOutlined } from '@ant-design/icons';
 
 const FloatAI = () => {
     const [isPopoverVisible, setPopoverVisible] = useState(false);
-    const [messages, setMessages] = useState([
-        { sender: 'AI', text: 'Hello! How can I help you today?' },
-    ]);
+    const [messages, setMessages] = useState([{ sender: 'AI', text: 'Hello! How can I help you today?' }]);
     const [newMessage, setNewMessage] = useState('');
+    const chatBoxRef = useRef(null); // Tham chiếu đến phần danh sách tin nhắn
 
     const handleSendMessage = () => {
         if (newMessage.trim()) {
             setMessages([...messages, { sender: 'User', text: newMessage }]);
             // Simulate AI response
             setTimeout(() => {
-                setMessages((prev) => [
-                    ...prev,
-                    { sender: 'AI', text: `You said: ${newMessage}` },
-                ]);
+                setMessages((prev) => [...prev, { sender: 'AI', text: `You said: ${newMessage}` }]);
             }, 1000);
             setNewMessage('');
         }
     };
 
+    // Tự động cuộn xuống cuối khi danh sách tin nhắn thay đổi
+    useEffect(() => {
+        if (chatBoxRef.current) {
+            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+        }
+    }, [messages]);
+
     const content = (
         <div
+            className="custom-scrollbar" // Thêm ID để áp dụng CSS
             style={{
                 maxHeight: '400px',
                 overflowY: 'auto',
@@ -32,6 +36,7 @@ const FloatAI = () => {
                 flexDirection: 'column',
                 width: '300px',
             }}
+            ref={chatBoxRef} // Gắn ref vào hộp chat
         >
             <List
                 style={{ flex: 1, padding: '10px 0' }}

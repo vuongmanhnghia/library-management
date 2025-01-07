@@ -105,7 +105,7 @@ const Home = () => {
     ];
 
     return (
-        <div style={{ padding: '16px' }}>
+        <div style={{ padding: '16px' }} className="custom-scrollbar">
             <Row justify="center">
                 <Carousel autoplay style={{ width: '80vw', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
                     <div>

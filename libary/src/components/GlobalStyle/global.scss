@@ -15,3 +15,28 @@ body {
     --secondary-color: #1890ff;
     --tertiary-color: #fff;
 }
+
+
+/* Tùy chỉnh thanh cuộn cho hộp chat */
+.custom-scrollbar {
+    scrollbar-width: thin; /* Thanh cuộn mỏng (cho Firefox) */
+    scrollbar-color: hsl(0, 0%, 93%) #ffffff; /* Màu thanh cuộn (cho Firefox) */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Độ rộng của thanh cuộn */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Màu nền của track */
+    border-radius: 50%;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #4f76ff; /* Màu thanh kéo */
+    border-radius: 10px; /* Bo góc thanh kéo */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #3a5ec0; /* Màu khi hover thanh kéo */
+}
