@@ -5,6 +5,7 @@ import Register from '../pages/register';
 import AddBook from '../pages/addBook';
 import Convarsation from '../pages/conversation';
 import Setting from '../pages/setting';
+import BookReader from '../components/readbook';
 
 import OnlyFooter from '../components/layouts/OnlyFooter';
 import OnlySideBarAndFooter from '../components/layouts/OnlySideBarAndFooter';
@@ -19,6 +20,7 @@ const publicRoutes = [
     { path: '/add-new-book', component: AddBook, layout: OnlySideBarAndFooter },
     { path: '/conversation', component: Convarsation, layout: OnlySideBarAndFooter },
     { path: '/setting', component: Setting, layout: OnlySideBarAndFooter },
+    { path: `/book-reader`, component: BookReader, layout: OnlySideBarAndFooter },
 ];
 
 // allow view , user can login

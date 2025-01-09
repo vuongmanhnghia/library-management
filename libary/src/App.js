@@ -3,6 +3,8 @@ import { publicRoutes } from "./routes";
 import DefaultLayout from "./components/layouts/DefaultLayout/";
 import { Fragment } from "react";
 import "./components/GlobalStyle/global.scss";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+
 
 function App() {
   return (

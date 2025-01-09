@@ -1,54 +1,65 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, Button, Pagination, Row, Col, Select, Carousel } from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
 const { Option } = Select;
 
-const CardItem = ({ title, text, src, author }) => (
-    <Card
-        hoverable
-        cover={
-            <img
-                draggable={false}
-                alt={title}
-                src={src}
-                style={{
-                    height: '250px',
-                    objectFit: 'cover',
-                    objectPosition: 'top center',
-                }}
-            />
-        }
-        style={{ width: 250 }}
-    >
-        <Meta
-            title={title}
-            description={
-                <>
-                    Author: {author} <br />
-                    Watched: {text}
-                </>
+const CardItem = ({ title, text, src, author }) => {
+    const navigate = useNavigate();
+
+    const handleViewDetails = () => {
+        navigate(`/book-reader`);
+    };
+
+    return (
+        <Card
+            hoverable
+            cover={
+                <img
+                    draggable={false}
+                    alt={title}
+                    src={src}
+                    style={{
+                        height: '250px',
+                        objectFit: 'cover',
+                        objectPosition: 'top center',
+                    }}
+                />
             }
-        />
-        <div
-            style={{
-                marginTop: '16px',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-            }}
+            style={{ width: 250 }}
         >
-            <Button type="primary">View Details</Button>
-            <Button style={{ marginLeft: '8px' }}>
-                <HeartOutlined />
-            </Button>
-            <Button style={{ marginLeft: '8px' }}>
-                <ShareAltOutlined />
-            </Button>
-        </div>
-    </Card>
-);
+            <Meta
+                title={title}
+                description={
+                    <>
+                        Author: {author} <br />
+                        Watched: {text}
+                    </>
+                }
+            />
+            <div
+                style={{
+                    marginTop: '16px',
+                    textAlign: 'center',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                <Button type="primary" onClick={handleViewDetails}>
+                    View Details
+                </Button>
+                <Button style={{ marginLeft: '8px' }}>
+                    <HeartOutlined />
+                </Button>
+                <Button style={{ marginLeft: '8px' }}>
+                    <ShareAltOutlined />
+                </Button>
+            </div>
+        </Card>
+    );
+};
 
 const contentStyle = {
     borderRadius: 6,

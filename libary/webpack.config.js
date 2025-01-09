@@ -8,5 +8,11 @@ module.exports = {
                 exclude: [/node_modules\/@antv\/util/],
             },
         ],
+        rules: [
+            {
+                test: /\.pdf$/,
+                use: 'file-loader',
+            },
+        ],
     },
 };
