@@ -4,3 +4,4 @@ uvicorn
 python-dotenv
 pymongo
 pymongo[srv]
+motor
