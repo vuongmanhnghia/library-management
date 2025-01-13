@@ -8,13 +8,13 @@ import {
     message,
     Row,
     Col,
-    Modal,
+    // Modal,
     Avatar,
     Select,
     DatePicker,
     Typography,
 } from 'antd';
-import { UserOutlined, UploadOutlined, DeleteOutlined } from '@ant-design/icons';
+import { UserOutlined, UploadOutlined} from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -31,19 +31,19 @@ const ProfilePage = () => {
     };
 
     // Handle profile deletion
-    const handleDelete = () => {
-        Modal.confirm({
-            title: 'Are you sure you want to delete your profile?',
-            content: 'This action cannot be undone. All your data will be permanently removed.',
-            okText: 'Delete',
-            okType: 'danger',
-            cancelText: 'Cancel',
-            onOk: () => {
-                message.success('Your profile has been deleted successfully!');
-                console.log('Profile deleted');
-            },
-        });
-    };
+    // const handleDelete = () => {
+    //     Modal.confirm({
+    //         title: 'Are you sure you want to delete your profile?',
+    //         content: 'This action cannot be undone. All your data will be permanently removed.',
+    //         okText: 'Delete',
+    //         okType: 'danger',
+    //         cancelText: 'Cancel',
+    //         onOk: () => {
+    //             message.success('Your profile has been deleted successfully!');
+    //             console.log('Profile deleted');
+    //         },
+    //     });
+    // };
 
     // Handle avatar upload
     const handleAvatarUpload = (info) => {

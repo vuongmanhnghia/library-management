@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button, Pagination, Row, Col, Select, Carousel } from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
+import Loading from '../../components/loadingUI';
 
 const { Meta } = Card;
 const { Option } = Select;
@@ -35,7 +36,7 @@ const CardItem = ({ title, text, src, author }) => {
                 description={
                     <>
                         Author: {author} <br />
-                        Watched: {text}
+                        Introduction: {text}
                     </>
                 }
             />
@@ -76,49 +77,55 @@ const contentStyle = {
 };
 
 const Home = () => {
-    const cardData = [
-        {
-            title: 'Book 1',
-            author: 'Tran Quoc Cuong',
-            text: '1919',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Green Dreams',
-            author: 'Chivas',
-            text: '21',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Book 2',
-            author: 'Tran Quoc Cuong',
-            text: '1919',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Book 3',
-            author: 'Tran Quoc Cuong',
-            text: '1919',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Green Dreams',
-            author: 'Chivas',
-            text: '21',
-            src: '/static/imgs/image.png',
-        },
-        {
-            title: 'Book 4',
-            author: 'Tran Quoc Cuong',
-            text: '1919',
-            src: '/static/imgs/image.png',
-        },
-    ];
+    const [cardData, setCardData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalBooks, setTotalBooks] = useState(0);
+    const [sortField, setSortField] = useState('name');
+    const [sortOrder, setSortOrder] = useState('asc');
+
+    const fetchBooks = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(`http://localhost:8000/books/`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const result = await response.json();
+            const data = result.data;
+            setCardData(data.books || []); // Cập nhật `cardData` với dữ liệu nhận được
+            setTotalBooks(data.books.length || 0); // Cập nhật số lượng sách
+        } catch (error) {
+            console.error('Error fetching books:', error);
+        } finally {
+            setLoading(false);
+        }
+        console.log(cardData);
+    };
+
+    useEffect(() => {
+        fetchBooks();
+    }, [currentPage, sortField, sortOrder]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleSortChange = (value) => {
+        setSortField(value);
+    };
+
+    const handleOrderChange = (value) => {
+        setSortOrder(value);
+    };
 
     return (
         <div style={{ padding: '16px' }} className="custom-scrollbar">
             <Row justify="center">
-                <Carousel autoplay style={{ width: '80vw', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+                <Carousel
+                    autoplay
+                    style={{ width: '80vw', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}
+                >
                     <div>
                         <h3 style={contentStyle}>Welcome to Our Library</h3>
                     </div>
@@ -135,38 +142,56 @@ const Home = () => {
             </Row>
             <Row justify="center" style={{ marginBottom: '16px', gap: '16px' }}>
                 <Col>
-                    <Select size='large' defaultValue="name" style={{ width: 150 }}>
+                    <Select size="large" value={sortField} style={{ width: 150 }} onChange={handleSortChange}>
                         <Option value="name">Name</Option>
                         <Option value="date">Date</Option>
                     </Select>
                 </Col>
                 <Col>
-                    <Select size='large' defaultValue="asc" style={{ width: 150 }}>
+                    <Select size="large" value={sortOrder} style={{ width: 150 }} onChange={handleOrderChange}>
                         <Option value="asc">A to Z</Option>
                         <Option value="desc">Z to A</Option>
                     </Select>
                 </Col>
                 <Col>
-                    <Button size='large' type="primary">Apply</Button>
+                    <Button size="large" type="primary" onClick={() => fetchBooks()}>
+                        Apply
+                    </Button>
                 </Col>
             </Row>
             <Row gutter={[16, 16]} justify="center">
-                {cardData.map((data, index) => (
-                    <Col
-                        key={index}
-                        xs={24}
-                        sm={12}
-                        md={8}
-                        lg={6}
-                        style={{ display: 'flex', justifyContent: 'center' }}
-                    >
-                        <CardItem title={data.title} text={data.text} src={data.src} author={data.author} />
-                    </Col>
-                ))}
+                {loading ? (
+                    <Loading />
+                ) : (
+                    cardData.map((data) => (
+                        <Col
+                            key={data._id}
+                            xs={24}
+                            sm={12}
+                            md={8}
+                            lg={6}
+                            style={{ display: 'flex', justifyContent: 'center' }}
+                        >
+                            <CardItem
+                                title={data.title}
+                                text={data.introduction}
+                                src={data.cover}
+                                author={data.author}
+                            />
+                        </Col>
+                    ))
+                )}
             </Row>
 
             <Row justify="center" style={{ marginTop: '24px' }}>
-                <Pagination defaultCurrent={1} total={200} showSizeChanger={false} style={{ textAlign: 'center' }} />
+                <Pagination
+                    current={currentPage}
+                    total={totalBooks}
+                    pageSize={10}
+                    onChange={handlePageChange}
+                    showSizeChanger={false}
+                    style={{ textAlign: 'center' }}
+                />
             </Row>
         </div>
     );

@@ -5,7 +5,6 @@ import {
     HomeOutlined,
     BookOutlined,
     WechatOutlined,
-    QuestionCircleOutlined,
     SettingOutlined,
     UserOutlined,
     LogoutOutlined,
