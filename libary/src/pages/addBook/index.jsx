@@ -14,45 +14,65 @@ import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
-const uploadProps = {
-    name: "file",
-    action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
-    headers: {
-        authorization: "authorization-text",
-    },
-    onChange(info) {
-        if (info.file.status !== "uploading") {
-            console.log(info.file, info.fileList);
-        }
-        if (info.file.status === "done") {
-            message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === "error") {
-            message.error(`${info.file.name} file upload failed.`);
-        }
-    },
-    progress: {
-        strokeColor: {
-            "0%": "#108ee9",
-            "100%": "#87d068",
-        },
-        strokeWidth: 3,
-        format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
-    },
-};
-
-const normFile = (e) => (Array.isArray(e) ? e : e?.fileList);
+// Helper function to convert a file to Base64
+const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+    });
 
 const AddBook = () => {
     const [loading, setLoading] = useState(false);
 
-    const handleFinish = (values) => {
+    const handleFinish = async (values) => {
         setLoading(true);
-        console.log("Form Values:", values);
-        setTimeout(() => {
+
+        try {
+            const coverFile = values.coverUpload?.[0]?.originFileObj;
+            const bookFile = values.fileUpload?.[0]?.originFileObj;
+
+            const encodedCover = coverFile ? await getBase64(coverFile) : null;
+            const encodedFile = bookFile ? await getBase64(bookFile) : null;
+
+            const payload = {
+                title: values.title,
+                author: values.author,
+                published_date: values.date.format("YYYY-MM-DD"), // Formatting the date
+                introduction: values.introduction,
+                cover: encodedCover,
+                file: encodedFile,
+            };
+
+            console.log("Payload:", payload);
+
+            // API call
+            const response = await fetch("http://localhost:8000/books/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log("Server Response:", result);
+
             setLoading(false);
             message.success("Book added successfully!");
-        }, 2000);
+        } catch (error) {
+            console.error("Error:", error);
+            setLoading(false);
+            message.error("Failed to add the book. Please try again.");
+        }
     };
+
+    const normFile = (e) => (Array.isArray(e) ? e : e?.fileList);
 
     return (
         <div
@@ -80,16 +100,32 @@ const AddBook = () => {
                         style={{ maxWidth: 800 }}
                         onFinish={handleFinish}
                     >
-                        <Form.Item label="Title" name="title" rules={[{ required: true, message: "Please enter the book title." }]}>
+                        <Form.Item
+                            label="Title"
+                            name="title"
+                            rules={[{ required: true, message: "Please enter the book title." }]}
+                        >
                             <Input placeholder="Title of book" />
                         </Form.Item>
-                        <Form.Item label="Author" name="author" rules={[{ required: true, message: "Please enter the author." }]}>
+                        <Form.Item
+                            label="Author"
+                            name="author"
+                            rules={[{ required: true, message: "Please enter the author." }]}
+                        >
                             <Input placeholder="Author" />
                         </Form.Item>
-                        <Form.Item label="Publish Date" name="date" rules={[{ required: true, message: "Please select a publish date." }]}>
+                        <Form.Item
+                            label="Publish Date"
+                            name="date"
+                            rules={[{ required: true, message: "Please select a publish date." }]}
+                        >
                             <DatePicker style={{ width: "100%" }} />
                         </Form.Item>
-                        <Form.Item label="Introduction" name="introduction" rules={[{ required: true, message: "Please provide an introduction." }]}>
+                        <Form.Item
+                            label="Introduction"
+                            name="introduction"
+                            rules={[{ required: true, message: "Please provide an introduction." }]}
+                        >
                             <Input.TextArea placeholder="Brief introduction of the book" />
                         </Form.Item>
                         <Form.Item
@@ -99,26 +135,38 @@ const AddBook = () => {
                             getValueFromEvent={normFile}
                             rules={[{ required: true, message: "Please upload a book cover." }]}
                         >
-                            <Upload action="/api/upload" listType="picture-card" maxCount={1}>
+                            <Upload
+                                listType="picture-card"
+                                maxCount={1}
+                                beforeUpload={() => false}
+                            >
                                 <div>
                                     <PlusOutlined />
                                     <div style={{ marginTop: 8 }}>Upload</div>
                                 </div>
                             </Upload>
                         </Form.Item>
-                        <Form.Item label="File Upload" name="fileUpload" rules={[{ required: true, message: "Please upload the book file." }]}>
-                            <Upload {...uploadProps} maxCount={1}>
+                        <Form.Item
+                            label="File Upload"
+                            name="fileUpload"
+                            valuePropName="fileList"
+                            getValueFromEvent={normFile}
+                            rules={[{ required: true, message: "Please upload the book file." }]}
+                        >
+                            <Upload
+                                maxCount={1}
+                                beforeUpload={() => false}
+                            >
                                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
                             </Upload>
                         </Form.Item>
+                        <Form.Item wrapperCol={{ span: 24 }} style={{ textAlign: "center" }}>
+                            <Button type="primary" loading={loading} htmlType="submit">
+                                {loading ? "Uploading..." : "Upload"}
+                            </Button>
+                        </Form.Item>
                     </Form>
                 </Col>
-            </Row>
-            <Row>
-                <Button type="primary" style={{ marginTop: "16px" }} loading={loading} htmlType="submit">
-                    {loading ? "Uploading..." : "Upload"}
-                </Button>
-
             </Row>
         </div>
     );

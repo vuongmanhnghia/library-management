@@ -7,13 +7,18 @@ import Loading from '../../components/loadingUI';
 const { Meta } = Card;
 const { Option } = Select;
 
-const CardItem = ({ title, text, src, author }) => {
+const CardItem = ({ title, text, src, author, date }) => {
     const navigate = useNavigate();
 
     const handleViewDetails = () => {
         navigate(`/book-reader`);
     };
-
+    function truncateText(text, maxLength) {
+        if (text.length > maxLength) {
+            return text.slice(0, maxLength) + '...';
+        }
+        return text;
+    }
     return (
         <Card
             hoverable
@@ -35,8 +40,10 @@ const CardItem = ({ title, text, src, author }) => {
                 title={title}
                 description={
                     <>
-                        Author: {author} <br />
-                        Introduction: {text}
+                        Author: {truncateText(author, 45)} {/* Adjust max length as needed */} <br /> 
+                        Published Date: {date} 
+                        <br />
+                        Introduction: {truncateText(text, 45)} {/* Adjust max length as needed */}
                     </>
                 }
             />
@@ -177,6 +184,7 @@ const Home = () => {
                                 text={data.introduction}
                                 src={data.cover}
                                 author={data.author}
+                                date={data.published_date}
                             />
                         </Col>
                     ))
