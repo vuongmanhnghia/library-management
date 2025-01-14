@@ -13,5 +13,5 @@ client = AsyncIOMotorClient(MONGO_URL)
 db = client["LibraryManagement"]
 
 # Các collection
-# users = db["users"]
+users = db["users"]
 books = db["books"]

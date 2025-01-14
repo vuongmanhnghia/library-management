@@ -18,7 +18,18 @@ async def create_book(book: BookCreate):
     return await book_controller.create_book(book)
 
 
-# # Cập nhật sách theo ID
-# @bookRouter.put("/{id}")
-# async def update_book(id: str, book: BookUpdate):
-#     return await book_controller.update_book(id, book)
+@bookRouter.get("/{id}")
+async def read_book_by_id(id: str):
+    return await book_controller.read_book_by_id(id)
+
+
+# Cập nhật sách theo ID
+@bookRouter.put("/{id}")
+async def update_book(id: str, book: BookUpdate):
+    return await book_controller.update_book(id, book)
+
+
+# Xóa sách theo ID
+@bookRouter.delete("/{id}")
+async def delete_book(id: str):
+    return await book_controller.delete_book(id)

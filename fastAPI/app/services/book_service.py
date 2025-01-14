@@ -31,6 +31,7 @@ async def read_root(query_params):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# Tạo sách mới
 async def create_book(book):
     now = datetime.utcnow()
     book = book.dict(by_alias=True)  # Lấy dữ liệu từ Pydantic Model
@@ -44,3 +45,21 @@ async def create_book(book):
         return Book(**book)  # Trả về đối tượng Pydantic
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# Xem chi tiết sách theo ID
+async def read_book_by_id(id):
+    book = await books.find_one({"_id": id})
+    if book:
+        book["_id"] = str(book["_id"])  # Chuyển ObjectId sang chuỗi
+        book["created_at"] = book["created_at"]
+        book["updated_at"] = book["updated_at"]
+        return Book(**book)  # Trả về đối tượng Pydantic
+    return None
+
+
+async def delete_book(id):
+    result = await books.delete_one({"_id": id})
+    if result.deleted_count:
+        return {"_id": id}
+    raise HTTPException(status_code=404, detail="Book not found")

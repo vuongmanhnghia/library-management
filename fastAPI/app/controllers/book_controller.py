@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from app.configs.database import books
 from bson import ObjectId
 from app.services import book_service
@@ -28,6 +29,25 @@ async def update_book(id, book):
         {"_id": ObjectId(id)}, {"$set": book}
     )  # Async update
     if result.matched_count == 0:
-        return {"error": "Book not found"}
+        raise HTTPException(status_code=404, detail="Book not found")
     book["_id"] = id  # Đảm bảo thêm ID vào kết quả trả về
     return {"data": book_schemas.detail_book(book)}
+
+
+# Xem chi tiết sách theo ID
+async def read_book_by_id(id):
+    book = await book_service.read_book_by_id(id)
+    if book:
+        return {"status": 200, "success": True, "message": "OK", "data": book}
+    return {"status": 404, "success": False, "message": "Book not found"}
+
+
+# Xóa sách theo ID
+async def delete_book(id):
+    result = await book_service.delete_book(id)
+    return {
+        "status": 200,
+        "success": True,
+        "message": "Delete book success!",
+        "data": result,
+    }
