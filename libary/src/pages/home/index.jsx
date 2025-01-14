@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Card, Button, Pagination, Row, Col, Select, Carousel } from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import Loading from '../../components/loadingUI';
@@ -7,19 +7,19 @@ import Loading from '../../components/loadingUI';
 const { Meta } = Card;
 const { Option } = Select;
 
-const CardItem = ({ title, text, src, author, date }) => {
-    const navigate = useNavigate();
-
-    const handleViewDetails = () => {
-        navigate(`/book-reader`);
-    };
-    function truncateText(text, maxLength) {
-        if (text.length > maxLength) {
-            return text.slice(0, maxLength) + '...';
+const CardItem = ({ title, text, src, author, date, _id }) => {
+    // Hàm cắt text dài
+    function truncateText(text, length) {
+        if (text.length > length) {
+            return text.slice(0, length) + '...';
+        } else if (text.length < length) {
+            text += ' ';
+            return text.padEnd(length, '\u00A0');
         }
         return text;
     }
     return (
+        // Card Component
         <Card
             hoverable
             cover={
@@ -36,17 +36,19 @@ const CardItem = ({ title, text, src, author, date }) => {
             }
             style={{ width: 250 }}
         >
+            {/* Meta of Card */}
             <Meta
                 title={title}
                 description={
                     <>
-                        Author: {truncateText(author, 45)} {/* Adjust max length as needed */} <br /> 
-                        Published Date: {date} 
+                        Author: {truncateText(author, 45)} {/* Adjust max length as needed */} <br />
+                        Published Date: {date}
                         <br />
                         Introduction: {truncateText(text, 45)} {/* Adjust max length as needed */}
                     </>
                 }
             />
+            {/* Button of Card */}
             <div
                 style={{
                     marginTop: '16px',
@@ -55,9 +57,9 @@ const CardItem = ({ title, text, src, author, date }) => {
                     justifyContent: 'center',
                 }}
             >
-                <Button type="primary" onClick={handleViewDetails}>
-                    View Details
-                </Button>
+                <Link to={`/book-reader/${_id}`}>
+                    <Button type="primary">View Detail</Button>
+                </Link>
                 <Button style={{ marginLeft: '8px' }}>
                     <HeartOutlined />
                 </Button>
@@ -69,21 +71,23 @@ const CardItem = ({ title, text, src, author, date }) => {
     );
 };
 
+// Style for Carousel
 const contentStyle = {
     borderRadius: 6,
     width: '100%',
     margin: 0,
-    height: '36vh',
+    height: '50vh',
     color: '#fff',
-    lineHeight: '36vh',
+    lineHeight: '50vh',
     textAlign: 'center',
-    backgroundImage: 'url(/static/imgs/banner.jpg)',
+    backgroundImage: 'url(/static/imgs/banner_book.jpg)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
 };
 
 const Home = () => {
+    // Khai báo state
     const [cardData, setCardData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -91,6 +95,7 @@ const Home = () => {
     const [sortField, setSortField] = useState('name');
     const [sortOrder, setSortOrder] = useState('asc');
 
+    // Hàm fetch dữ liệu sách từ server
     const fetchBooks = async () => {
         setLoading(true);
         try {
@@ -128,25 +133,27 @@ const Home = () => {
 
     return (
         <div style={{ padding: '16px' }} className="custom-scrollbar">
+            {/* Carousel */}
             <Row justify="center">
                 <Carousel
                     autoplay
                     style={{ width: '80vw', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}
                 >
                     <div>
-                        <h3 style={contentStyle}>Welcome to Our Library</h3>
+                        <h1 style={contentStyle}>Welcome to Our Library</h1>
                     </div>
                     <div>
-                        <h3 style={contentStyle}>Explore Our Collections</h3>
+                        <h1 style={contentStyle}>Explore Our Collections</h1>
                     </div>
                     <div>
-                        <h3 style={contentStyle}>Join Our Community</h3>
+                        <h1 style={contentStyle}>Join Our Community</h1>
                     </div>
                     <div>
-                        <h3 style={contentStyle}>Discover New Stories</h3>
+                        <h1 style={contentStyle}>Discover New Stories</h1>
                     </div>
                 </Carousel>
             </Row>
+            {/* Button Sort */}
             <Row justify="center" style={{ marginBottom: '16px', gap: '16px' }}>
                 <Col>
                     <Select size="large" value={sortField} style={{ width: 150 }} onChange={handleSortChange}>
@@ -166,6 +173,7 @@ const Home = () => {
                     </Button>
                 </Col>
             </Row>
+            {/* Render Card */}
             <Row gutter={[16, 16]} justify="center">
                 {loading ? (
                     <Loading />
@@ -185,12 +193,13 @@ const Home = () => {
                                 src={data.cover}
                                 author={data.author}
                                 date={data.published_date}
+                                _id={data._id}
                             />
                         </Col>
                     ))
                 )}
             </Row>
-
+            {/* Pagination */}
             <Row justify="center" style={{ marginTop: '24px' }}>
                 <Pagination
                     current={currentPage}

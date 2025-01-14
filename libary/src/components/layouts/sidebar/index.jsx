@@ -1,4 +1,5 @@
 import React from 'react';
+import { Image } from 'antd';
 import { Layout, Menu, Divider } from 'antd';
 import { Link } from 'react-router-dom';
 import {
