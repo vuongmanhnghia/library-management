@@ -1,9 +1,35 @@
 import React from 'react';
-import { Form, Input, Button, Row, Col, Card } from 'antd';
+import { Form, Input, Button, Row, Col, Card, message } from 'antd';
+import axios from 'axios';
 
 const Register = () => {
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const [messageApi] = message.useMessage();
+    const onFinish = async (values) => {
+        const payload = {
+            email: values.email,
+            password: values.password,
+            phone_number: values.phoneNumber, // Map đúng key "phone_number"
+            full_name: values.name, // Map đúng key "full_name"
+            role: '0',
+            avatar: '',
+        };
+
+        console.log('Payload:', payload);
+
+        try {
+            const response = await axios.post('http://localhost:8000/auth/register', payload);
+            if (response.status === 201) {
+                messageApi.open({
+                    type: 'success',
+                    content: 'Registration successful!',
+                });
+                // Redirect or clear form if needed
+            } else {
+                message.error(response.data.message || 'Something went wrong!');
+            }
+        } catch (error) {
+            message.error(error.response?.data?.message || 'Registration failed!');
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -33,14 +59,14 @@ const Register = () => {
                     >
                         {/* Name Field */}
                         <Form.Item
-                            label="Name"
+                            label="Full Name"
                             name="name"
                             rules={[
-                                { required: true, message: 'Please input your name!' },
-                                { min: 2, message: 'Name must be at least 2 characters long!' },
+                                { required: true, message: 'Please input your full name!' },
+                                { min: 2, message: 'Full name must be at least 2 characters long!' },
                             ]}
                         >
-                            <Input placeholder="Enter name" />
+                            <Input placeholder="Enter full name" />
                         </Form.Item>
 
                         {/* Email Field */}
