@@ -13,13 +13,6 @@ const Loading = () => (
                 {content}
             </Spin>
         </Flex>
-        <Spin tip="Loading...">
-            <Alert
-                message="Alert message title"
-                description="Further details about the context of this alert."
-                type="info"
-            />
-        </Spin>
     </Flex>
 );
 export default Loading;
