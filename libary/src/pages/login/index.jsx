@@ -3,7 +3,10 @@ import { Form, Input, Button, Row, Col, Card, message } from 'antd';
 import axios from 'axios';
 
 const Login = () => {
+    const apiUrl = process.env.REACT_APP_API_URL; // Cập nhật biến môi trường
+
     const onFinish = async (values) => {
+        console.log(apiUrl);
         const payload = {
             email: values.email,
             password: values.password,
@@ -11,7 +14,7 @@ const Login = () => {
 
         try {
             // Gửi yêu cầu POST đến API
-            const response = await axios.post('http://localhost:8000/auth/login', payload);
+            const response = await axios.post(`${apiUrl}/auth/login`, payload);
 
             const {status } = response.data;
 

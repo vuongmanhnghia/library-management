@@ -3,6 +3,7 @@ import { Form, Input, Button, Row, Col, Card, message } from 'antd';
 import axios from 'axios';
 
 const Register = () => {
+    const apiUrl = process.env.REACT_APP_API_URL; 
     const [messageApi] = message.useMessage();
     const onFinish = async (values) => {
         const payload = {
@@ -17,7 +18,7 @@ const Register = () => {
         console.log('Payload:', payload);
 
         try {
-            const response = await axios.post('http://localhost:8000/auth/register', payload);
+            const response = await axios.post(`${apiUrl}/auth/register`, payload);
             if (response.status === 201) {
                 messageApi.open({
                     type: 'success',

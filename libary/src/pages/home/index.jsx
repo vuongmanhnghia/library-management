@@ -87,6 +87,7 @@ const contentStyle = {
 };
 
 const Home = () => {
+    const apiUrl = process.env.REACT_APP_API_URL; 
     // Khai báo state
     const [cardData, setCardData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -99,7 +100,7 @@ const Home = () => {
     const fetchBooks = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:8000/books/`);
+            const response = await fetch(`${apiUrl}/books/`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

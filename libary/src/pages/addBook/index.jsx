@@ -14,6 +14,7 @@ const getBase64 = (file) =>
     });
 
 const AddBook = () => {
+    const apiUrl = process.env.REACT_APP_API_URL; 
     const [loading, setLoading] = useState(false);
 
     const handleFinish = async (values) => {
@@ -38,7 +39,7 @@ const AddBook = () => {
             console.log('Payload:', payload);
 
             // API call
-            const response = await fetch('http://localhost:8000/books/', {
+            const response = await fetch(`${apiUrl}/books/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
