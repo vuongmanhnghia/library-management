@@ -1,9 +1,15 @@
 import React from 'react';
 import { Form, Input, Button, Row, Col, Card, message } from 'antd';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { update } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useInternalMessage } from 'antd/es/message/useMessage';
 
 const Login = () => {
-    const apiUrl = process.env.REACT_APP_API_URL; // Cập nhật biến môi trường
+    const dispatch = useDispatch();
+    const navigate = useNavigate(); // Khởi tạo useNavigate hook
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const onFinish = async (values) => {
         console.log(apiUrl);
@@ -13,50 +19,41 @@ const Login = () => {
         };
 
         try {
-            // Gửi yêu cầu POST đến API
             const response = await axios.post(`${apiUrl}/auth/login`, payload);
+            if (response.data.status === 200) {
+                const user = response.data.data;
+                dispatch(
+                    update({
+                        user: user,
+                        phone: user.phone_number,
+                        email: user.email,
+                        avatar: user.avatar,
+                        role: user.role,
+                        name: user.full_name,
+                    }),
+                );
+                message.success('Login successfully!');
 
-            const {status } = response.data;
-
-            // Kiểm tra mã trạng thái và dữ liệu trả về
-            if (status === 200) {
-                window.location.href = '/'; // Chuyển hướng về trang chủ
+                setTimeout(() => {
+                    navigate('/'); // Chuyển hướng sau 1 giây
+                }, 1000); // 1000ms = 1 giây // Sử dụng navigate thay vì return Navigate
             } else {
                 throw new Error('Login failed. Please try again.');
             }
         } catch (error) {
-            // Hiển thị thông báo lỗi
             const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
             message.error(errorMessage);
         }
     };
 
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
-
     return (
-        <Row
-            style={{
-                minHeight: '100vh',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
+        <Row style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Col xs={20} sm={14} md={10} lg={6}>
                 <Card
                     className="shadow"
                     style={{ borderRadius: '16px', padding: '0 16px', backgroundColor: '#fafafa' }}
                 >
-                    <Form
-                        name="login"
-                        layout="vertical"
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                        size="large"
-                    >
-                        {/* Email Field */}
+                    <Form name="login" layout="vertical" onFinish={onFinish} size="large">
                         <Form.Item
                             label="Email address"
                             name="email"
@@ -68,7 +65,6 @@ const Login = () => {
                             <Input placeholder="Enter email" />
                         </Form.Item>
 
-                        {/* Password Field */}
                         <Form.Item
                             label="Password"
                             name="password"
@@ -80,13 +76,11 @@ const Login = () => {
                             <Input.Password placeholder="Password" />
                         </Form.Item>
 
-                        {/* Submit Button */}
                         <Form.Item>
                             <Button type="primary" htmlType="submit" block>
                                 Login
                             </Button>
                         </Form.Item>
-                        {/* Register Button */}
                         <Form.Item>
                             <Button block href="/register">
                                 Register

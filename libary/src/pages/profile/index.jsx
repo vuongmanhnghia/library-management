@@ -15,6 +15,7 @@ import {
 } from 'antd';
 import { UserOutlined, UploadOutlined } from '@ant-design/icons';
 import { getBase64 } from '../../utils';
+import { useSelector } from 'react-redux';
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -57,6 +58,9 @@ const ProfilePage = () => {
             setPreviewAvatar(null);
         }
     };
+
+    const userValue = useSelector((state) => state.user);
+
     return (
         <Layout style={{ padding: '24px' }}>
             <Content
@@ -79,10 +83,10 @@ const ProfilePage = () => {
                             layout="vertical"
                             size="large"
                             initialValues={{
-                                username: 'Admin',
-                                email: 'example@email.com',
-                                phone: '0123456789',
-                                gender: 'male',
+                                username: userValue.name,
+                                email: userValue.email,
+                                phone: userValue.phone,
+                                gender: userValue.gender,
                                 birth: null,
                                 country: 'Vietnam',
                             }}
@@ -159,7 +163,7 @@ const ProfilePage = () => {
                         <Avatar
                             size={256}
                             icon={!previewAvatar ? <UserOutlined /> : null}
-                            src={previewAvatar || undefined}
+                            src={previewAvatar || userValue.avatar}
                             style={{ marginBottom: '16px', backgroundColor: '#f0f0f0' }}
                         />
                         <Upload

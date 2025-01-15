@@ -7,7 +7,7 @@ const contentStyle = {
 };
 const content = <div style={contentStyle} />;
 const Loading = () => (
-    <Flex gap="middle" vertical>
+    <Flex gap="middle" vertical style={{marginTop: 25}}>
         <Flex gap="middle">
             <Spin tip="Loading" size="large">
                 {content}

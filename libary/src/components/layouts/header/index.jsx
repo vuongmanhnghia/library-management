@@ -1,11 +1,13 @@
 import React from "react";
 import { Input, Divider, Typography, Space, Select } from "antd";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const { Search } = Input;
 const { Text } = Typography;
 
 function Header() {
+  const user = useSelector((state) => state.user);
   const onSearch = (value) => {
     console.log("Search:", value);
   };
@@ -47,7 +49,7 @@ function Header() {
       <Divider type="vertical" />
       <Link to="/profile" style={{ whiteSpace: "nowrap", marginLeft: "16px" }}>
         <Text strong style={{ fontSize: "18px" }}>
-          Hi, Chivas
+          Hi, {user.name}
         </Text>
       </Link>
     </div>

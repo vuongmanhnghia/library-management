@@ -15,7 +15,8 @@ const Register = () => {
         };
         try {
             const response = await axios.post(`${apiUrl}/auth/register`, payload);
-            if (response.status === 201) {
+            console.log(response);
+            if (response.data.status === 201) {
                 message.success('Registration successful!');
                 // Redirect or clear form if needed
             } else {

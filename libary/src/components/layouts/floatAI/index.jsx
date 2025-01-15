@@ -85,8 +85,8 @@ const FloatAI = () => {
                 content={content}
                 title="Chat with AI"
                 trigger="click"
-                visible={isPopoverVisible}
-                onVisibleChange={(visible) => setPopoverVisible(visible)}
+                open={isPopoverVisible}
+                onOpenChange={(visible) => setPopoverVisible(visible)}
                 placement="topRight"
             >
                 <Tooltip title="Ask AI" placement="left">
