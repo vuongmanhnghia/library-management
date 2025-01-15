@@ -13,14 +13,13 @@ import OnlySideBarAndFooter from '../components/layouts/OnlySideBarAndFooter';
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/home', component: Home },
-    // {path : '*', component: Home},
     { path: '/profile', component: Profile, layout: OnlySideBarAndFooter },
     { path: '/login', component: Login, layout: OnlyFooter },
     { path: '/register', component: Register, layout: OnlyFooter },
     { path: '/add-new-book', component: AddBook, layout: OnlySideBarAndFooter },
     { path: '/conversation', component: Convarsation, layout: OnlySideBarAndFooter },
     { path: '/setting', component: Setting, layout: OnlySideBarAndFooter },
-    { path: `/book-reader`, component: BookReader, layout: OnlySideBarAndFooter },
+    { path: '/book-reader/:id/*', component: BookReader, layout: OnlySideBarAndFooter }, // Sửa đường dẫn này
 ];
 
 // allow view , user can login
