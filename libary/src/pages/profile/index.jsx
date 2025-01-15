@@ -8,13 +8,13 @@ import {
     message,
     Row,
     Col,
-    // Modal,
     Avatar,
     Select,
     DatePicker,
     Typography,
 } from 'antd';
-import { UserOutlined, UploadOutlined} from '@ant-design/icons';
+import { UserOutlined, UploadOutlined } from '@ant-design/icons';
+import { getBase64 } from '../../utils';
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -23,27 +23,13 @@ const { Title, Text } = Typography;
 const ProfilePage = () => {
     const [form] = Form.useForm();
     const [avatar, setAvatar] = useState(null);
+    const [previewAvatar, setPreviewAvatar] = useState(null);
 
     // Handle profile update
     const handleUpdate = (values) => {
         message.success('Your profile has been updated successfully!');
         console.log('Updated Profile:', values);
     };
-
-    // Handle profile deletion
-    // const handleDelete = () => {
-    //     Modal.confirm({
-    //         title: 'Are you sure you want to delete your profile?',
-    //         content: 'This action cannot be undone. All your data will be permanently removed.',
-    //         okText: 'Delete',
-    //         okType: 'danger',
-    //         cancelText: 'Cancel',
-    //         onOk: () => {
-    //             message.success('Your profile has been deleted successfully!');
-    //             console.log('Profile deleted');
-    //         },
-    //     });
-    // };
 
     // Handle avatar upload
     const handleAvatarUpload = (info) => {
@@ -63,6 +49,14 @@ const ProfilePage = () => {
         }, 1000);
     };
 
+    const handlePreviewAvatar = async (file) => {
+        if (file) {
+            const preview = await getBase64(file);
+            setPreviewAvatar(preview);
+        } else {
+            setPreviewAvatar(null);
+        }
+    };
     return (
         <Layout style={{ padding: '24px' }}>
             <Content
@@ -164,11 +158,22 @@ const ProfilePage = () => {
                     >
                         <Avatar
                             size={256}
-                            icon={!avatar ? <UserOutlined /> : null}
-                            src={avatar || undefined}
+                            icon={!previewAvatar ? <UserOutlined /> : null}
+                            src={previewAvatar || undefined}
                             style={{ marginBottom: '16px', backgroundColor: '#f0f0f0' }}
                         />
-                        <Upload name="avatar" accept="image/*" showUploadList={false} customRequest={customUpload}>
+                        <Upload
+                            maxCount={1}
+                            beforeUpload={() => false}
+                            onChange={(info) => {
+                                const file = info.fileList[0]?.originFileObj || null;
+                                handlePreviewAvatar(file);
+                            }}
+                            name="avatar"
+                            accept="image/*"
+                            showUploadList={false}
+                            customRequest={customUpload}
+                        >
                             <Button icon={<UploadOutlined />}>Change Avatar</Button>
                         </Upload>
                         <Text type="secondary" style={{ marginTop: '8px' }}>

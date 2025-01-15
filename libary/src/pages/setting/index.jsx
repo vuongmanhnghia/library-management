@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Modal, Row, Col, Card, Radio } from 'antd';
 
 const Setting = () => {
+
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [darkMode, setDarkMode] = useState('system'); // Default to "system"
 
     // Handle password change submission
     const onFinishPasswordChange = (values) => {
@@ -23,12 +23,6 @@ const Setting = () => {
 
     const handleCancel = () => {
         setIsModalVisible(false);
-    };
-
-    // Handle Dark Mode selection
-    const onDarkModeChange = (e) => {
-        setDarkMode(e.target.value);
-        console.log('Dark Mode:', e.target.value);
     };
 
     return (
@@ -118,14 +112,13 @@ const Setting = () => {
                 {/* Dark Mode Settings */}
                 <Col span={12}>
                     <Card title="Dark Mode Settings" bordered>
-                        <Radio.Group onChange={onDarkModeChange} value={darkMode}>
+                        <Radio.Group >
                             <Radio value="system">System mode</Radio>
                             <Radio value="light">Light mode</Radio>
                             <Radio value="dark">Dark mode</Radio>
                         </Radio.Group>
                     </Card>
                 </Col>
-
             </Row>
 
             {/* Delete Account Confirmation Modal */}

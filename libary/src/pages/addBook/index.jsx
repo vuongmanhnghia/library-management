@@ -2,19 +2,12 @@ import React, { useState } from 'react';
 import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message } from 'antd';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import CardRender from '../../components/cardRender';
+import { getBase64 } from '../../utils';
 
 const { Title } = Typography;
 
 const defaultImage = 'https://via.placeholder.com/150';
 
-// Helper function to convert a file to Base64
-const getBase64 = (file) =>
-    new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-        reader.readAsDataURL(file);
-    });
 const AddBook = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const [loading, setLoading] = useState(false);
@@ -210,7 +203,7 @@ const AddBook = () => {
                         intro={previewIntroduction}
                         canHover={false}
                         widthCard={280}
-                        heightCard={340}
+                        heightCard={280}
                     />
                 </Col>
             </Row>

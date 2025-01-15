@@ -4,7 +4,6 @@ import axios from 'axios';
 
 const Register = () => {
     const apiUrl = process.env.REACT_APP_API_URL; 
-    const [messageApi] = message.useMessage();
     const onFinish = async (values) => {
         const payload = {
             email: values.email,
@@ -14,16 +13,10 @@ const Register = () => {
             role: '0',
             avatar: '',
         };
-
-        console.log('Payload:', payload);
-
         try {
             const response = await axios.post(`${apiUrl}/auth/register`, payload);
             if (response.status === 201) {
-                messageApi.open({
-                    type: 'success',
-                    content: 'Registration successful!',
-                });
+                message.success('Registration successful!');
                 // Redirect or clear form if needed
             } else {
                 message.error(response.data.message || 'Something went wrong!');
