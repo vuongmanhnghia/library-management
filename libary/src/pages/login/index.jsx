@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { update } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { useInternalMessage } from 'antd/es/message/useMessage';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -12,7 +11,6 @@ const Login = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const onFinish = async (values) => {
-        console.log(apiUrl);
         const payload = {
             email: values.email,
             password: values.password,
