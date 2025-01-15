@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message } from 'antd';
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import React, { Fragment, useState } from 'react';
+import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message, Card} from 'antd';
+import { PlusOutlined, UploadOutlined, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
+import Loading from '../../components/loadingUI';
 
 const { Title } = Typography;
+const { Meta } = Card;
+
+const defaultImage = 'https://via.placeholder.com/150';
 
 // Helper function to convert a file to Base64
 const getBase64 = (file) =>
@@ -12,10 +16,25 @@ const getBase64 = (file) =>
         reader.onerror = (error) => reject(error);
         reader.readAsDataURL(file);
     });
+function truncateText(text, length) {
+    if (text.length > length) {
+        return text.slice(0, length) + '...';
+    } else if (text.length < length) {
+        text += ' ';
+        return text.padEnd(length, '\u00A0');
+    }
+    return text;
+}
 
 const AddBook = () => {
-    const apiUrl = process.env.REACT_APP_API_URL; 
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [loading, setLoading] = useState(false);
+    const [previewCover, setPreviewCover] = useState(defaultImage);
+    const [previewTitle, setPreviewTitle] = useState('Title of book');
+    const [previewAuthor, setPreviewAuthor] = useState('author');
+    const [previewDate, setPreviewDate] = useState('0000-00-00');
+    const [previewIntroduction, setPreviewIntroduction] = useState('This is a brief introduction of the book.');
+
 
     const handleFinish = async (values) => {
         setLoading(true);
@@ -65,6 +84,35 @@ const AddBook = () => {
 
     const normFile = (e) => (Array.isArray(e) ? e : e?.fileList);
 
+    const handlePreviewCover = async (file) => {
+        if (file) {
+            const preview = await getBase64(file);
+            setPreviewCover(preview);
+        } else {
+            setPreviewCover(null);
+        }
+    };
+
+    const handleTitleChange = (e) => {
+        const title = e.target.value;
+        setPreviewTitle(title);
+    };
+
+    const handelAuthorChange = (e) => {
+        const author = e.target.value;
+        setPreviewAuthor(author);
+    };
+
+    const handleDateChange = (date) => {
+        date = date ? date.format('YYYY-MM-DD') : '0000-00-00';
+        setPreviewDate(date);
+    };
+
+    const handelIntroductionChange = (e) => {
+        const introduction = e.target.value;
+        setPreviewIntroduction(introduction);
+    };
+
     return (
         <div
             style={{
@@ -79,7 +127,7 @@ const AddBook = () => {
                 Upload New Book
             </Title>
 
-            <Row gutter={[16, 16]} style={{ width: '100%', justifyContent: 'center', marginTop: '16px' }}>
+            <Row gutter={[16, 16]} style={{ width: '100%', justifyContent: 'space-around', marginTop: '16px' }}>
                 <Col xs={24} sm={16} md={12} lg={12}>
                     <Form
                         name="addBookForm"
@@ -96,24 +144,24 @@ const AddBook = () => {
                             name="title"
                             rules={[{ required: true, message: 'Please enter the book title.' }]}
                         >
-                            <Input placeholder="Title of book" />
+                            <Input placeholder="Title of book" onChange={handleTitleChange} />
                         </Form.Item>
                         <Form.Item
                             label="Author"
                             name="author"
                             rules={[{ required: true, message: 'Please enter the author.' }]}
                         >
-                            <Input placeholder="Author" />
+                            <Input placeholder="Author" onChange={handelAuthorChange} />
                         </Form.Item>
                         <Form.Item label="Publish Date" name="date">
-                            <DatePicker style={{ width: '100%' }} />
+                            <DatePicker style={{ width: '100%' }} onChange={handleDateChange} />
                         </Form.Item>
                         <Form.Item
                             label="Introduction"
                             name="introduction"
                             rules={[{ required: true, message: 'Please provide an introduction.' }]}
                         >
-                            <Input.TextArea placeholder="Brief introduction of the book" />
+                            <Input.TextArea placeholder="Brief introduction of the book" onChange={handelIntroductionChange} />
                         </Form.Item>
                         <Form.Item
                             label="Cover Upload"
@@ -122,7 +170,15 @@ const AddBook = () => {
                             getValueFromEvent={normFile}
                             rules={[{ required: true, message: 'Please upload a book cover.' }]}
                         >
-                            <Upload listType="picture-card" maxCount={1} beforeUpload={() => false}>
+                            <Upload
+                                listType="picture-card"
+                                maxCount={1}
+                                beforeUpload={() => false}
+                                onChange={(info) => {
+                                    const file = info.fileList[0]?.originFileObj || null;
+                                    handlePreviewCover(file);
+                                }}
+                            >
                                 <div>
                                     <PlusOutlined />
                                     <div style={{ marginTop: 8 }}>Upload</div>
@@ -134,10 +190,12 @@ const AddBook = () => {
                             name="fileUpload"
                             valuePropName="fileList"
                             getValueFromEvent={normFile}
-                            
                             rules={[{ required: true, message: 'Please upload the book file.' }]}
                         >
-                            <Upload maxCount={1} beforeUpload={() => false}>
+                            <Upload
+                                maxCount={1}
+                                beforeUpload={() => false}
+                            >
                                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
                             </Upload>
                         </Form.Item>
@@ -147,6 +205,60 @@ const AddBook = () => {
                             </Button>
                         </Form.Item>
                     </Form>
+                </Col>
+                <Col xs={24} sm={8} md={6} lg={8} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                    <Title level={5} >
+                        Preview Book
+                    </Title>
+                    <Card
+                        cover={
+                            previewCover && (
+                                <img
+                                    draggable={false}
+                                    src={previewCover}
+                                    alt="Preview Cover"
+                                    style={{
+                                        minHeight: '300px',
+                                        height: '300px',
+                                        objectFit: 'cover',
+                                        objectPosition: 'top center',
+                                    }}
+                                />
+                            )
+                        }
+                        style={{ width: 280 }}
+                    >
+                        {/* Meta of Card */}
+                        <Meta
+                            title={previewTitle}
+                            description={
+                                <>
+                                    Author: {truncateText(previewAuthor, 45)} {/* Adjust max length as needed */} <br />
+                                    Published Date: {previewDate}
+                                    <br />
+                                    Introduction: {truncateText(previewIntroduction, 45)}{' '}
+                                    {/* Adjust max length as needed */}
+                                </>
+                            }
+                        />
+                        {/* Button of Card */}
+                        <div
+                            style={{
+                                marginTop: '16px',
+                                textAlign: 'center',
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Button type="primary">View Detail</Button>
+                            <Button style={{ marginLeft: '8px' }}>
+                                <HeartOutlined />
+                            </Button>
+                            <Button style={{ marginLeft: '8px' }}>
+                                <ShareAltOutlined />
+                            </Button>
+                        </div>
+                    </Card>
                 </Col>
             </Row>
         </div>
