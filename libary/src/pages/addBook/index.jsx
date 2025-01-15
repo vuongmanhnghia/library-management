@@ -1,10 +1,9 @@
-import React, { Fragment, useState } from 'react';
-import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message, Card} from 'antd';
-import { PlusOutlined, UploadOutlined, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
-import Loading from '../../components/loadingUI';
+import React, { useState } from 'react';
+import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message } from 'antd';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import CardRender from '../../components/cardRender';
 
 const { Title } = Typography;
-const { Meta } = Card;
 
 const defaultImage = 'https://via.placeholder.com/150';
 
@@ -16,16 +15,6 @@ const getBase64 = (file) =>
         reader.onerror = (error) => reject(error);
         reader.readAsDataURL(file);
     });
-function truncateText(text, length) {
-    if (text.length > length) {
-        return text.slice(0, length) + '...';
-    } else if (text.length < length) {
-        text += ' ';
-        return text.padEnd(length, '\u00A0');
-    }
-    return text;
-}
-
 const AddBook = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const [loading, setLoading] = useState(false);
@@ -34,7 +23,6 @@ const AddBook = () => {
     const [previewAuthor, setPreviewAuthor] = useState('author');
     const [previewDate, setPreviewDate] = useState('0000-00-00');
     const [previewIntroduction, setPreviewIntroduction] = useState('This is a brief introduction of the book.');
-
 
     const handleFinish = async (values) => {
         setLoading(true);
@@ -161,7 +149,10 @@ const AddBook = () => {
                             name="introduction"
                             rules={[{ required: true, message: 'Please provide an introduction.' }]}
                         >
-                            <Input.TextArea placeholder="Brief introduction of the book" onChange={handelIntroductionChange} />
+                            <Input.TextArea
+                                placeholder="Brief introduction of the book"
+                                onChange={handelIntroductionChange}
+                            />
                         </Form.Item>
                         <Form.Item
                             label="Cover Upload"
@@ -192,10 +183,7 @@ const AddBook = () => {
                             getValueFromEvent={normFile}
                             rules={[{ required: true, message: 'Please upload the book file.' }]}
                         >
-                            <Upload
-                                maxCount={1}
-                                beforeUpload={() => false}
-                            >
+                            <Upload maxCount={1} beforeUpload={() => false}>
                                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
                             </Upload>
                         </Form.Item>
@@ -206,59 +194,24 @@ const AddBook = () => {
                         </Form.Item>
                     </Form>
                 </Col>
-                <Col xs={24} sm={8} md={6} lg={8} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                    <Title level={5} >
-                        Preview Book
-                    </Title>
-                    <Card
-                        cover={
-                            previewCover && (
-                                <img
-                                    draggable={false}
-                                    src={previewCover}
-                                    alt="Preview Cover"
-                                    style={{
-                                        minHeight: '300px',
-                                        height: '300px',
-                                        objectFit: 'cover',
-                                        objectPosition: 'top center',
-                                    }}
-                                />
-                            )
-                        }
-                        style={{ width: 280 }}
-                    >
-                        {/* Meta of Card */}
-                        <Meta
-                            title={previewTitle}
-                            description={
-                                <>
-                                    Author: {truncateText(previewAuthor, 45)} {/* Adjust max length as needed */} <br />
-                                    Published Date: {previewDate}
-                                    <br />
-                                    Introduction: {truncateText(previewIntroduction, 45)}{' '}
-                                    {/* Adjust max length as needed */}
-                                </>
-                            }
-                        />
-                        {/* Button of Card */}
-                        <div
-                            style={{
-                                marginTop: '16px',
-                                textAlign: 'center',
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Button type="primary">View Detail</Button>
-                            <Button style={{ marginLeft: '8px' }}>
-                                <HeartOutlined />
-                            </Button>
-                            <Button style={{ marginLeft: '8px' }}>
-                                <ShareAltOutlined />
-                            </Button>
-                        </div>
-                    </Card>
+                <Col
+                    xs={24}
+                    sm={8}
+                    md={6}
+                    lg={8}
+                    style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}
+                >
+                    <Title level={5}>Preview Book</Title>
+                    <CardRender
+                        img={previewCover}
+                        title={previewTitle}
+                        author={previewAuthor}
+                        date={previewDate}
+                        intro={previewIntroduction}
+                        canHover={false}
+                        widthCard={280}
+                        heightCard={340}
+                    />
                 </Col>
             </Row>
         </div>

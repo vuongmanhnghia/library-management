@@ -1,73 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, Button, Pagination, Row, Col, Select, Carousel } from 'antd';
-import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { Button, Pagination, Row, Col, Select, Carousel } from 'antd';
 import Loading from '../../components/loadingUI';
+import CardRender from '../../components/cardRender';
 
-const { Meta } = Card;
 const { Option } = Select;
 
 const CardItem = ({ title, text, src, author, date, _id }) => {
-    // Hàm cắt text dài
-    function truncateText(text, length) {
-        if (text.length > length) {
-            return text.slice(0, length) + '...';
-        } else if (text.length < length) {
-            text += ' ';
-            return text.padEnd(length, '\u00A0');
-        }
-        return text;
-    }
     return (
         // Card Component
-        <Card
-            hoverable
-            cover={
-                <img
-                    draggable={false}
-                    alt={title}
-                    src={src}
-                    style={{
-                        height: '250px',
-                        objectFit: 'cover',
-                        objectPosition: 'top center',
-                    }}
-                />
-            }
-            style={{ width: 250 }}
-        >
-            {/* Meta of Card */}
-            <Meta
-                title={title}
-                description={
-                    <>
-                        Author: {truncateText(author, 45)} {/* Adjust max length as needed */} <br />
-                        Published Date: {date}
-                        <br />
-                        Introduction: {truncateText(text, 45)} {/* Adjust max length as needed */}
-                    </>
-                }
-            />
-            {/* Button of Card */}
-            <div
-                style={{
-                    marginTop: '16px',
-                    textAlign: 'center',
-                    display: 'flex',
-                    justifyContent: 'center',
-                }}
-            >
-                <Link to={`/book-reader/${_id}`}>
-                    <Button type="primary">View Detail</Button>
-                </Link>
-                <Button style={{ marginLeft: '8px' }}>
-                    <HeartOutlined />
-                </Button>
-                <Button style={{ marginLeft: '8px' }}>
-                    <ShareAltOutlined />
-                </Button>
-            </div>
-        </Card>
+        <CardRender
+            img={src}
+            title={title}
+            author={author}
+            date={date}
+            intro={text}
+            adress={`/book-reader/${_id}`}
+            widthCard={250}
+            heightCard={'250px'}
+        />
     );
 };
 
@@ -87,7 +37,7 @@ const contentStyle = {
 };
 
 const Home = () => {
-    const apiUrl = process.env.REACT_APP_API_URL; 
+    const apiUrl = process.env.REACT_APP_API_URL;
     // Khai báo state
     const [cardData, setCardData] = useState([]);
     const [loading, setLoading] = useState(false);
