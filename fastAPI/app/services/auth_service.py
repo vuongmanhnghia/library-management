@@ -4,6 +4,7 @@ from app.configs.database import users
 from app.models.user import User
 from app.schemas.user_schemas import details_user, list_users
 from bson import ObjectId
+from app.utils.verify_password import verify_password
 
 
 # AuthService
@@ -21,19 +22,20 @@ async def register(user):
     try:
         result = await users.insert_one(user)
         user["_id"] = str(result.inserted_id)
-        return User(**user)
+        return details_user(user)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-async def login(user):
-    user = user.dict(by_alias=True)
-    user = await users.find_one({"email": user["email"], "password": user["password"]})
-    if user:
+async def login(current_user):
+    current_user = current_user.dict(by_alias=True)
+    user = await users.find_one({"email": current_user["email"]})
+    # Verify password
+    if user and verify_password(current_user["password"], user["password"]):
         user["_id"] = str(user["_id"])
         user["created_at"] = user["created_at"]
         user["updated_at"] = user["updated_at"]
-        return User(**user)
+        return details_user(user)
     raise HTTPException(status_code=500, detail="Email or password is incorrect")
 
 

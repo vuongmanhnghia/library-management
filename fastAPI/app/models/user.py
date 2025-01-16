@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from datetime import datetime
 from typing import Optional
+from bcrypt import hashpw, gensalt
 
 
 # Schema cho Book
@@ -14,6 +15,13 @@ class User(BaseModel):
     role: str = Field(default="user", description="Role of the user")
     created_at: Optional[datetime] = Field(None, description="Creation time")
     updated_at: Optional[datetime] = Field(None, description="Last updated time")
+
+    # hash password before save
+    @validator("password", pre=True, always=True)
+    def hash_password(cls, value):
+        if not value:
+            raise ValueError("Password is required")
+        return hashpw(value.encode("utf-8"), gensalt(10)).decode("utf-8")
 
     class Config:
         populate_by_name = True

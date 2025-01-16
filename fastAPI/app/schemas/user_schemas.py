@@ -1,15 +1,10 @@
 def details_user(user):
     return {
-        "id": str(user["_id"]),
-        "username": user["username"],
         "email": user["email"],
         "full_name": user["full_name"],
-        "address": user["address"],
-        "phone": user["phone"],
+        "phone_number": user["phone_number"],
         "avatar": user["avatar"],
         "role": user["role"],
-        "created_at": user["created_at"],
-        "updated_at": user["updated_at"],
     }
 
 
