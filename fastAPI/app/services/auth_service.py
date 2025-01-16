@@ -44,7 +44,7 @@ async def profile(request):
     user["_id"] = str(user["_id"])
     user["created_at"] = user["created_at"]
     user["updated_at"] = user["updated_at"]
-    return User(**user)
+    return details_user(user)
 
 
 async def update_profile(id, user):
@@ -58,7 +58,7 @@ async def update_profile(id, user):
         user["created_at"] = user["created_at"]
         user["updated_at"] = user["updated_at"]
         user["_id"] = id
-        return User(**user)
+        return details_user(user)
     raise HTTPException(status_code=404, detail="User not found")
 
 
