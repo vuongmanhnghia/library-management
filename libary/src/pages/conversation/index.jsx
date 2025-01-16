@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Card, List, Input, Button, Avatar, Typography, Upload, Select } from 'antd';
 import { UploadOutlined, ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { getBase64, truncateText } from '../../utils';
+import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 const { Title } = Typography;
 const { Option } = Select;
 
 const Conversation = () => {
+    const userValue = useSelector((state) => state.user.user);
+
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState('');
     const [attachments, setAttachments] = useState([]);
@@ -18,10 +22,10 @@ const Conversation = () => {
             setPosts([
                 {
                     id: uuidv4(),
-                    author: anonymousMode ? 'Anonymous User' : 'Self',
+                    author: anonymousMode ? 'Anonymous User' : userValue.full_name,
                     avatar: anonymousMode
                         ? 'https://joeschmoe.io/api/v1/random'
-                        : 'https://i.pravatar.cc/150?u=current_user',
+                        : userValue.avatar || 'https://joeschmoe.io/api/v1/random',
                     content: newPost,
                     attachments,
                     comments: [],
@@ -39,25 +43,25 @@ const Conversation = () => {
             posts.map((post) =>
                 post.id === postId
                     ? {
-                          ...post,
-                          comments: parentCommentId
-                              ? post.comments.map((c) =>
+                        ...post,
+                        comments: parentCommentId
+                            ? post.comments.map((c) =>
                                     c.id === parentCommentId
                                         ? {
-                                              ...c,
-                                              replies: [
-                                                  ...c.replies,
-                                                  {
-                                                      id: uuidv4(),
-                                                      content: comment,
-                                                      author: 'Anonymous User',
-                                                      timestamp,
-                                                  },
-                                              ],
-                                          }
+                                            ...c,
+                                            replies: [
+                                                ...c.replies,
+                                                {
+                                                    id: uuidv4(),
+                                                    content: comment,
+                                                    author: 'Anonymous User',
+                                                    timestamp,
+                                                },
+                                            ],
+                                        }
                                         : c,
                                 )
-                              : [
+                            : [
                                     ...post.comments,
                                     {
                                         id: uuidv4(),

@@ -19,6 +19,7 @@ export const userSlice = createSlice({
             // Cập nhật thông tin người dùng từ action payload
             state.user = action.payload.user;
             state.email = action.payload.email;
+            state.phone = action.payload.phone;
             state.avatar = action.payload.avatar;
             state.role = action.payload.role;
             state.name = action.payload.name;

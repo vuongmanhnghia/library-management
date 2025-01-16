@@ -50,7 +50,7 @@ const Home = () => {
     const fetchBooks = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${apiUrl}/books/`);
+            const response = await fetch(`${apiUrl}/books?page=${currentPage}&per_page=12`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

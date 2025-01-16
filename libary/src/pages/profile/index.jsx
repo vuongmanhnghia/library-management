@@ -62,6 +62,7 @@ const ProfilePage = () => {
     const userValue = useSelector((state) => state.user);
 
     return (
+        console.log(userValue),
         <Layout style={{ padding: '24px' }}>
             <Content
                 style={{

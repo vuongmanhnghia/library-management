@@ -1,9 +1,11 @@
 import React from 'react';
 import { Form, Input, Button, Row, Col, Card, message } from 'antd';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const apiUrl = process.env.REACT_APP_API_URL; 
+    const navigate = useNavigate(); // Khởi tạo useNavigate hook
     const onFinish = async (values) => {
         const payload = {
             email: values.email,
@@ -15,12 +17,12 @@ const Register = () => {
         };
         try {
             const response = await axios.post(`${apiUrl}/auth/register`, payload);
-            console.log(response);
             if (response.data.status === 201) {
                 message.success('Registration successful!');
+                navigate('/login'); // Redirect or clear form if needed
                 // Redirect or clear form if needed
             } else {
-                message.error(response.data.message || 'Something went wrong!');
+                throw new Error('Registration failed!');
             }
         } catch (error) {
             message.error(error.response?.data?.message || 'Registration failed!');
