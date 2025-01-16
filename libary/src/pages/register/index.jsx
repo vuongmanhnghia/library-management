@@ -2,9 +2,16 @@ import React from 'react';
 import { Form, Input, Button, Row, Col, Card, message } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { convertImagePathToBase64 } from '../../utils';
+
 
 const Register = () => {
     const apiUrl = process.env.REACT_APP_API_URL; 
+    const imagePath = process.env.PUBLIC_URL + '/static/imgs/image.png';    
+    let base64IMG = ''; // Khai báo biến base64IMG
+    (async () => {
+        base64IMG = await convertImagePathToBase64(imagePath);
+        })();
     const navigate = useNavigate(); // Khởi tạo useNavigate hook
     const onFinish = async (values) => {
         const payload = {
@@ -13,8 +20,9 @@ const Register = () => {
             phone_number: values.phoneNumber, // Map đúng key "phone_number"
             full_name: values.name, // Map đúng key "full_name"
             role: '0',
-            avatar: '',
+            avatar: base64IMG || '', // Gán ảnh mặc định
         };
+        console.log('Received values of form: ', payload);
         try {
             const response = await axios.post(`${apiUrl}/auth/register`, payload);
             if (response.data.status === 201) {
