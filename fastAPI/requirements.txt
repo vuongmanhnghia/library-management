@@ -6,3 +6,4 @@ pymongo
 pymongo[srv]
 motor
 bcrypt
+pyjwt

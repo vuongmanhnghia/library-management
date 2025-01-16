@@ -1,10 +1,12 @@
 from fastapi import HTTPException
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.configs.database import users
 from app.models.user import User
-from app.schemas.user_schemas import details_user, list_users
+from app.schemas.user_schemas import details_user, user_id
 from bson import ObjectId
 from app.utils.verify_password import verify_password
+from app.utils.token_helper import generate_token, decode_token
+import jwt
 
 
 # AuthService
@@ -28,15 +30,28 @@ async def register(user):
 
 
 async def login(current_user):
-    current_user = current_user.dict(by_alias=True)
-    user = await users.find_one({"email": current_user["email"]})
-    # Verify password
-    if user and verify_password(current_user["password"], user["password"]):
-        user["_id"] = str(user["_id"])
-        user["created_at"] = user["created_at"]
-        user["updated_at"] = user["updated_at"]
-        return details_user(user)
-    raise HTTPException(status_code=500, detail="Email or password is incorrect")
+    try:
+        user = await users.find_one({"email": current_user.email})
+        # Verify password
+        if user and verify_password(current_user.password, user["password"]):
+            user["_id"] = str(user["_id"])
+            return user_id(user)
+        raise HTTPException(status_code=500, detail="Email or password is incorrect")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+async def auth_token(user):
+    access_token = await generate_token(
+        {"user_id": user["_id"]}, expires_in=timedelta(hours=1)
+    )
+    decode = await decode_token(access_token)
+    expireIn = decode["exp"]
+    return {
+        "access_token": access_token,
+        "expire_in": expireIn,
+        "auth_type": "Bearer Token",
+    }
 
 
 async def profile(request):

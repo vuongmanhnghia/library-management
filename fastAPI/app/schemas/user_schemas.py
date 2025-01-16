@@ -8,6 +8,10 @@ def details_user(user):
     }
 
 
+def user_id(user):
+    return {"_id": user["_id"]}
+
+
 def list_users(users):
     return [details_user(user) for user in users]
 

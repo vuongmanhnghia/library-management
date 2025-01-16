@@ -14,7 +14,8 @@ async def register(user):
 
 
 async def login(user):
-    result = await auth_service.login(user)
+    valid_login = await auth_service.login(user)
+    result = await auth_service.auth_token(valid_login)
     return {
         "status": 200,
         "success": True,
