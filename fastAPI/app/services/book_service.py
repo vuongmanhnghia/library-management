@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from datetime import datetime
 from app.configs.database import books
 from app.models.book import Book
+from bson import ObjectId
 
 
 # Lấy danh sách sách có phân trang
@@ -49,13 +50,16 @@ async def create_book(book):
 
 # Xem chi tiết sách theo ID
 async def read_book_by_id(id):
-    book = await books.find_one({"_id": id})
-    if book:
-        book["_id"] = str(book["_id"])  # Chuyển ObjectId sang chuỗi
-        book["created_at"] = book["created_at"]
-        book["updated_at"] = book["updated_at"]
-        return Book(**book)  # Trả về đối tượng Pydantic
-    return None
+    try:
+        book = await books.find_one({"_id": ObjectId(id)})
+        if book:
+            book["_id"] = str(book["_id"])  # Chuyển ObjectId sang chuỗi
+            book["created_at"] = book["created_at"]
+            book["updated_at"] = book["updated_at"]
+            return Book(**book)  # Trả về đối tượng Pydantic
+        raise HTTPException(status_code=404, detail="Book not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 async def delete_book(id):
