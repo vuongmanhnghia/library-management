@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, Query
 from app.configs.database import books
 from bson import ObjectId
 from app.services import book_service
@@ -36,10 +36,9 @@ async def update_book(id, book):
 
 # Xem chi tiết sách theo ID
 async def read_book_by_id(id):
-    book = await book_service.read_book_by_id(id)
-    if book:
-        return {"status": 200, "success": True, "message": "OK", "data": book}
-    return {"status": 404, "success": False, "message": "Book not found"}
+    print(id)
+    result = await book_service.read_book_by_id(id)
+    return {"status": 200, "success": True, "message": "OK", "data": result}
 
 
 # Xóa sách theo ID
