@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Menu, Divider } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
     HomeOutlined,
     BookOutlined,
@@ -9,10 +10,24 @@ import {
     UserOutlined,
     LogoutOutlined,
 } from '@ant-design/icons';
+import { logout } from '../../../redux/userSlice'; // Import action logout
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        setInterval(() => {
+            localStorage.clear(); // Xóa token khỏi localStorage
+            // Gọi action logout để reset Redux
+            dispatch(logout());
+            // Điều hướng đến trang đăng nhập
+            navigate('/login');
+        }, 500);
+    };
+
     return (
         <Sider
             width={200}
@@ -24,7 +39,6 @@ const Sidebar = () => {
                 overflow: 'auto',
             }}
         >
-            {/* Menu chính */}
             <Menu
                 style={{
                     height: '100%',
@@ -61,7 +75,6 @@ const Sidebar = () => {
                         width: '100%',
                     }}
                 >
-                    {/* Divider */}
                     <Divider style={{ margin: '12px 0' }} />
                     <Menu.Item key="6">
                         <SettingOutlined style={{ marginRight: '8px' }} />
@@ -71,9 +84,9 @@ const Sidebar = () => {
                         <UserOutlined style={{ marginRight: '8px' }} />
                         <Link to="/profile">Profile</Link>
                     </Menu.Item>
-                    <Menu.Item key="8" style={{ color: 'red' }}>
+                    <Menu.Item key="8" style={{ color: 'red' }} onClick={handleLogout}>
                         <LogoutOutlined style={{ marginRight: '8px' }} />
-                        <Link to="/logout">Logout</Link>
+                        Logout
                     </Menu.Item>
                 </Menu>
             </Menu>

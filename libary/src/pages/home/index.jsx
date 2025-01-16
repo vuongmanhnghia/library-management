@@ -63,7 +63,6 @@ const Home = () => {
         } finally {
             setLoading(false);
         }
-        console.log(cardData);
     };
 
     useEffect(() => {
@@ -72,7 +71,7 @@ const Home = () => {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
-    };
+    };  
 
     const handleSortChange = (value) => {
         setSortField(value);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Button } from 'antd';
+import { Card, Button, Descriptions } from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { truncateText } from '../../utils';
 const { Meta } = Card;
@@ -27,12 +27,13 @@ const CardRender = ({ img, title, author, date, intro, adress = '', widthCard, h
             {/* Meta of Card */}
             <Meta
                 title={title}
+                
                 description={
                     <>
-                        Author: {truncateText(author, 45)} {/* Adjust max length as needed */} <br />
-                        Published Date: {date}
+                        <span style={{ fontWeight: 'bold' }}>Author:</span> {truncateText(author, 18)} {/* Adjust max length as needed */} <br />
+                        <span style={{ fontWeight: 'bold' }}>Published Date:</span> {date}
                         <br />
-                        Introduction: {truncateText(intro, 45)} {/* Adjust max length as needed */}
+                        <span style={{ fontWeight: 'bold' }}>Introduction:</span> {truncateText(intro, 45)} {/* Adjust max length as needed */}
                     </>
                 }
             />

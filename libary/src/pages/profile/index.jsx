@@ -59,10 +59,9 @@ const ProfilePage = () => {
         }
     };
 
-    const userValue = useSelector((state) => state.user);
+    const userValue = useSelector((state) => state.user.user);
 
     return (
-        console.log(userValue),
         <Layout style={{ padding: '24px' }}>
             <Content
                 style={{
@@ -84,10 +83,10 @@ const ProfilePage = () => {
                             layout="vertical"
                             size="large"
                             initialValues={{
-                                username: userValue.name,
+                                username: userValue.full_name,
                                 email: userValue.email,
-                                phone: userValue.phone,
-                                gender: userValue.gender,
+                                phone: userValue.phone_number,
+                                gender: null,
                                 birth: null,
                                 country: 'Vietnam',
                             }}

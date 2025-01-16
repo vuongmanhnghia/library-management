@@ -7,7 +7,7 @@ const { Search } = Input;
 const { Text } = Typography;
 
 function Header() {
-  const user = useSelector((state) => state.user);
+  const userValue = useSelector((state) => state.user.user);
   const onSearch = (value) => {
     console.log("Search:", value);
   };
@@ -49,7 +49,7 @@ function Header() {
       <Divider type="vertical" />
       <Link to="/profile" style={{ whiteSpace: "nowrap", marginLeft: "16px" }}>
         <Text strong style={{ fontSize: "18px" }}>
-          Hi, {user.name}
+          Hi, {userValue.full_name}
         </Text>
       </Link>
     </div>
