@@ -53,12 +53,6 @@ const Home = () => {
             const response = await fetch(
                 `${apiUrl}/books/`,
                 // `?page=${currentPage}&sort=${sortField}&order=${sortOrder}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                },
             );
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

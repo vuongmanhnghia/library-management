@@ -21,6 +21,7 @@ const Login = () => {
             const response = await axios.post(`${apiUrl}/auth/login`, payload);
             if (response.data.status === 200) {
                 const { access_token } = response.data.data;
+                
                 localStorage.setItem('access_token', access_token); // Lưu token vào localStorage
                 getUser(access_token).then((user) => {
                     dispatch(update(user));
