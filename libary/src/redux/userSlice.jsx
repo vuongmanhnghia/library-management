@@ -1,23 +1,22 @@
-// userSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-export const userSlice = createSlice({
-    name: "user",
+const userSlice = createSlice({
+    name: 'user',
     initialState: {
-        user: null, // Trạng thái mặc định
+        user: null,
     },
     reducers: {
         update: (state, action) => {
-            // Cập nhật thông tin người dùng từ action payload
-            state.user = action.payload.user;
+            state.user = action.payload; // Lưu thông tin user
         },
         logout: (state) => {
-            // Reset thông tin người dùng khi logout
-            state.user = null;
+            state.user = null; // Xóa thông tin user
+            localStorage.removeItem('access_token'); // Xóa token
+            localStorage.removeItem('user'); // Xóa thông tin user
         },
+        
     },
 });
 
 export const { update, logout } = userSlice.actions;
-
 export default userSlice.reducer;
