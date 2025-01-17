@@ -22,7 +22,6 @@ const Register = () => {
             role: '0',
             avatar: base64IMG || '', // Gán ảnh mặc định
         };
-        console.log('Received values of form: ', payload);
         try {
             const response = await axios.post(`${apiUrl}/auth/register`, payload);
             if (response.data.status === 201) {
