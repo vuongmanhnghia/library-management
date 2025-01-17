@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from datetime import datetime
 from app.configs.database import books
 from app.models.book import Book
+from app.schemas.book_schemas import detail_book
 from bson import ObjectId
 
 
@@ -21,10 +22,10 @@ async def read_root(query_params):
             book["_id"] = str(book["_id"])  # Chuyển ObjectId sang chuỗi
             book["created_at"] = book["created_at"]
             book["updated_at"] = book["updated_at"]
-            list_books.append(Book(**book))
+            list_books.append(detail_book(book))
 
         return {
-            "books": [book.dict(by_alias=True) for book in list_books],
+            "books": [list_books],
             "page": page,
             "per_page": per_page,
         }

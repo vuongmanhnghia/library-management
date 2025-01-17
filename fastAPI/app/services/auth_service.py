@@ -32,6 +32,7 @@ async def register(user):
 async def login(current_user):
     try:
         user = await users.find_one({"email": current_user.email})
+        print(user)
         # Verify password
         if user and verify_password(current_user.password, user["password"]):
             user["_id"] = str(user["_id"])
