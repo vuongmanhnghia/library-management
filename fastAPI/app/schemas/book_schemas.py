@@ -3,7 +3,6 @@ def detail_book(book) -> dict:
         "id": str(book["_id"]),
         "title": book["title"],
         "author": book["author"],
-        # "description": book["description"],
         "published_date": book["published_date"],
         "introduction": book["introduction"],
         "cover": book["cover"],
