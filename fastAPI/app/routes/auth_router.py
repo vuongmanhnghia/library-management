@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
 from app.controllers import auth_controller
 from app.models.user import UserLogin, UserRegister, UserUpdate
+from app.middleware.require_authentication import require_authentication
 
 authRouter = APIRouter()
 
@@ -33,3 +34,9 @@ async def update_profile(id: str, user: UserUpdate):
 @authRouter.delete("/{id}")
 async def delete_user(id: str):
     return await auth_controller.delete_user(id)
+
+
+# Lấy thông tin tài khoản
+@authRouter.get("/me", dependencies=[Depends(require_authentication)])
+async def me(request: Request):
+    return await auth_controller.get_me(request)

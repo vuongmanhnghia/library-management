@@ -83,3 +83,12 @@ async def delete_user(id):
     if result.deleted_count:
         return {"_id": id}
     raise HTTPException(status_code=404, detail="User not found")
+
+
+async def get_me(current_user):
+    user = await users.find_one({"_id": current_user["_id"]})
+    user["_id"] = str(user["_id"])
+    user["created_at"] = user["created_at"]
+    user["updated_at"] = user["updated_at"]
+
+    return details_user(user)

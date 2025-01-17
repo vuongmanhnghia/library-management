@@ -52,3 +52,13 @@ async def delete_user(id):
         "message": "Delete user success!",
         "data": result,
     }
+
+
+async def get_me(request):
+    result = await auth_service.get_me(request.current_user)
+    return {
+        "status": 200,
+        "success": True,
+        "message": "OK",
+        "data": result,
+    }
