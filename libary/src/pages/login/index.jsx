@@ -18,16 +18,12 @@ const Login = () => {
 
         try {
             const response = await axios.post(`${apiUrl}/auth/login`, payload);
+            console.log('user', response.data);
             if (response.data.status === 200) {
                 const user = response.data.data;
                 dispatch(
                     update({
                         user: user,
-                        phone: user.phone_number,
-                        email: user.email,
-                        avatar: user.avatar,
-                        role: user.role,
-                        name: user.full_name,
                     }),
                 );
                 message.success('Login successfully!');
