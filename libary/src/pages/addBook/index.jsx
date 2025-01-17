@@ -36,8 +36,6 @@ const AddBook = () => {
                 file: encodedFile,
             };
 
-            console.log('Payload:', payload);
-
             // API call
             const response = await fetch(`${apiUrl}/books/`, {
                 method: 'POST',
@@ -50,10 +48,6 @@ const AddBook = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            const result = await response.json();
-            console.log('Server Response:', result);
-
             setLoading(false);
             message.success('Book added successfully!');
         } catch (error) {

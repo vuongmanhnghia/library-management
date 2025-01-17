@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Button, Descriptions } from 'antd';
+import { Card, Button } from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { truncateText } from '../../utils';
 const { Meta } = Card;

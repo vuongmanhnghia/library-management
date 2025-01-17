@@ -1,9 +1,12 @@
-function truncateText(text, length) {
-    if (text.length > length) {
-        return text.slice(0, length) + '...';
-    } else if (text.length < length) {
+function truncateText(text, lenText) {
+    if (!text) {
+        return ''; // Or handle this case in the way that makes sense for your app (return a default value, throw an error, etc)
+    }
+    if (text.length > lenText) {
+        return text.slice(0, lenText) + '...';
+    } else if (text.length < lenText) {
         text += ' ';
-        return text.padEnd(length, '\u00A0');
+        return text.padEnd(lenText, '\u00A0');
     }
     return text;
 }

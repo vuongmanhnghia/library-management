@@ -50,14 +50,23 @@ const Home = () => {
     const fetchBooks = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${apiUrl}/books?page=${currentPage}&per_page=12`);
+            const response = await fetch(
+                `${apiUrl}/books/`,
+                // `?page=${currentPage}&sort=${sortField}&order=${sortOrder}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const result = await response.json();
-            const data = result.data;
-            setCardData(data.books || []); // Cập nhật `cardData` với dữ liệu nhận được
-            setTotalBooks(data.books.length || 0); // Cập nhật số lượng sách
+            const data = result.data.books[0];
+            setCardData(data || []); // Cập nhật `cardData` với dữ liệu nhận được
+            setTotalBooks(data.length || 0); // Cập nhật số lượng sách
         } catch (error) {
             console.error('Error fetching books:', error);
         } finally {
@@ -71,7 +80,7 @@ const Home = () => {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
-    };  
+    };
 
     const handleSortChange = (value) => {
         setSortField(value);
@@ -154,7 +163,7 @@ const Home = () => {
                 <Pagination
                     current={currentPage}
                     total={totalBooks}
-                    pageSize={10}
+                    pageSize={24}
                     onChange={handlePageChange}
                     showSizeChanger={false}
                     style={{ textAlign: 'center' }}
