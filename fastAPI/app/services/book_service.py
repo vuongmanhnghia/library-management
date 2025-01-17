@@ -49,7 +49,7 @@ async def create_book(book):
 
 
 # Xem chi tiết sách theo ID
-async def read_book_by_id(id):
+async def read_book_by_id(id: str):
     try:
         book = await books.find_one({"_id": ObjectId(id)})
         if book:
@@ -63,7 +63,12 @@ async def read_book_by_id(id):
 
 
 async def delete_book(id):
-    result = await books.delete_one({"_id": id})
-    if result.deleted_count:
-        return {"_id": id}
-    raise HTTPException(status_code=404, detail="Book not found")
+    try:
+        result = await books.delete_one({"_id": ObjectId(id)})
+        if result.deleted_count:
+            return {"_id": id}
+        else:
+            raise HTTPException(status_code=404, detail="Book not found")
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
