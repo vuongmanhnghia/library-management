@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { update } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { getUser } from '../../utils/services/auth';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -18,14 +19,12 @@ const Login = () => {
 
         try {
             const response = await axios.post(`${apiUrl}/auth/login`, payload);
-            console.log('user', response.data);
             if (response.data.status === 200) {
-                const user = response.data.data;
-                dispatch(
-                    update({
-                        user: user,
-                    }),
-                );
+                const { access_token } = response.data.data;
+                localStorage.setItem('access_token', access_token); // Lưu token vào localStorage
+                getUser(access_token).then((user) => {
+                    dispatch(update(user));
+                });
                 message.success('Login successfully!');
 
                 setTimeout(() => {
