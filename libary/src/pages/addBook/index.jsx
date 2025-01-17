@@ -36,16 +36,22 @@ const AddBook = () => {
                 file: encodedFile,
             };
 
+            // Lấy token từ localStorage
+            const token = localStorage.getItem('access_token');
+
             // API call
             const response = await fetch(`${apiUrl}/books/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(payload),
             });
-
+            
             if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error response:', errorData);
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             setLoading(false);

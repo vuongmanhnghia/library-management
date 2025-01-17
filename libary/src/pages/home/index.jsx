@@ -50,10 +50,18 @@ const Home = () => {
     const fetchBooks = async () => {
         setLoading(true);
         try {
+            // Lấy token từ localStorage
+            const token = localStorage.getItem('access_token');
             const response = await fetch(
                 `${apiUrl}/books/`,
-                // `?page=${currentPage}&sort=${sortField}&order=${sortOrder}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             );
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

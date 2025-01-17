@@ -10,12 +10,6 @@ body {
     background-color: #fff;
 }
 
-:root {
-    --primary-color: #1890ff;
-    --secondary-color: #1890ff;
-    --tertiary-color: #fff;
-}
-
 
 /* Tùy chỉnh thanh cuộn cho hộp chat */
 .custom-scrollbar {
@@ -39,4 +33,104 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #3a5ec0; /* Màu khi hover thanh kéo */
+}
+
+
+// src/styles/custom-theme.scss
+:root {
+    --primary-background-color: #FEF9F9 ;
+    --ant-primary-color: rgb(204, 13, 0);
+    --ant-primary-color-disabled: #ffe4dd;
+    --ant-primary-color-hover: #d93523;
+    --ant-primary-color-active: #800000;
+    --ant-primary-color-outline: rgba(204, 13, 0, 0.2);
+    --ant-primary-color-deprecated-bg: #ffb6a3;
+    --ant-primary-color-deprecated-border: #e65e49;
+    --ant-primary-1: #fef3f0;
+    --ant-primary-2: #ffb6a3;
+    --ant-primary-3: #f28974;
+    --ant-primary-4: #e65e49;
+    --ant-primary-5: #d93523;
+    --ant-primary-6: #cc0d00;
+    --ant-primary-7: #a60600;
+    --ant-primary-8: #800000;
+    --ant-primary-9: #590003;
+    --ant-primary-10: #330003;
+    --ant-primary-color-deprecated-l-35: rgb(255, 136, 128);
+    --ant-primary-color-deprecated-l-20: rgb(255, 64, 51);
+    --ant-primary-color-deprecated-t-20: rgb(214, 61, 51);
+    --ant-primary-color-deprecated-t-50: rgb(230, 134, 128);
+    --ant-primary-color-deprecated-f-12: rgba(204, 13, 0, 0.12);
+    --ant-primary-color-active-deprecated-f-30: rgba(255, 235, 230, 0.3);
+    --ant-primary-color-active-deprecated-d-02: rgb(255, 227, 220);
+}
+
+.ant-btn-primary {
+    background-color: var(--ant-primary-color) !important;
+    border-color: var(--ant-primary-color-outline) !important;
+    color: #fff; 
+}
+
+.ant-btn-primary:hover, .ant-btn-primary:active {
+    background-color: var(--ant-primary-color-hover) !important;
+    border-color: var(--ant-primary-color-hover) !important;
+}
+.ant-btn:disabled {
+    background-color: var(--ant-primary-color-disabled) !important;
+    border-color: var(--ant-primary-color-disabled) !important;
+    color: #fff; 
+}
+
+.ant-menu-item-active {
+    background-color: var(--ant-primary-1) !important;
+    color: var(--ant-primary-6) !important;
+}
+
+.ant-menu-item-selected {
+    background-color: var(--ant-primary-1) !important;
+    color: var(--ant-primary-6) !important;
+}
+
+.ant-menu-item:hover {
+    background-color: var(--ant-primary-1) !important;
+    color: var(--ant-primary-6) !important;
+}
+
+.ant-float-btn-body {
+    background-color: var(--ant-primary-color) !important;
+    border-color: var(--ant-primary-color-outline) !important;
+    color: #fff; 
+}
+
+.ant-float-btn-body:hover, .ant-float-btn-body:active{
+    background-color: var(--ant-primary-color-hover) !important;
+    border-color: var(--ant-primary-color-hover) !important;
+}
+
+.ant-pagination-item-active {
+    background-color: var(--ant-primary-1) !important;
+    border-color: var(--ant-primary-3) !important;
+}
+
+.ant-pagination-item-active:hover {
+    background-color: var(--ant-primary-2) !important;
+    border-color: var(--ant-primary-4) !important;
+}
+
+.ant-pagination-item-active:active {
+    background-color: var(--ant-primary-2) !important;
+    border-color: var(--ant-primary-4) !important;
+}
+
+.ant-pagination-item-active > * {
+    color: var(--ant-primary-6) !important;
+}
+
+.ant-spin-dot-item {
+    background-color: var(--ant-primary-color) !important;
+}
+
+.ant-spin {
+    background-color: var(--primary-background-color) !important;
+    color: var(--ant-primary-6) !important;
 }

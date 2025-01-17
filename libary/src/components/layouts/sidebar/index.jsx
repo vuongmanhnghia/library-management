@@ -20,10 +20,8 @@ const Sidebar = () => {
 
     const handleLogout = () => {
         setInterval(() => {
-            localStorage.clear(); // Xóa token khỏi localStorage
             // Gọi action logout để reset Redux
             dispatch(logout());
-            // Điều hướng đến trang đăng nhập
             navigate('/login');
         }, 500);
     };
@@ -35,7 +33,6 @@ const Sidebar = () => {
                 height: '100vh',
                 position: 'fixed',
                 left: 0,
-                background: '#fff',
                 overflow: 'auto',
             }}
         >

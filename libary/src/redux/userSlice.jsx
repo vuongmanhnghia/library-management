@@ -11,8 +11,7 @@ const userSlice = createSlice({
         },
         logout: (state) => {
             state.user = null; // Xóa thông tin user
-            localStorage.removeItem('access_token'); // Xóa token
-            localStorage.removeItem('user'); // Xóa thông tin user
+            localStorage.clear();
         },
         
     },

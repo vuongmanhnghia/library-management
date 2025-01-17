@@ -52,8 +52,8 @@ const FloatAI = () => {
                     >
                         <div
                             style={{
-                                background: item.sender === 'User' ? '#4f76ff' : '#f0f0f0',
-                                color: item.sender === 'User' ? 'white' : 'black',
+                                background: item.sender === 'User' ? 'var(--ant-primary-1)' : '#f0f0f0',
+                                color: item.sender === 'User' ? 'var(--ant-primary-6)' : 'black',
                                 padding: '8px 12px',
                                 borderRadius: '15px',
                                 maxWidth: '80%',
