@@ -15,7 +15,8 @@ import {
 } from 'antd';
 import { UserOutlined, UploadOutlined } from '@ant-design/icons';
 import { getBase64 } from '../../utils';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {update} from '../../redux/userSlice';
 import axios from 'axios';
 
 const { Content } = Layout;
@@ -23,15 +24,13 @@ const { Option } = Select;
 const { Title, Text } = Typography;
 const apiUrl = process.env.REACT_APP_API_URL;
 const updateUser = async (userData, token) => {
-    console.log('userData:', userData);
     try {
         const response = await axios.put(
-            `${apiUrl}/auth/${userData._id}`, // Thay bằng URL endpoint của bạn
+            `${apiUrl}/auth/`,
             {
-                username: userData.username,
-                password: userData.password,
                 email: userData.email,
-                full_name: userData.full_name,
+                full_name: userData.full_name || undefined,
+                phone_number: userData.phone_number || undefined,
                 avatar: userData.avatar,
             },
             {
@@ -40,6 +39,7 @@ const updateUser = async (userData, token) => {
                     'Content-Type': 'application/json',
                 },
             }
+
         );
         return response.data;
     } catch (error) {
@@ -52,6 +52,14 @@ const ProfilePage = () => {
     const [form] = Form.useForm();
     const [avatar, setAvatar] = useState(null);
     const [previewAvatar, setPreviewAvatar] = useState(null);
+    const [formData, setFormData] = useState({});
+    const dispatch = useDispatch();
+
+    const userValue = useSelector((state) => state.user.user);
+
+    const handleInputChange = (changedValues, allValues) => {
+        setFormData((prev) => ({ ...prev, ...changedValues }));
+    };
 
     const handleUpdate = async (values) => {
         const token = localStorage.getItem('access_token');
@@ -62,16 +70,20 @@ const ProfilePage = () => {
 
         try {
             const updatedUser = {
-                username: values.username,
-                password: values.password || '',
-                email: values.email,
-                full_name: values.username,
+                full_name: values.full_name || userValue.full_name,
+                email: values.email || userValue.email,
+                phone_number: values.phone || userValue.phone_number,
                 avatar: previewAvatar || avatar || userValue.avatar,
+                // gender: values.gender || userValue.gender,
+                // birth: values.birth || userValue.birth,
+                country: values.country || 'Vietnam',
             };
 
             const response = await updateUser(updatedUser, token);
             message.success('Profile updated successfully!');
-            console.log('API Response:', response);
+
+            // Update Redux state
+            dispatch(update(response.data));
         } catch (error) {
             message.error('Failed to update profile. Please try again.');
         }
@@ -102,10 +114,6 @@ const ProfilePage = () => {
         }
     };
 
-    const userValue = useSelector((state) => state.user.user);
-
-    console.log('userValue:', userValue);
-
     return (
         <Layout style={{ padding: '24px' }}>
             <Content
@@ -121,28 +129,28 @@ const ProfilePage = () => {
                 </Row>
 
                 <Row gutter={[32, 32]} justify="center">
-                    {/* User Information Section */}
                     <Col xs={24} md={14}>
                         <Form
                             form={form}
                             layout="vertical"
                             size="large"
                             initialValues={{
-                                username: userValue.full_name,
+                                full_name: userValue.full_name,
                                 email: userValue.email,
                                 phone: userValue.phone_number,
-                                gender: null,
-                                birth: null,
+                                gender: userValue.gender || 'male',
+                                birth: userValue.birth || null,
                                 country: 'Vietnam',
                             }}
+                            onValuesChange={handleInputChange}
                             onFinish={handleUpdate}
                         >
                             <Form.Item
-                                label="Username"
-                                name="username"
-                                rules={[{ required: true, message: 'Please enter your username!' }]}
+                                label="Full name"
+                                name="full_name"
+                                rules={[{ required: true, message: 'Please enter your full name!' }]}
                             >
-                                <Input placeholder="Enter your username" />
+                                <Input placeholder="Enter your full name" />
                             </Form.Item>
 
                             <Form.Item
@@ -195,7 +203,6 @@ const ProfilePage = () => {
                         </Form>
                     </Col>
 
-                    {/* Avatar Section */}
                     <Col
                         xs={24}
                         md={8}
@@ -234,5 +241,6 @@ const ProfilePage = () => {
         </Layout>
     );
 };
+
 
 export default ProfilePage;
