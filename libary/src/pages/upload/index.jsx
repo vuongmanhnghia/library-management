@@ -8,7 +8,7 @@ const { Title } = Typography;
 
 const defaultImage = 'https://via.placeholder.com/150';
 
-const AddBook = () => {
+const UploadBook = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const [loading, setLoading] = useState(false);
     const [previewCover, setPreviewCover] = useState(defaultImage);
@@ -111,7 +111,7 @@ const AddBook = () => {
             <Row gutter={[16, 16]} style={{ width: '100%', justifyContent: 'space-around', marginTop: '16px' }}>
                 <Col xs={24} sm={16} md={12} lg={12}>
                     <Form
-                        name="addBookForm"
+                        name="UploadBookForm"
                         labelCol={{ flex: '120px' }}
                         wrapperCol={{ flex: 1 }}
                         labelAlign="left"
@@ -211,4 +211,4 @@ const AddBook = () => {
     );
 };
 
-export default AddBook;
+export default UploadBook;

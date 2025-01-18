@@ -6,6 +6,8 @@ import {
     HomeOutlined,
     BookOutlined,
     WechatOutlined,
+    ContainerOutlined,
+    QuestionCircleOutlined,
     SettingOutlined,
     UserOutlined,
     LogoutOutlined,
@@ -56,12 +58,20 @@ const Sidebar = () => {
                         <Link to="/">Library</Link>
                     </Menu.Item>
                     <Menu.Item key="2">
-                        <BookOutlined style={{ marginRight: '8px' }} />
-                        <Link to="/add-new-book">Add new book</Link>
+                        <ContainerOutlined style={{ marginRight: '8px' }} />
+                        <Link to="/my-books">My books</Link>
                     </Menu.Item>
                     <Menu.Item key="3">
+                        <BookOutlined style={{ marginRight: '8px' }} />
+                        <Link to="/upload-book">Upload book</Link>
+                    </Menu.Item>
+                    <Menu.Item key="4">
                         <WechatOutlined style={{ marginRight: '8px' }} />
                         <Link to="/conversation">Conversation</Link>
+                    </Menu.Item>
+                    <Menu.Item key="5">
+                        <QuestionCircleOutlined style={{ marginRight: '8px' }} />
+                        <Link to="/contract">Contract</Link>
                     </Menu.Item>
                 </Menu>
 
@@ -81,7 +91,7 @@ const Sidebar = () => {
                         <UserOutlined style={{ marginRight: '8px' }} />
                         <Link to="/profile">Profile</Link>
                     </Menu.Item>
-                    <Menu.Item key="8" style={{ color: 'red' }} onClick={handleLogout}>
+                    <Menu.Item style={{ color: 'red' }} onClick={handleLogout}>
                         <LogoutOutlined style={{ marginRight: '8px' }} />
                         Logout
                     </Menu.Item>

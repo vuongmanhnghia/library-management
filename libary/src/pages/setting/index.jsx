@@ -139,7 +139,7 @@ const Setting = () => {
                 {/* Dark Mode Settings */}
                 <Col span={12}>
                     <Card title="Dark Mode Settings" bordered>
-                        <Radio.Group>
+                        <Radio.Group defaultValue="system" buttonStyle="solid">
                             <Radio value="system">System mode</Radio>
                             <Radio value="light">Light mode</Radio>
                             <Radio value="dark">Dark mode</Radio>
