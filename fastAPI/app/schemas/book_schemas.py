@@ -7,6 +7,7 @@ def detail_book(book) -> dict:
         "introduction": book["introduction"],
         "cover": book["cover"],
         "file": book["file"],
+        "user_id": book["user_id"],
         "created_at": book["created_at"],
         "updated_at": book["updated_at"],
     }

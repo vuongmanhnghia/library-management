@@ -12,8 +12,8 @@ async def read_root(query_params):
 
 
 # Tạo sách mới
-async def create_book(book):
-    result = await book_service.create_book(book)
+async def create_book(request, book):
+    result = await book_service.create_book(request.current_user, book)
     return {
         "status": 201,
         "success": True,
@@ -35,18 +35,22 @@ async def update_book(id, book):
 
 
 # Xem chi tiết sách theo ID
-async def read_book_by_id(id):
-    print(id)
-    result = await book_service.read_book_by_id(id)
+async def read_book_by_id(request, id):
+    result = await book_service.read_book_by_id(request.current_user, id)
     return {"status": 200, "success": True, "message": "OK", "data": result}
 
 
 # Xóa sách theo ID
-async def delete_book(id):
-    result = await book_service.delete_book(id)
+async def delete_book(request, id):
+    result = await book_service.delete_book(request.current_user, id)
     return {
         "status": 200,
         "success": True,
         "message": "Delete book success!",
         "data": result,
     }
+
+
+async def read_my_books(request):
+    list_books = await book_service.read_my_books(request.current_user)
+    return {"status": 200, "success": True, "message": "OK", "data": list_books}
