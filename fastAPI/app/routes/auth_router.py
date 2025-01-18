@@ -18,22 +18,16 @@ async def login(user: UserLogin):
     return await auth_controller.login(user)
 
 
-# Xem thông tin tài khoản
-@authRouter.get("/profile")
-async def profile(request: Request):
-    return await auth_controller.profile(request)
-
-
 # Cập nhật thông tin tài khoản theo ID
-@authRouter.put("/{id}")
-async def update_profile(id: str, user: UserUpdate):
-    return await auth_controller.update_profile(id, user)
+@authRouter.put("/", dependencies=[Depends(require_authentication)])
+async def update_profile(request: Request, user: UserUpdate):
+    return await auth_controller.update_profile(request, user)
 
 
 # Xoá tài khoản theo ID
-@authRouter.delete("/{id}")
-async def delete_user(id: str):
-    return await auth_controller.delete_user(id)
+@authRouter.delete("/", dependencies=[Depends(require_authentication)])
+async def delete_user(request: Request):
+    return await auth_controller.delete_user(request)
 
 
 # Lấy thông tin tài khoản
