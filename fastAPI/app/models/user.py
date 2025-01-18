@@ -39,10 +39,9 @@ class UserLogin(BaseModel):
 
 # Schema cho cập nhật sách
 class UserUpdate(BaseModel):
-    username: Optional[str] = None
-    password: Optional[str] = None
     email: Optional[str] = None
     full_name: Optional[str] = None
+    phone_number: Optional[str] = None
     avatar: Optional[str] = None
 
 
