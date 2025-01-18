@@ -58,12 +58,12 @@ const Sidebar = () => {
                         <Link to="/">Library</Link>
                     </Menu.Item>
                     <Menu.Item key="2">
-                        <BookOutlined style={{ marginRight: '8px' }} />
-                        <Link to="/my-books">My books</Link>
-                    </Menu.Item>
-                    <Menu.Item key="3">
                     <UploadOutlined style={{ marginRight: '8px' }} />
                         <Link to="/upload-book">Upload book</Link>
+                    </Menu.Item>
+                    <Menu.Item key="3">
+                        <BookOutlined style={{ marginRight: '8px' }} />
+                        <Link to="/my-books">My books</Link>
                     </Menu.Item>
                     <Menu.Item key="4">
                         <CommentOutlined style={{ marginRight: '8px' }} />

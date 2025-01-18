@@ -61,6 +61,8 @@ const ProfilePage = () => {
         setFormData((prev) => ({ ...prev, ...changedValues }));
     };
 
+    console.log(userValue.date_of_birth);
+
     const handleUpdate = async (values) => {
         const token = localStorage.getItem('access_token');
         if (!token) {
@@ -128,6 +130,7 @@ const ProfilePage = () => {
                     <Title level={2}>User Profile</Title>
                 </Row>
 
+
                 <Row gutter={[32, 32]} justify="center">
                     <Col xs={24} md={14}>
                         <Form
@@ -139,7 +142,7 @@ const ProfilePage = () => {
                                 email: userValue.email,
                                 phone: userValue.phone_number,
                                 gender: userValue.gender,
-                                // birth: userValue.date_of_birth,
+                                // birth: userValue.date_of_birth.split('T')[0],
                                 country: 'Vietnam',
                             }}
                             onValuesChange={handleInputChange}
@@ -178,7 +181,7 @@ const ProfilePage = () => {
                             </Form.Item>
 
                             <Form.Item label="Date of Birth" name="birth">
-                                <DatePicker style={{ width: '100%' }} placeholder="Select your birth date" />
+                                <DatePicker style={{ width: '100%' }} placeholder="Select your birth date" format="DD/MM/YYYY" />
                             </Form.Item>
 
                             <Form.Item

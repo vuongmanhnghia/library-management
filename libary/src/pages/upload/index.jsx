@@ -194,7 +194,7 @@ const UploadBook = () => {
                     lg={8}
                     style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}
                 >
-                    <Title level={5}>Preview Book</Title>
+                    <Title level={5} style={{ marginTop: '0' }}>Preview Book</Title>
                     <CardRender
                         img={previewCover}
                         title={previewTitle}
