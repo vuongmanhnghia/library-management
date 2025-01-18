@@ -6,6 +6,7 @@ from bson import ObjectId
 
 
 async def require_authentication(request: Request):
+
     try:
         # Get token from request headers
         token = request.headers.get("Authorization")
