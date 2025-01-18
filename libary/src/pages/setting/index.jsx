@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Modal, Row, Col, Card, Radio } from 'antd';
+import { Form, Input, Button, Modal, Row, Col, Card, Radio, message } from 'antd';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/userSlice';
 
 const Setting = () => {
-
+    const token = localStorage.getItem('access_token');
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [isModalVisible, setIsModalVisible] = useState(false);
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     // Handle password change submission
     const onFinishPasswordChange = (values) => {
         console.log('Password Change:', values);
@@ -16,9 +22,30 @@ const Setting = () => {
         setIsModalVisible(true);
     };
 
-    const handleDeleteAccount = () => {
+    const handleDeleteAccount = async () => {
+        // Logic to delete the account
+        try {
+            const response = await axios.delete(`${apiUrl}/auth/`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log(response);
+            if (response.data.status === 200) {
+                message.success('Account deleted successfully!');
+                setInterval(() => {
+                    navigate('/register');
+                    dispatch(logout());
+                }, 500);
+            } else {
+                throw new Error('Account deletion failed!');
+            }
+        } catch (error) {
+            message.error(error.response?.data?.message || 'Account deletion failed!');
+        }
         setIsModalVisible(false);
-        alert('Your account has been deleted!');
     };
 
     const handleCancel = () => {
@@ -87,32 +114,32 @@ const Setting = () => {
                 </Col>
 
                 {/* Other Setting */}
-                <Col span={12}>
-                    <Card title="Other Features (In Progress)" bordered>
-                        <p>- Update profile picture</p>
-                        <p>- Enable/Disable Two-Factor Authentication</p>
-                        <p>- Auto logout after 30 minutes of inactivity</p>
-                        <Button type="default" disabled>
-                            Coming Soon...
-                        </Button>
-                    </Card>
-                </Col>
-                {/* Delete Account */}
-                <Col span={12}>
-                    <Card title="Delete Account" bordered>
-                        <p style={{ color: 'red' }}>
-                            <b>Warning:</b> This action is irreversible!
-                        </p>
-                        <Button danger onClick={showDeleteAccountModal}>
-                            Delete Account
-                        </Button>
-                    </Card>
+                <Col span={12} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <Row style={{ display: 'inline-block' }}>
+                        <Card title="Other Features (In Progress)" bordered>
+                            <p>- Enable/Disable Two-Factor Authentication</p>
+                            <p>- Auto logout after 30 minutes of inactivity</p>
+                            <Button type="default" disabled>
+                                Coming Soon...
+                            </Button>
+                        </Card>
+                    </Row>
+                    <Row style={{ display: 'inline-block' }}>
+                        <Card title="Delete Account" bordered>
+                            <p style={{ color: 'red' }}>
+                                <b>Warning:</b> This action is irreversible!
+                            </p>
+                            <Button danger onClick={showDeleteAccountModal}>
+                                Delete Account
+                            </Button>
+                        </Card>
+                    </Row>
                 </Col>
 
                 {/* Dark Mode Settings */}
                 <Col span={12}>
                     <Card title="Dark Mode Settings" bordered>
-                        <Radio.Group >
+                        <Radio.Group>
                             <Radio value="system">System mode</Radio>
                             <Radio value="light">Light mode</Radio>
                             <Radio value="dark">Dark mode</Radio>
