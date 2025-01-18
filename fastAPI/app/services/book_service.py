@@ -55,7 +55,7 @@ async def create_book(user, book):
 # Xem chi tiết sách theo ID
 async def read_book_by_id(user, id: str):
     try:
-        book = await books.find_one({"_id": ObjectId(id), "user_id": user["_id"]})
+        book = await books.find_one({"_id": ObjectId(id)})
         if book:
             book["_id"] = str(book["_id"])  # Chuyển ObjectId sang chuỗi
             book["user_id"] = str(book["user_id"])
