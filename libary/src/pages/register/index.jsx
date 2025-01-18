@@ -19,9 +19,9 @@ const Register = () => {
             password: values.password,
             phone_number: values.phoneNumber, // Map đúng key "phone_number"
             full_name: values.name, // Map đúng key "full_name"
-            date_of_birth: '11/11/1111',
-            gender: 'male',
-            role: '0',
+            date_of_birth: '01/01/2000',
+            gender: '',
+            role: 'user',
             avatar: base64IMG || '', // Gán ảnh mặc định
         };
         try {

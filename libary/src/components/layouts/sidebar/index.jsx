@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import {
     HomeOutlined,
     BookOutlined,
-    WechatOutlined,
-    ContainerOutlined,
+    CommentOutlined,
+    UploadOutlined,
     QuestionCircleOutlined,
     SettingOutlined,
     UserOutlined,
@@ -58,15 +58,15 @@ const Sidebar = () => {
                         <Link to="/">Library</Link>
                     </Menu.Item>
                     <Menu.Item key="2">
-                        <ContainerOutlined style={{ marginRight: '8px' }} />
+                        <BookOutlined style={{ marginRight: '8px' }} />
                         <Link to="/my-books">My books</Link>
                     </Menu.Item>
                     <Menu.Item key="3">
-                        <BookOutlined style={{ marginRight: '8px' }} />
+                    <UploadOutlined style={{ marginRight: '8px' }} />
                         <Link to="/upload-book">Upload book</Link>
                     </Menu.Item>
                     <Menu.Item key="4">
-                        <WechatOutlined style={{ marginRight: '8px' }} />
+                        <CommentOutlined style={{ marginRight: '8px' }} />
                         <Link to="/conversation">Conversation</Link>
                     </Menu.Item>
                     <Menu.Item key="5">

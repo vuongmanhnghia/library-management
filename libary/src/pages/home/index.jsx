@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pagination, Row, Col, Select, Carousel } from 'antd';
 import Loading from '../../components/loadingUI';
-import CardRender from '../../components/cardRender';
+import CardRender from '../../components/bookCards';
 
 const { Option } = Select;
 
@@ -26,7 +26,7 @@ const contentStyle = {
     borderRadius: 6,
     width: '100%',
     margin: 0,
-    height: '50vh',
+    height: '34rem',
     color: '#fff',
     lineHeight: '50vh',
     textAlign: 'center',
@@ -53,7 +53,7 @@ const Home = () => {
             // Lấy token từ localStorage
             const token = localStorage.getItem('access_token');
             const response = await fetch(
-                `${apiUrl}/books/`,
+                `${apiUrl}/books/?page=${currentPage}&perpage=24`,
                 {
                     method: 'GET',
                     headers: {

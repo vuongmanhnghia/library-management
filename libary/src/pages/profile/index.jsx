@@ -74,7 +74,7 @@ const ProfilePage = () => {
                 email: values.email || userValue.email,
                 phone_number: values.phone || userValue.phone_number,
                 avatar: previewAvatar || avatar || userValue.avatar,
-                // gender: values.gender || userValue.gender,
+                gender: values.gender || userValue.gender,
                 // birth: values.birth || userValue.birth,
                 country: values.country || 'Vietnam',
             };
@@ -138,8 +138,8 @@ const ProfilePage = () => {
                                 full_name: userValue.full_name,
                                 email: userValue.email,
                                 phone: userValue.phone_number,
-                                gender: userValue.gender || 'male',
-                                birth: userValue.birth || null,
+                                gender: userValue.gender,
+                                // birth: userValue.date_of_birth,
                                 country: 'Vietnam',
                             }}
                             onValuesChange={handleInputChange}

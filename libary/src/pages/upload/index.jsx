@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message } from 'antd';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import CardRender from '../../components/cardRender';
+import CardRender from '../../components/bookCards';
 import { getBase64 } from '../../utils';
 
 const { Title } = Typography;
