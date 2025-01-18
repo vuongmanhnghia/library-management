@@ -16,23 +16,67 @@ import {
 import { UserOutlined, UploadOutlined } from '@ant-design/icons';
 import { getBase64 } from '../../utils';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const { Content } = Layout;
 const { Option } = Select;
 const { Title, Text } = Typography;
+const apiUrl = process.env.REACT_APP_API_URL;
+const updateUser = async (userData, token) => {
+    console.log('userData:', userData);
+    try {
+        const response = await axios.put(
+            `${apiUrl}/auth/${userData._id}`, // Thay bằng URL endpoint của bạn
+            {
+                username: userData.username,
+                password: userData.password,
+                email: userData.email,
+                full_name: userData.full_name,
+                avatar: userData.avatar,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error updating user:', error);
+        throw error;
+    }
+};
 
 const ProfilePage = () => {
     const [form] = Form.useForm();
     const [avatar, setAvatar] = useState(null);
     const [previewAvatar, setPreviewAvatar] = useState(null);
 
-    // Handle profile update
-    const handleUpdate = (values) => {
-        message.success('Your profile has been updated successfully!');
-        console.log('Updated Profile:', values);
+    const handleUpdate = async (values) => {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            message.error('Authentication token is missing!');
+            return;
+        }
+
+        try {
+            const updatedUser = {
+                username: values.username,
+                password: values.password || '',
+                email: values.email,
+                full_name: values.username,
+                avatar: previewAvatar || avatar || userValue.avatar,
+            };
+
+            const response = await updateUser(updatedUser, token);
+            message.success('Profile updated successfully!');
+            console.log('API Response:', response);
+        } catch (error) {
+            message.error('Failed to update profile. Please try again.');
+        }
     };
 
-    // Handle avatar upload
     const handleAvatarUpload = (info) => {
         if (info.file.status === 'done') {
             setAvatar(URL.createObjectURL(info.file.originFileObj));
@@ -42,7 +86,6 @@ const ProfilePage = () => {
         }
     };
 
-    // Custom avatar upload handler
     const customUpload = ({ file, onSuccess }) => {
         setTimeout(() => {
             onSuccess('ok');
@@ -60,6 +103,8 @@ const ProfilePage = () => {
     };
 
     const userValue = useSelector((state) => state.user.user);
+
+    console.log('userValue:', userValue);
 
     return (
         <Layout style={{ padding: '24px' }}>
