@@ -34,8 +34,8 @@ async def profile(request):
     }
 
 
-async def update_profile(id, user):
-    result = await auth_service.update_profile(id, user)
+async def update_profile(request, user):
+    result = await auth_service.update_profile(request.current_user, user)
     return {
         "status": 200,
         "success": True,
@@ -44,13 +44,12 @@ async def update_profile(id, user):
     }
 
 
-async def delete_user(id):
-    result = await auth_service.delete_user(id)
+async def delete_user(request):
+    await auth_service.delete_user(request.current_user)
     return {
         "status": 200,
         "success": True,
         "message": "Delete user success!",
-        "data": result,
     }
 
 

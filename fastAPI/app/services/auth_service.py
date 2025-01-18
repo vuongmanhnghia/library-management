@@ -1,12 +1,9 @@
 from fastapi import HTTPException
 from datetime import datetime, timedelta
 from app.configs.database import users
-from app.models.user import User
 from app.schemas.user_schemas import details_user, user_id
-from bson import ObjectId
 from app.utils.verify_password import verify_password
 from app.utils.token_helper import generate_token, decode_token
-import jwt
 
 
 # AuthService
@@ -63,11 +60,12 @@ async def profile(request):
     return details_user(user)
 
 
-async def update_profile(id, user):
+async def update_profile(current_user, user):
+
     user = user.dict(by_alias=True)
     user["updated_at"] = datetime.utcnow()
     user = await users.find_one_and_update(
-        {"_id": ObjectId(id)}, {"$set": user}, return_document=True
+        {"_id": current_user["_id"]}, {"$set": user}, return_document=True
     )
     if user:
         user["_id"] = str(user["_id"])
@@ -78,10 +76,10 @@ async def update_profile(id, user):
     raise HTTPException(status_code=404, detail="User not found")
 
 
-async def delete_user(id):
-    result = await users.delete_one({"_id": ObjectId(id)})
+async def delete_user(current_user):
+    result = await users.delete_one({"_id": current_user["_id"]})
     if result.deleted_count:
-        return {"_id": id}
+        return
     raise HTTPException(status_code=404, detail="User not found")
 
 
