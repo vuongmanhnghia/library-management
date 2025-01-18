@@ -5,12 +5,6 @@ from app.models.book import BookCreate, BookUpdate
 
 bookRouter = APIRouter()
 
-
-@bookRouter.get("my-books", dependencies=[Depends(require_authentication)])
-async def read_my_books(request: Request):
-    return await book_controller.read_my_books(request)
-
-
 # Lấy danh sách sách (phân trang)
 
 
