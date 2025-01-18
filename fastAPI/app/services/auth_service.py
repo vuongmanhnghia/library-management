@@ -13,10 +13,12 @@ async def register(user):
         raise HTTPException(status_code=400, detail="Email already exists")
 
     now = datetime.utcnow()
+
     user = user.dict(by_alias=True)
     user.pop("_id", None)
     user["created_at"] = now
     user["updated_at"] = now
+    user["date_of_birth"] = datetime.strptime(user["date_of_birth"], "%d/%m/%Y")
 
     try:
         result = await users.insert_one(user)
@@ -29,7 +31,6 @@ async def register(user):
 async def login(current_user):
     try:
         user = await users.find_one({"email": current_user.email})
-        print(user)
         # Verify password
         if user and verify_password(current_user.password, user["password"]):
             user["_id"] = str(user["_id"])

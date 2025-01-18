@@ -4,6 +4,8 @@ def details_user(user):
         "full_name": user["full_name"],
         "phone_number": user["phone_number"],
         "avatar": user["avatar"],
+        "date_of_birth": user["date_of_birth"],
+        "gender": user["gender"],
         "role": user["role"],
     }
 

@@ -5,24 +5,13 @@ from app.models.book import BookCreate, BookUpdate
 
 bookRouter = APIRouter()
 
-# Sử dụng middleware để yêu cầu xác thực
+
+@bookRouter.get("my-books", dependencies=[Depends(require_authentication)])
+async def read_my_books(request: Request):
+    return await book_controller.read_my_books(request)
 
 
 # Lấy danh sách sách (phân trang)
-@bookRouter.get("/", dependencies=[Depends(require_authentication)])
-async def read_root(request: Request):
-    return await book_controller.read_root(request.query_params)
-
-
-# Tạo mới sách
-@bookRouter.post("/", dependencies=[Depends(require_authentication)])
-async def create_book(book: BookCreate):
-    return await book_controller.create_book(book)
-
-
-@bookRouter.get("/{id}", dependencies=[Depends(require_authentication)])
-async def read_book_by_id(id: str):
-    return await book_controller.read_book_by_id(id)
 
 
 # Cập nhật sách theo ID
@@ -33,5 +22,21 @@ async def update_book(id: str, book: BookUpdate):
 
 # Xóa sách theo ID
 @bookRouter.delete("/{id}", dependencies=[Depends(require_authentication)])
-async def delete_book(id: str):
-    return await book_controller.delete_book(id)
+async def delete_book(request: Request, id: str):
+    return await book_controller.delete_book(request, id)
+
+
+# Tạo mới sách
+@bookRouter.post("/", dependencies=[Depends(require_authentication)])
+async def create_book(request: Request, book: BookCreate):
+    return await book_controller.create_book(request, book)
+
+
+@bookRouter.get("/", dependencies=[Depends(require_authentication)])
+async def read_root(request: Request):
+    return await book_controller.read_root(request.query_params)
+
+
+@bookRouter.get("/{id}", dependencies=[Depends(require_authentication)])
+async def read_book_by_id(request: Request, id: str):
+    return await book_controller.read_book_by_id(request, id)

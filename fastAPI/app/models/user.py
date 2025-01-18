@@ -11,6 +11,8 @@ class User(BaseModel):
     password: str = Field(..., description="Password of the user")
     phone_number: str = Field(..., description="Phone number of the user")
     full_name: str = Field(..., description="Full name of the user")
+    date_of_birth: str = Field(..., description="Date of birth of the user")
+    gender: Optional[str] = Field(None, description="Gender")
     avatar: str = Field(..., description="URL of the user avatar")
     role: str = Field(default="user", description="Role of the user")
     created_at: Optional[datetime] = Field(None, description="Creation time")
