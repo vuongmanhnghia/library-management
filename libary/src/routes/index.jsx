@@ -7,6 +7,7 @@ import Login from '../pages/login';
 import Register from '../pages/register';
 import Setting from '../pages/setting';
 import MyBooks from '../pages/myBooks';
+import ViewBook from '../pages/view';
 
 
 import OnlyFooter from '../components/layouts/OnlyFooter';
@@ -27,7 +28,7 @@ const privateRoutes = [
     { path: '/setting', component: Setting, layout: OnlySideBarAndFooter },
     { path: '/my-books', component: MyBooks, layout: OnlySideBarAndFooter},
     { path: '/contract', component: Contract, layout: OnlySideBarAndFooter },
-    // { path: '/book-reader/:id/*', component: BookReader, layout: OnlySideBarAndFooter }, // Sửa đường dẫn này
+    { path: '/view-book/:id', component:  ViewBook, layout: OnlySideBarAndFooter }, // Sửa đường dẫn này
 ];
 
 export { publicRoutes, privateRoutes };

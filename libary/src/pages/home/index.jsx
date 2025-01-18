@@ -5,7 +5,7 @@ import CardRender from '../../components/bookCards';
 
 const { Option } = Select;
 
-const CardItem = ({ title, text, src, author, date, _id }) => {
+const CardItem = ({ title, text, src, author, date, id }) => {
     return (
         // Card Component
         <CardRender
@@ -14,7 +14,7 @@ const CardItem = ({ title, text, src, author, date, _id }) => {
             author={author}
             date={date}
             intro={text}
-            adress={`/book-reader/${_id}`}
+            adress={`/view-book/${id}`}
             widthCard={250}
             heightCard={'250px'}
         />
@@ -52,15 +52,12 @@ const Home = () => {
         try {
             // Lấy token từ localStorage
             const token = localStorage.getItem('access_token');
-            const response = await fetch(
-                `${apiUrl}/books/?page=${currentPage}&perpage=24`,
-                {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+            const response = await fetch(`${apiUrl}/books/?page=${currentPage}&perpage=24`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 },
-            );
+            });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -91,6 +88,8 @@ const Home = () => {
     const handleOrderChange = (value) => {
         setSortOrder(value);
     };
+
+    console.log(cardData);
 
     return (
         <div style={{ padding: '16px' }} className="custom-scrollbar">
@@ -139,9 +138,9 @@ const Home = () => {
                 {loading ? (
                     <Loading />
                 ) : (
-                    cardData.map((data) => (
+                    cardData.map((book) => (
                         <Col
-                            key={data._id}
+                            key={book._id}
                             xs={24}
                             sm={12}
                             md={8}
@@ -149,12 +148,13 @@ const Home = () => {
                             style={{ display: 'flex', justifyContent: 'center' }}
                         >
                             <CardItem
-                                title={data.title}
-                                text={data.introduction}
-                                src={data.cover}
-                                author={data.author}
-                                date={data.published_date}
-                                _id={data._id}
+                                key={book.id}
+                                title={book.title}
+                                text={book.introduction}
+                                src={book.cover}
+                                author={book.author}
+                                date={book.published_date}
+                                id={book.id}
                             />
                         </Col>
                     ))

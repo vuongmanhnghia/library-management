@@ -3,9 +3,11 @@ import { EditOutlined, DeleteOutlined, DownloadOutlined, EyeOutlined } from '@an
 import { useDispatch } from 'react-redux';
 import { removeBook } from '../../redux/bookSlice';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
 const BookTikets = ({ id, img, title, create_date, edit_date, file }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handelDeleteBook = useCallback(
@@ -71,7 +73,7 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file }) => {
                                     <Button download={file} href={file}>
                                         <DownloadOutlined />
                                     </Button>
-                                    <Button>
+                                    <Button onClick={() => navigate(`/view-book/${id}`)}>
                                         <EyeOutlined />
                                     </Button>
                                     <Button>

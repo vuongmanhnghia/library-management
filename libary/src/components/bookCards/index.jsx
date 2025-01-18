@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Button } from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import { truncateText } from '../../utils';
 const { Meta } = Card;
 
-const CardRender = ({ img, title, author, date, intro, adress = '', widthCard, heightCard, canHover = true }) => {
+const CardRender = ({img, title, author, date, intro, adress = '', widthCard, heightCard, canHover = true }) => {
+    const navigate = useNavigate();
     return (
         <Card
             hoverable={canHover}
