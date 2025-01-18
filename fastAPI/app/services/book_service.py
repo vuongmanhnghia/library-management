@@ -20,6 +20,7 @@ async def read_root(query_params):
         list_books = []
         for book in raw_books:
             book["_id"] = str(book["_id"])  # Chuyển ObjectId sang chuỗi
+            book["user_id"] = str(book["user_id"])
             book["created_at"] = book["created_at"]
             book["updated_at"] = book["updated_at"]
             list_books.append(detail_book(book))
