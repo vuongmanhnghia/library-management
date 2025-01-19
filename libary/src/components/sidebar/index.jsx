@@ -12,7 +12,7 @@ import {
     UserOutlined,
     LogoutOutlined,
 } from '@ant-design/icons';
-import { logout } from '../../../redux/userSlice'; // Import action logout
+import { logout } from '../../redux/userSlice'; // Import action logout
 
 const { Sider } = Layout;
 

@@ -1,7 +1,7 @@
 import React from 'react'
-import Sidebar from "../sidebar";
-import Footer from "../footer";
-import FloatAI from '../floatAI';
+import Sidebar from "../../sidebar";
+import Footer from "../../footer";
+import FloatAI from '../../floatAI';
 import { Layout } from "antd";
 const { Sider, Content } = Layout;
 

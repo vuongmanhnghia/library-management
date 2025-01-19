@@ -5,12 +5,21 @@ body {
 
 * {
     box-sizing: border-box;
+    scrollbar-width: thin;
 }
 
-.ant-layout-footer, .ant-layout{
+::-webkit-scrollbar-track {
+    border-radius: 10px; /* Bo góc cho khu vực thanh cuộn */
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px; /* Bo góc cho thanh cuộn */
+}
+
+.ant-layout-footer,
+.ant-layout {
     background-color: #fff;
 }
-
 
 /* Tùy chỉnh thanh cuộn cho hộp chat */
 .custom-scrollbar {
@@ -36,10 +45,9 @@ body {
     background: #3a5ec0; /* Màu khi hover thanh kéo */
 }
 
-
 // src/styles/custom-theme.scss
 :root {
-    --primary-background-color: #FEF9F9 ;
+    --primary-background-color: #fef9f9;
     --ant-primary-color: rgb(204, 13, 0);
     --ant-primary-color-disabled: #ffe4dd;
     --ant-primary-color-hover: #d93523;
@@ -69,17 +77,18 @@ body {
 .ant-btn-primary {
     background-color: var(--ant-primary-color) !important;
     border-color: var(--ant-primary-color-outline) !important;
-    color: #fff; 
+    color: #fff;
 }
 
-.ant-btn-primary:hover, .ant-btn-primary:active {
+.ant-btn-primary:hover,
+.ant-btn-primary:active {
     background-color: var(--ant-primary-color-hover) !important;
     border-color: var(--ant-primary-color-hover) !important;
 }
 .ant-btn:disabled {
     background-color: var(--ant-primary-color-disabled) !important;
     border-color: var(--ant-primary-color-disabled) !important;
-    color: #fff; 
+    color: #fff;
 }
 
 .ant-menu-item-active {
@@ -100,10 +109,11 @@ body {
 .ant-float-btn-body {
     background-color: var(--ant-primary-color) !important;
     border-color: var(--ant-primary-color-outline) !important;
-    color: #fff; 
+    color: #fff;
 }
 
-.ant-float-btn-body:hover, .ant-float-btn-body:active{
+.ant-float-btn-body:hover,
+.ant-float-btn-body:active {
     background-color: var(--ant-primary-color-hover) !important;
     border-color: var(--ant-primary-color-hover) !important;
 }
