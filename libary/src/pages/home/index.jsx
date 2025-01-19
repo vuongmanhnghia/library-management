@@ -16,8 +16,8 @@ const CardItem = ({ title, text, src, author, date, id }) => {
             date={date}
             intro={text}
             address={`/view-book/${id}`}
-            widthCard={250}
-            heightCard={'250px'}
+            widthCard={270}
+            heightCard={250}
         />
     );
 };

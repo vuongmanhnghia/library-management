@@ -1,8 +1,10 @@
 import React from 'react';
-import { Form, Input, Button, notification, Select, Row } from 'antd';
+import { Form, Input, Button, notification, Select, Row, Typography } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
+const { Title } = Typography;
+
 
 const Contract = () => {
     const onFinish = (values) => {
@@ -22,7 +24,7 @@ const Contract = () => {
     return (
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
             <Row justify="center" style={{marginTop: '24px'}}>
-            <h2>Contract with us</h2>
+            <Title level={2}>Contract with us</Title>
             </Row>
             <Form name="Contract" onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical" size="large">
                 {/* Tên người dùng */}
