@@ -37,6 +37,8 @@ const CardRender = ({
             hoverable={canHover}
             cover={
                 <img
+                    
+                    loading="lazy"
                     draggable={false}
                     src={img}
                     alt="Preview Cover"

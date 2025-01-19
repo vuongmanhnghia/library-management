@@ -18,6 +18,7 @@ import { getBase64 } from '../../utils';
 import { useSelector, useDispatch } from 'react-redux';
 import {update} from '../../redux/userSlice';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -32,6 +33,8 @@ const updateUser = async (userData, token) => {
                 full_name: userData.full_name || undefined,
                 phone_number: userData.phone_number || undefined,
                 avatar: userData.avatar,
+                gender: userData.gender,
+                date_of_birth: userData.date_of_birth,
             },
             {
                 headers: {
@@ -77,7 +80,7 @@ const ProfilePage = () => {
                 phone_number: values.phone || userValue.phone_number,
                 avatar: previewAvatar || avatar || userValue.avatar,
                 gender: values.gender || userValue.gender,
-                // birth: values.birth || userValue.birth,
+                date_of_birth: values.date_of_birth ? values.date_of_birth.format('DD/MM/YYYY') : userValue.date_of_birth,
                 country: values.country || 'Vietnam',
             };
 
@@ -142,7 +145,7 @@ const ProfilePage = () => {
                                 email: userValue.email,
                                 phone: userValue.phone_number,
                                 gender: userValue.gender,
-                                // birth: userValue.date_of_birth.split('T')[0],
+                                date_of_birth: userValue.date_of_birth ? dayjs(userValue.date_of_birth) : null,
                                 country: 'Vietnam',
                             }}
                             onValuesChange={handleInputChange}
@@ -173,14 +176,14 @@ const ProfilePage = () => {
                             </Form.Item>
 
                             <Form.Item label="Gender" name="gender">
-                                <Select placeholder="Select your gender">
+                                <Select placeholder="Select your gender" defaultValue={userValue.gender}>
                                     <Option value="male">Male</Option>
                                     <Option value="female">Female</Option>
                                     <Option value="other">Other</Option>
                                 </Select>
                             </Form.Item>
 
-                            <Form.Item label="Date of Birth" name="birth">
+                            <Form.Item label="Date of Birth" name="date_of_birth">
                                 <DatePicker style={{ width: '100%' }} placeholder="Select your birth date" format="DD/MM/YYYY" />
                             </Form.Item>
 
