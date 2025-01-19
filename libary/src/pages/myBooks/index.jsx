@@ -1,4 +1,4 @@
-import { Layout, Row, Button, Result } from 'antd';
+import { Layout, Row, Button, Result, Pagination } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch for dispatching actions
@@ -13,9 +13,7 @@ const MyBooks = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-
     const dispatch = useDispatch(); // Initialize dispatch
-
     // Accessing books from Redux state using useSelector
     const books = useSelector((state) => state.books.books);
 
@@ -75,9 +73,19 @@ const MyBooks = () => {
                 )}
             </Row>
             <Row justify="center">
-                <Button onClick={() => navigate('/upload-book')} style={{ marginTop: '24px' }}>
+                <Button type='dashed' onClick={() => navigate('/upload-book')} style={{ marginTop: '24px' }}>
                     Upload new book
                 </Button>
+            </Row>
+            {/* Pagination */}
+            <Row justify="center" style={{ marginTop: '24px' }}>
+                <Pagination
+                    current={1}
+                    total={12}
+                    pageSize={24}
+                    showSizeChanger={false}
+                    style={{ textAlign: 'center' }}
+                />
             </Row>
         </Layout>
     );

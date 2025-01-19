@@ -9,12 +9,13 @@ const CardItem = ({ title, text, src, author, date, id }) => {
     return (
         // Card Component
         <CardRender
+            key={id}
             img={src}
             title={title}
             author={author}
             date={date}
             intro={text}
-            adress={`/view-book/${id}`}
+            address={`/view-book/${id}`}
             widthCard={250}
             heightCard={'250px'}
         />
@@ -26,7 +27,7 @@ const contentStyle = {
     borderRadius: 6,
     width: '100%',
     margin: 0,
-    height: '34rem',
+    height: '24rem',
     color: '#fff',
     lineHeight: '50vh',
     textAlign: 'center',
@@ -89,7 +90,6 @@ const Home = () => {
         setSortOrder(value);
     };
 
-    console.log(cardData);
 
     return (
         <div style={{ padding: '16px' }} className="custom-scrollbar">

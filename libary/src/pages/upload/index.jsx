@@ -204,6 +204,7 @@ const UploadBook = () => {
                         canHover={false}
                         widthCard={280}
                         heightCard={280}
+                        states = {true}
                     />
                 </Col>
             </Row>

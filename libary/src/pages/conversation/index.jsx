@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card, List, Input, Button, Avatar, Typography, Upload, Select } from 'antd';
 import { UploadOutlined, ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { getBase64, truncateText } from '../../utils';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 

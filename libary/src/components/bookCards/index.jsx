@@ -1,15 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react'; // Ensure useState is imported
 import { Card, Button } from 'antd';
-import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { HeartOutlined, ShareAltOutlined, HeartFilled } from '@ant-design/icons';
 import { truncateText } from '../../utils';
+import { Link } from 'react-router-dom';
 const { Meta } = Card;
 
-const CardRender = ({img, title, author, date, intro, adress = '', widthCard, heightCard, canHover = true }) => {
-    const navigate = useNavigate();
+const CardRender = ({
+    img,
+    title,
+    author,
+    date,
+    intro,
+    widthCard,
+    address = '',
+    heightCard,
+    canHover = true,
+    id,
+    states = false,
+}) => {
+    const [heard, setHeard] = useState(false); // Corrected state initialization
+
+    const handleFacebookShare = () => {
+        const url = window.location.href; // Get current page URL
+        const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+
+        window.open(facebookShareUrl, '_blank', 'width=600,height=400');
+    };
+
+    const handleHeartClick = () => {
+        setHeard((prevState) => !prevState); // Toggle heart state
+    };
+
     return (
         <Card
+            key={id}
             hoverable={canHover}
             cover={
                 <img
@@ -29,13 +53,14 @@ const CardRender = ({img, title, author, date, intro, adress = '', widthCard, he
             {/* Meta of Card */}
             <Meta
                 title={title}
-                
                 description={
                     <>
-                        <span style={{ fontWeight: 'bold' }}>Author:</span> {truncateText(author, 18)} {/* Adjust max length as needed */} <br />
+                        <span style={{ fontWeight: 'bold' }}>Author:</span> {truncateText(author, 18)}{' '}
+                        {/* Adjust max length as needed */} <br />
                         <span style={{ fontWeight: 'bold' }}>Published Date:</span> {date}
                         <br />
-                        <span style={{ fontWeight: 'bold' }}>Introduction:</span> {truncateText(intro, 45)} {/* Adjust max length as needed */}
+                        <span style={{ fontWeight: 'bold' }}>Introduction:</span> {truncateText(intro, 45)}{' '}
+                        {/* Adjust max length as needed */}
                     </>
                 }
             />
@@ -48,13 +73,13 @@ const CardRender = ({img, title, author, date, intro, adress = '', widthCard, he
                     justifyContent: 'center',
                 }}
             >
-                <Link to={adress}>
+                <Link to={address}>
                     <Button type="primary">View Detail</Button>
                 </Link>
-                <Button style={{ marginLeft: '8px' }}>
-                    <HeartOutlined />
+                <Button disabled={states} style={{ marginLeft: '8px' }} onClick={handleHeartClick}>
+                    {heard ? <HeartFilled style={{ color: 'var(--ant-primary-6)' }} /> : <HeartOutlined />}
                 </Button>
-                <Button style={{ marginLeft: '8px' }}>
+                <Button disabled={states} style={{ marginLeft: '8px' }} onClick={handleFacebookShare}>
                     <ShareAltOutlined />
                 </Button>
             </div>

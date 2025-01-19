@@ -8,6 +8,7 @@ import Register from '../pages/register';
 import Setting from '../pages/setting';
 import MyBooks from '../pages/myBooks';
 import ViewBook from '../pages/view';
+import EditBook from '../pages/edit';
 
 
 import OnlyFooter from '../components/layouts/OnlyFooter';
@@ -29,6 +30,7 @@ const privateRoutes = [
     { path: '/my-books', component: MyBooks, layout: OnlySideBarAndFooter},
     { path: '/contract', component: Contract, layout: OnlySideBarAndFooter },
     { path: '/view-book/:id', component:  ViewBook, layout: OnlySideBarAndFooter }, // Sửa đường dẫn này
+    { path: '/edit-book/:id', component: EditBook, layout: OnlySideBarAndFooter },
 ];
 
 export { publicRoutes, privateRoutes };

@@ -1,9 +1,10 @@
-import { Card, Button, Row, Col, message } from 'antd';
+import { Card, Button, Row, Col, message, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined, DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { removeBook } from '../../redux/bookSlice';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import React from 'react';
 
 const BookTikets = ({ id, img, title, create_date, edit_date, file }) => {
@@ -36,6 +37,22 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file }) => {
         },
         [dispatch]
     );
+
+    const confirmDelete = (id) => {
+        Modal.confirm({
+            title: 'Are you sure you want to delete this book?',
+            content: 'This action cannot be undone.',
+            onOk: () => handelDeleteBook(id),
+            onCancel: () => {
+                message.info('Delete action canceled');
+            },
+            okText: 'Yes, Delete',
+            cancelText: 'Cancel',
+            okButtonProps: {
+                danger: true,
+            },
+        });
+    };
 
     return (
         <Card style={{ width: '80%', margin: '8px', padding: '8px' }}>
@@ -70,16 +87,16 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file }) => {
                                     <span style={{ fontWeight: 'bold' }}>Last Edit:</span> {edit_date.split('T')[0]}
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px', marginRight: '8px' }}>
-                                    <Button download={file} href={file}>
+                                    <Button download={`${title}.pdf`} href={file}>
                                         <DownloadOutlined />
                                     </Button>
                                     <Button onClick={() => navigate(`/view-book/${id}`)}>
                                         <EyeOutlined />
                                     </Button>
-                                    <Button>
+                                    <Button onClick={() => navigate(`/edit-book/${id}`)}>
                                         <EditOutlined />
                                     </Button>
-                                    <Button danger onClick={() => handelDeleteBook(id)}>
+                                    <Button danger onClick={() => confirmDelete(id)}>
                                         <DeleteOutlined />
                                     </Button>
                                 </div>

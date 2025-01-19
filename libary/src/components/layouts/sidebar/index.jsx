@@ -17,6 +17,7 @@ import { logout } from '../../../redux/userSlice'; // Import action logout
 const { Sider } = Layout;
 
 const Sidebar = () => {
+    const PUBLIC_URL = process.env.PUBLIC_URL;
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -48,7 +49,7 @@ const Sidebar = () => {
             >
                 <Menu defaultSelectedKeys={['1']} style={{ borderRight: 'none' }}>
                     <img
-                        src="static/imgs/logo-LM.png"
+                        src={`${PUBLIC_URL}/static/imgs/logo-LM.png`}
                         alt="logo"
                         style={{ width: '70%', display: 'flex', justifySelf: 'center' }}
                         draggable={false}
