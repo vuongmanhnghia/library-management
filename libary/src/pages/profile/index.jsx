@@ -1,22 +1,9 @@
 import React, { useState } from 'react';
-import {
-    Layout,
-    Form,
-    Input,
-    Button,
-    Upload,
-    message,
-    Row,
-    Col,
-    Avatar,
-    Select,
-    DatePicker,
-    Typography,
-} from 'antd';
+import { Layout, Form, Input, Button, Upload, message, Row, Col, Avatar, Select, DatePicker, Typography } from 'antd';
 import { UserOutlined, UploadOutlined } from '@ant-design/icons';
 import { getBase64 } from '../../utils';
 import { useSelector, useDispatch } from 'react-redux';
-import {update} from '../../redux/userSlice';
+import { update } from '../../redux/userSlice';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
@@ -41,8 +28,7 @@ const updateUser = async (userData, token) => {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-            }
-
+            },
         );
         return response.data;
     } catch (error) {
@@ -80,7 +66,9 @@ const ProfilePage = () => {
                 phone_number: values.phone || userValue.phone_number,
                 avatar: previewAvatar || avatar || userValue.avatar,
                 gender: values.gender || userValue.gender,
-                date_of_birth: values.date_of_birth ? values.date_of_birth.format('DD/MM/YYYY') : userValue.date_of_birth,
+                date_of_birth: values.date_of_birth
+                    ? values.date_of_birth.format('DD/MM/YYYY')
+                    : userValue.date_of_birth,
                 country: values.country || 'Vietnam',
             };
 
@@ -133,7 +121,6 @@ const ProfilePage = () => {
                     <Title level={2}>User Profile</Title>
                 </Row>
 
-
                 <Row gutter={[32, 32]} justify="center">
                     <Col xs={24} md={14}>
                         <Form
@@ -176,7 +163,7 @@ const ProfilePage = () => {
                             </Form.Item>
 
                             <Form.Item label="Gender" name="gender">
-                                <Select placeholder="Select your gender" defaultValue={userValue.gender}>
+                                <Select placeholder="Select your gender" >
                                     <Option value="male">Male</Option>
                                     <Option value="female">Female</Option>
                                     <Option value="other">Other</Option>
@@ -184,7 +171,11 @@ const ProfilePage = () => {
                             </Form.Item>
 
                             <Form.Item label="Date of Birth" name="date_of_birth">
-                                <DatePicker style={{ width: '100%' }} placeholder="Select your birth date" format="DD/MM/YYYY" />
+                                <DatePicker
+                                    style={{ width: '100%' }}
+                                    placeholder="Select your birth date"
+                                    format="DD/MM/YYYY"
+                                />
                             </Form.Item>
 
                             <Form.Item
@@ -247,6 +238,5 @@ const ProfilePage = () => {
         </Layout>
     );
 };
-
 
 export default ProfilePage;

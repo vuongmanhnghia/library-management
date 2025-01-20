@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Button, Pagination, Row, Col, Select, Carousel } from 'antd';
 import Loading from '../../components/loadingUI';
 import CardRender from '../../components/bookCards';
+import CarouselSlide from '../../components/carouselRender';
 
 const { Option } = Select;
+const publicUrl = process.env.PUBLIC_URL;
 
 const CardItem = ({ title, text, src, author, date, id }) => {
     return (
@@ -21,22 +23,6 @@ const CardItem = ({ title, text, src, author, date, id }) => {
         />
     );
 };
-
-// Style for Carousel
-const contentStyle = {
-    borderRadius: 6,
-    width: '100%',
-    margin: 0,
-    height: '24rem',
-    color: '#fff',
-    lineHeight: '50vh',
-    textAlign: 'center',
-    backgroundImage: 'url(/static/imgs/banner_book.jpg)',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-};
-
 const Home = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
     // Khai báo state
@@ -90,7 +76,6 @@ const Home = () => {
         setSortOrder(value);
     };
 
-
     return (
         <div style={{ padding: '16px' }} className="custom-scrollbar">
             {/* Carousel */}
@@ -99,18 +84,9 @@ const Home = () => {
                     autoplay
                     style={{ width: '80vw', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}
                 >
-                    <div>
-                        <h1 style={contentStyle}>Welcome to Our Library</h1>
-                    </div>
-                    <div>
-                        <h1 style={contentStyle}>Explore Our Collections</h1>
-                    </div>
-                    <div>
-                        <h1 style={contentStyle}>Join Our Community</h1>
-                    </div>
-                    <div>
-                        <h1 style={contentStyle}>Discover New Stories</h1>
-                    </div>
+                    <CarouselSlide text="Posts and Telecommunications Institute of Technology" image={`${publicUrl}/static/carousel/1.jpg`} position='top' />
+                    <CarouselSlide text="Libary Center" image={`${publicUrl}/static/carousel/2.jpg`} />
+                    <CarouselSlide text="Logo PTIT" image={`${publicUrl}/static/carousel/4.jpg`} />
                 </Carousel>
             </Row>
             {/* Button Sort */}

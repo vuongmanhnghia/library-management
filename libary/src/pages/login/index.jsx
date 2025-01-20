@@ -64,7 +64,7 @@ const Login = () => {
                     style={{
                         fontSize: '14px',
                         fontWeight: 'bold',
-                        color: 'white',
+                        color: 'var(--ant-primary-6)',
                         width: '80%',
                         textAlign: 'center',
                     }}
