@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Space, Row, Layout, Col, Input, Descriptions, Empty, Card, Rate } from 'antd';
-import { ArrowUpOutlined } from '@ant-design/icons';
+import { Typography, Button, Space, Row, Layout, Col, Descriptions, Rate, Input, Empty, Card } from 'antd';
+import { ArrowUpOutlined } from '@ant-design/icons'; // Feedback logic, update later
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../../components/loadingUI';
@@ -115,45 +115,59 @@ const ViewBook = () => {
                                     <Descriptions.Item label="Introduction">{book.introduction}</Descriptions.Item>
                                 </Descriptions>
                                 <Row style={{ marginTop: 30 }}>
-
-                                <Text strong style={{ marginRight: 8 }}>Rate:</Text>
-                                <Rate allowHalf defaultValue={4.5} />
+                                    <Text strong style={{ marginRight: 8 }}>
+                                        Rate:
+                                    </Text>
+                                    <Rate allowHalf defaultValue={4.5} />
                                 </Row>
                             </Col>
                         </Row>
-                        {/* Feedback Input Section */}
-                        <Card style={{ display: 'inline-block', width: '80%', textAlign: 'center', marginTop: '24px' }}>
-                            <Title level={4} style={{ marginTop: '0' }}>
-                                Share your feedback
-                            </Title>
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                                <Input
-                                    size="large"
-                                    placeholder="Share your thoughts about the book..."
-                                    value={feedback}
-                                    onChange={handleFeedbackChange}
-                                    style={{ flex: 1, marginRight: '10px' }}
-                                />
-                                <Button type="primary" icon={<ArrowUpOutlined />} onClick={handleSubmitFeedback} />
-                            </div>
-                        </Card>
-                        <Title level={4}>Some Feedbacks</Title>
-                        <div style={{ display: 'inline-block', textAlign: 'start', width: '80%', padding: '20px' }}>
-                            {feedbackList.length === 0 ? (
-                                <Empty />
-                            ) : (
-                                feedbackList.map((fb, index) => (
-                                    <div key={index} style={{ marginBottom: '10px', display: 'flex', justifyContent: 'space-between' }}>
-                                        <div>
-                                            <strong>{user.full_name}: </strong>
-                                            <span>{fb}</span>
+                        {/* Feedback Input Section, UPDATE LATER */}
+                            <Card
+                                style={{
+                                    display: 'inline-block',
+                                    width: '80%',
+                                    textAlign: 'center',
+                                    marginTop: '24px',
+                                }}
+                            >
+                                <Title level={4} style={{ marginTop: '0' }}>
+                                    Share your feedback
+                                </Title>
+                                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                                    <Input
+                                        size="large"
+                                        placeholder="Share your thoughts about the book..."
+                                        value={feedback}
+                                        onChange={handleFeedbackChange}
+                                        style={{ flex: 1, marginRight: '10px' }}
+                                    />
+                                    <Button type="primary" icon={<ArrowUpOutlined />} onClick={handleSubmitFeedback} />
+                                </div>
+                            </Card>
+                            <Title level={4}>Some Feedbacks</Title>
+                            <div style={{ display: 'inline-block', textAlign: 'start', width: '80%', padding: '20px' }}>
+                                {feedbackList.length === 0 ? (
+                                    <Empty />
+                                ) : (
+                                    feedbackList.map((fb, index) => (
+                                        <div
+                                            key={index}
+                                            style={{
+                                                marginBottom: '10px',
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                            }}
+                                        >
+                                            <div>
+                                                <strong>{user.full_name}: </strong>
+                                                <span>{fb}</span>
+                                            </div>
+                                            <inherit> {new Date().toLocaleString()} </inherit>
                                         </div>
-                                        <inherit> {new Date().toLocaleString()} </inherit>
-                                    </div>
-                                ))
-                            )}
-                        </div>
-
+                                    ))
+                                )}
+                            </div>
                     </Content>
                 </Layout>
             )}

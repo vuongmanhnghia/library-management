@@ -5,6 +5,7 @@
   "dependencies": {
     "@ant-design/charts": "^2.2.6",
     "@ant-design/icons": "^5.5.2",
+    "@emailjs/browser": "^4.4.1",
     "@react-pdf-viewer/core": "^3.12.0",
     "@react-pdf-viewer/default-layout": "^3.12.0",
     "@reduxjs/toolkit": "^2.5.0",

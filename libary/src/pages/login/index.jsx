@@ -12,7 +12,6 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate(); // Khởi tạo useNavigate hook
     const apiUrl = process.env.REACT_APP_API_URL;
-    const publicUrl = process.env.PUBLIC_URL;
 
     const onFinish = async (values) => {
         const payload = {

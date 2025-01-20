@@ -66,9 +66,10 @@ const Sidebar = () => {
                         <BookOutlined style={{ marginRight: '8px' }} />
                         <Link to="/my-books">My books</Link>
                     </Menu.Item>
-                    <Menu.Item key="4">
-                        <CommentOutlined style={{ marginRight: '8px' }} />
-                        <Link to="/conversation">Conversation</Link>
+                    <Menu.Item key="4" disabled>
+                        <CommentOutlined style={{ marginRight: '8px' }} disabled />
+                        {/* <Link to="/conversation" disabled>Conversation</Link> */}
+                        <Link to="#" disabled>Conversation</Link>
                     </Menu.Item>
                     <Menu.Item key="5">
                         <QuestionCircleOutlined style={{ marginRight: '8px' }} />
