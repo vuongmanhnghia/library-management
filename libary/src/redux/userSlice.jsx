@@ -12,6 +12,7 @@ const userSlice = createSlice({
         logout: (state) => {
             state.user = null; // Xóa thông tin user
             localStorage.clear();
+            window.location.reload();
         },
         
     },

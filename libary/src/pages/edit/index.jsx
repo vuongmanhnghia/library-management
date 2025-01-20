@@ -91,17 +91,16 @@ const EditBook = () => {
                 file: encodedFile || book.file,
             };
 
-            await axios.put(
+            await fetch(
                 `${apiUrl}/books/${id}`,
                 {
-                    data:payload,
+                    data: payload,
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                     method: 'PUT',
                 },
             );
-
             message.success('Book edited successfully.');
         } catch (error) {
             message.error('Failed to edit the book. Please try again.');

@@ -145,3 +145,54 @@ body {
     background-color: var(--primary-background-color) !important;
     color: var(--ant-primary-6) !important;
 }
+
+/* Label màu trắng */
+.custom-form-item .ant-form-item-label > label {
+    color: var(--ant-primary-6) !important;
+    font-weight: bold;
+}
+
+/* Dấu * required màu vàng */
+.custom-form-item .ant-form-item-required::before {
+    color: var(--ant-primary-10) !important;
+}
+
+.custom-form-item .ant-form-item-explain-error {
+    color: var(--ant-primary-10) !important;
+}
+
+/* Tùy chỉnh Input thường */
+.custom-form-item .ant-input,
+.custom-form-item .ant-input-password {
+    color: var(--ant-primary-8) !important; /* Chữ trắng */
+    background-color: var(--ant-primary-color-disabled) !important; /* Nền trong suốt */
+    border-color: transparent !important; /* Viền vàng */
+}
+
+/* Placeholder */
+.custom-form-item .ant-input::placeholder,
+.custom-form-item .ant-input-password input::placeholder {
+    color: var(--ant-primary-3) !important; /* Màu trắng mờ */
+}
+
+/* Khi focus */
+.custom-form-item .ant-input:focus,
+.custom-form-item .ant-input-password input:focus {
+    border-color: transparent; /* Viền cyan khi active */
+}
+
+/* Khi nhập chữ vào input */
+.custom-form-item .ant-input:not(:placeholder-shown),
+.custom-form-item .ant-input-password input:not(:placeholder-shown) {
+    color: var(--ant-primary-8) !important;
+}
+
+/* Tùy chỉnh icon mắt của Input.Password */
+.custom-form-item .ant-input-password .anticon {
+    color: var(--ant-primary-4) !important;
+}
+
+.custom-title-1 {
+    color: var(--ant-primary-8) !important;
+    font-weight: bold !important;
+}
