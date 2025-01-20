@@ -114,12 +114,13 @@ const Setting = () => {
                 </Col>
 
                 {/* Other Setting */}
-                <Col span={12} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <Col span={12} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <Row style={{ display: 'inline-block' }}>
                         <Card title="Other Features (In Progress)" bordered>
-                            <p>- Enable/Disable Two-Factor Authentication</p>
+                            <p>- Conversation page </p>
+                            <p>- Enable/Disable Dark Mode</p>
                             <p>- Auto logout after 30 minutes of inactivity</p>
-                            <Button type="default" disabled>
+                            <Button type="dashed" disabled>
                                 Coming Soon...
                             </Button>
                         </Card>
