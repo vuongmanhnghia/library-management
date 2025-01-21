@@ -91,3 +91,18 @@ async def get_me(current_user):
     user["updated_at"] = user["updated_at"]
 
     return details_user(user)
+
+
+async def change_password(current_user, password):
+    try:
+        user = await users.find_one({"_id": current_user["_id"]})
+        if user and verify_password(password.old_password, user["password"]):
+            result = await users.update_one(
+                {"_id": current_user["_id"]},
+                {"$set": {"password": password.new_password}},
+            )
+            if result.modified_count:
+                return
+        raise HTTPException(status_code=500, detail="Change password failed")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

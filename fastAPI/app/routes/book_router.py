@@ -10,8 +10,8 @@ bookRouter = APIRouter()
 
 # Cập nhật sách theo ID
 @bookRouter.put("/{id}", dependencies=[Depends(require_authentication)])
-async def update_book(id: str, book: BookUpdate):
-    return await book_controller.update_book(id, book)
+async def update_book(request: Request, id: str, book: BookUpdate):
+    return await book_controller.update_book(request, id, book)
 
 
 # Xóa sách theo ID

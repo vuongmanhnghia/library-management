@@ -23,15 +23,15 @@ async def create_book(request, book):
 
 
 # Cập nhật sách theo ID
-async def update_book(id, book):
+async def update_book(request, id, book):
     book = dict(book)
-    result = await books.update_one(
-        {"_id": ObjectId(id)}, {"$set": book}
-    )  # Async update
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Book not found")
-    book["_id"] = id  # Đảm bảo thêm ID vào kết quả trả về
-    return {"data": book_schemas.detail_book(book)}
+    result = await book_service.update_book(request.current_user, id, book)
+    return {
+        "status": 200,
+        "success": True,
+        "message": "Update book success!",
+        "data": result,
+    }
 
 
 # Xem chi tiết sách theo ID
