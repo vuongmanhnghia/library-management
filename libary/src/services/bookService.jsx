@@ -19,9 +19,6 @@ const BookService = {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            console.log('Response:', response);
-
             if (response.data.status === 200) {
                 const result = response.data.data;
                 return {

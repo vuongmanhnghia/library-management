@@ -90,15 +90,13 @@ const EditBook = () => {
                 cover: encodedCover || book.cover,
                 file: encodedFile || book.file,
             };
-
-            await fetch(
-                `${apiUrl}/books/${id}`,
+            console.log('Payload update', payload);
+            await axios.put(
+                `${apiUrl}/books/${id}`,payload,
                 {
-                    data: payload,
                     headers: {
                         Authorization: `Bearer ${token}`,
-                    },
-                    method: 'PUT',
+                    }
                 },
             );
             message.success('Book edited successfully.');
