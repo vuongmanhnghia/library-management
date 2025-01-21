@@ -25,7 +25,6 @@ const ProfilePage = () => {
     };
 
     const handleUpdate = async (values) => {
-        const token = localStorage.getItem('access_token');
         const updatedUser = {
             full_name: values.full_name || userValue.full_name,
             email: values.email || userValue.email,
@@ -35,7 +34,7 @@ const ProfilePage = () => {
             date_of_birth: values.date_of_birth ? values.date_of_birth.format('DD/MM/YYYY') : userValue.date_of_birth,
         };
 
-        const response = await UserService.update(updatedUser, token); 
+        const response = await UserService.update(updatedUser); 
         if (response.success) {
             message.success(response.message);
             dispatch(update(response.data));

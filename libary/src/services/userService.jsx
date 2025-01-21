@@ -3,11 +3,12 @@ import axios from 'axios';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const UserService = {
-    delete: async (token) => {
+    delete: async () => {
+
         try{
             const response = await axios.delete(`${apiUrl}/auth/`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                 },
             });
             return {
@@ -22,7 +23,7 @@ const UserService = {
             };
         }
     },
-    update: async (userData, token) => {
+    update: async (userData) => {
         try {
             const response = await axios.put(
                 `${apiUrl}/auth/`,
@@ -36,7 +37,7 @@ const UserService = {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                         'Content-Type': 'application/json',
                     },
                 }

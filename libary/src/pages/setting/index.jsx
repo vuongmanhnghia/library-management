@@ -20,8 +20,7 @@ const Setting = () => {
     };
 
     const handleDeleteAccount = async () => {
-        const token = localStorage.getItem('access_token');
-        const response = await UserService.delete(token);
+        const response = await UserService.delete();
         if (response.success) {
             message.success(response.message);
             setInterval(() => {

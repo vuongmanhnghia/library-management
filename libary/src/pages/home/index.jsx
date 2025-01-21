@@ -3,6 +3,7 @@ import { Button, Pagination, Row, Col, Select, Carousel } from 'antd';
 import Loading from '../../components/loadingUI';
 import CardRender from '../../components/bookCards';
 import CarouselSlide from '../../components/carouselRender';
+import BookService from '../../services/bookService';
 
 const { Option } = Select;
 const publicUrl = process.env.PUBLIC_URL;
@@ -24,7 +25,6 @@ const CardItem = ({ title, text, src, author, date, id }) => {
     );
 };
 const Home = () => {
-    const apiUrl = process.env.REACT_APP_API_URL;
     // Khai báo state
     const [cardData, setCardData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -36,28 +36,12 @@ const Home = () => {
     // Hàm fetch dữ liệu sách từ server
     const fetchBooks = async () => {
         setLoading(true);
-        try {
-            // Lấy token từ localStorage
-            const token = localStorage.getItem('access_token');
-            const response = await fetch(`${apiUrl}/books/?page=${currentPage}&perpage=24`, {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const result = await response.json();
-            const data = result.data.books[0];
-            setCardData(data || []); // Cập nhật `cardData` với dữ liệu nhận được
-            setTotalBooks(data.length || 0); // Cập nhật số lượng sách
-        } catch (error) {
-            console.error('Error fetching books:', error);
-        } finally {
-            setLoading(false);
+        const response = await BookService.getAll(currentPage, 8);
+        if (response.success) {
+            setCardData(response.data || []);
+            setTotalBooks(response.data.length || 0); 
         }
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -84,7 +68,11 @@ const Home = () => {
                     autoplay
                     style={{ width: '80vw', marginBottom: '16px', display: 'flex', justifyContent: 'center' }}
                 >
-                    <CarouselSlide text="Posts and Telecommunications Institute of Technology" image={`${publicUrl}/static/carousel/1.jpg`} position='top' />
+                    <CarouselSlide
+                        text="Posts and Telecommunications Institute of Technology"
+                        image={`${publicUrl}/static/carousel/1.jpg`}
+                        position="top"
+                    />
                     <CarouselSlide text="Libary Center" image={`${publicUrl}/static/carousel/2.jpg`} />
                     <CarouselSlide text="Logo PTIT" image={`${publicUrl}/static/carousel/4.jpg`} />
                 </Carousel>
