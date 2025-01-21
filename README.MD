@@ -1,38 +1,68 @@
-# Library Management
+# **Team CHIVAS**: dự án Libary Forum
 
-## Team: Chivas
-
+## **1. Mentor**
 -  Mentor: Kiều Hồng Phong
 
-## Danh sách thành viên:
+## **2. Thành viên nhóm**
 
--  Trần Quốc Cường
--  Vương Mạnh Nghĩa
--  Phạm Bá Tiến
--  Hoàng Thị Ngọc Linh
--  Lê Hoàng Anh
+1. **Trần Quốc Cường** (Leader)
+   - Vai trò: Frontend + UX/UI 
+2. **Vương Mạnh Nghĩa**
+   - Vai trò: Backend + database
+3. **Phạm Bá Tiến**
+   - Vai trò: 
+4. **Hoàng Thị Ngọc Linh**
+   - Vai trò: 
+5. **Lê Hoàng Anh**
+   - Vai trò: 
 
-## Giới thiệu
+---
+## **3. Ý tưởng:**
+- Tìm kiếm và khám phá sách nhanh chóng.
+- Chia sẻ và tương tác cộng đồng.
+- Kết nối qua hệ thống mạng xã hội.
+- Quản lý người dùng hiệu quả.
+- Tích hợp trợ ý AI vào dự án.
 
-Dự án "Library Management" nhằm phát triển một hệ thống thư viện điện tử hiện đại, hỗ trợ tối ưu quá trình tra cứu tài liệu và phục vụ nhu cầu học tập. Hệ thống giúp người dùng dễ dàng tiếp cận tài nguyên học thuật của tổ chức, đồng thời cải thiện quy trình quản lý và cập nhật tài liệu của thư viện. Với "Library Management", hệ thống thư viện sẽ được nâng cấp, góp phần tạo ra môi trường học tập hiệu quả và phù hợp với xu hướng chuyển đổi số trong giáo dục hiện nay.
+## **4. Đề tài:**
+Dự án **Library Forum** cho phép:
+### Chức Năng Quản Lý Hệ Thống
 
-## Tính năng chính
+#### a. Quản lý người dùng
+- Đăng ký, đăng nhập, xóa tài khoản
+- Quản lý vai trò: Người dùng có các vai trò như Admin và User.
+- Hồ sơ cá nhân: Cho phép người dùng cập nhật thông tin, avatar.
 
--  Tra cứu tài liệu: Cho phép người dùng tìm kiếm tài liệu qua từ khóa, chủ đề, hoặc tên tác giả.
--  Đăng tải tài liệu/ duyệt tài liệu: Cho phép giảng viên/ sinh viên đăng tải mới tài liệu thông qua kiểm duyệt của admin.
--  Quản lí mượn sách và trả sách: Người dùng có thể đăng ký mượn sách và kiểm tra thời gian mượn hoặc gia hạn sách online.
--  Tài liệu điện tử: Cung cấp tài liệu số hóa để người dùng có thể đọc online hoặc tải xuống.
+#### b. Quản lý đăng sách
+- Hệ thống chia sẻ sách lên như 1 diễn đàn.
+- **Chức năng chính:Đăng sách, sửa sách, xóa sách.
+- Chức năng phụ: Like và chia sẻ sách.
+- Xem chi tiết sách.
+- Đánh giá sao, feedback (đang phát triển).
 
-## Tính năng mới
+#### c. Diễn đàn *(đang phát triển)*
+- Đăng bài: Đăng bài thảo luận các vấn đề liên quan đến sách.
+- Bình luận: Bình luận các bài của người khác đăng.
+- Chia sẻ bài: Chia sẻ bài đăng.
 
--  Trợ lý ảo thông minh: Giải đáp những thắc mắc cơ bản của sinh viên về thư viện.
--  Thông báo nhắc nhở: Tự động gửi thông báo về hạn trả sách, tài liệu mới, và các sự kiện của thư viện.
+#### d. Tìm kiếm và phân loại
+- Tìm kiếm toàn văn: Hỗ trợ tìm kiếm nhanh bằng tiêu đề, nội dung hoặc tag.
+- Lọc nội dung: Lọc bài viết theo tiêu đề sách và ngày xuất bản.
 
-## Cài đặt và chạy dự án
+#### e. Trợ lý AI *(đang phát triển)*
+- Trả lời những câu hỏi về sản phẩm.
 
--  Clone project
 
-### Backend
+## **5. Hướng dẫn cài đặt**
+### Cài đặt và chạy dự án
+
+### **5.1 Clone project**
+```bash
+git clone <link_git_repo>
+cd <thư_mục_dự_án>
+```
+
+### **5.2 Cài đặt Backend**
 
 ```bash
 cd fastAPI
@@ -64,6 +94,45 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-<!-- ### Frontend -->
+### **5.3 Cài đặt Frontend**
+
+```bash
+cd libary
+```
+
+1. Cài đặt thư viện 
+```bash
+npm install
+```
+
+2. Tạo file `.env` cùng cấp với `\src` và `\public` và thiết lập các biến như trong `.env.example`
+
+3. Chạy dự án 
+```bash
+npm start 
+```
+4. Cài đặt các tthư viện bổ sung (nếu có)
+- React Router Dom (quản lý điều hướng):
+```bash
+npm install react-router-dom
+```
+- Axios (gọi API):
+```bash
+npm install axios
+```
+- SCSS (quản lý style):
+```bash
+npm install sass
+```
+
+## **6. Nguồn Tham Khảo**
+- [Ant Design](https://ant.design)
+- [EmailJS](https://www.emailjs.com)
+- [Redux](https://redux-toolkit.js.org/)
+- [Thư viện để xử lý và thao tác với ngày tháng DayJS](https://day.js.org/)
+- [Redux-persist](https://github.com/rt2zz/redux-persist)
+- Chat GPT
+- [Slink PTIT](slink.ptit.edu.vn)
+- [FastAPI](https://fastapi.tiangolo.com/)
 
 <!-- cd reactjs -->

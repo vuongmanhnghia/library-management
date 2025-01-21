@@ -3,7 +3,6 @@ import { privateRoutes, publicRoutes } from './routes';
 import DefaultLayout from './components/layouts/DefaultLayout/';
 import { Fragment } from 'react';
 import './styles/GlobalStyle/global.scss';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { useSelector } from 'react-redux';
 
 function App() {

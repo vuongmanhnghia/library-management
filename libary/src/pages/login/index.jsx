@@ -67,7 +67,7 @@ const Login = () => {
                         textAlign: 'center',
                     }}
                 >
-                    Welcome to Libary Management, enter your email and password to try it now.
+                    Welcome to Libary Forum, enter your email and password to try it now.
                 </Text>
             </Row>
 

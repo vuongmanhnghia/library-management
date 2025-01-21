@@ -11,17 +11,17 @@ const OnlyFooter = ({ children }) => {
             <Row>
                 <Col xs={24} sm={24} md={12} lg={14} style={{ position: 'relative', borderRadius: '0 16px 16px 0' }}>
                     <Title
-                        level={3}
+                        level={2}
                         style={{
                             position: 'absolute',
-                            top: '5%',
+                            top: '10%',
                             left: '20%',
                             transform: 'translate(-50%, -50%)',
                             fontWeight: 'bold',
                             color: 'var(--ant-primary-color)',
                         }}
                     >
-                        Library Management
+                        Libary Forum
                     </Title>
                     <img
                         src={`${publicUrl}/static/imgs/login.svg`}
