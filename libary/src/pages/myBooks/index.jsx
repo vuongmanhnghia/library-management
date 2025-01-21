@@ -1,10 +1,10 @@
 import { Layout, Row, Button, Result, Pagination } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch for dispatching actions
+import { useDispatch, useSelector } from 'react-redux'; 
 import BookTikets from '../../components/bookTikets';
 import Loading from '../../components/loadingUI';
-import { setBooks } from '../../redux/bookSlice'; // Import setBooks action
+import { setBooks } from '../../redux/bookSlice'; 
 
 import React from 'react';
 import Title from 'antd/es/typography/Title';
@@ -13,7 +13,7 @@ const MyBooks = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch(); // Initialize dispatch
+    const dispatch = useDispatch(); 
     // Accessing books from Redux state using useSelector
     const books = useSelector((state) => state.books.books);
 
@@ -30,7 +30,7 @@ const MyBooks = () => {
             if (response.status === 200) {
                 const data = await response.json();
                 // Dispatching setBooks action to update Redux state
-                dispatch(setBooks(data.data)); // Correct way to dispatch action
+                dispatch(setBooks(data.data || [])); // Ensure data is an array, default to empty array
             } else {
                 console.error('Error fetching books:', response);
             }
@@ -43,7 +43,10 @@ const MyBooks = () => {
 
     useEffect(() => {
         fetchBooks();
-    }, [dispatch]); // Added dispatch to dependencies
+    }, [dispatch]); 
+
+    // Ensure books is defined and is an array before calling .length
+    const isBooksEmpty = !Array.isArray(books) || books.length === 0;
 
     return (
         <Layout style={{ padding: '24px' }}>
@@ -53,7 +56,7 @@ const MyBooks = () => {
             <Row justify="center">
                 {loading ? (
                     <Loading />
-                ) : !books.length ? (
+                ) : isBooksEmpty ? (
                     <Result
                         style={{ marginTop: '48px' }}
                         title="No your upload books found. Upload your first book now!"

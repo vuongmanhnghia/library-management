@@ -11,8 +11,17 @@ const Setting = () => {
     const navigate = useNavigate();
     // Handle password change submission
     const onFinishPasswordChange = (values) => {
-        console.log('Password Change:', values);
-        alert('Password has been updated successfully!');
+        UserService.updatePassword(values)
+            .then((response) => {
+                if (response.success) {
+                    message.success(response.message);
+                } else {
+                    message.error(response.message);
+                }
+            })
+            .catch((error) => {
+                message.error(error.message);
+            });
     };
 
     const showDeleteAccountModal = () => {
