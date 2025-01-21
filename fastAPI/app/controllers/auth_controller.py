@@ -61,3 +61,12 @@ async def get_me(request):
         "message": "OK",
         "data": result,
     }
+
+
+async def change_password(request, password):
+    result = await auth_service.change_password(request.current_user, password)
+    return {
+        "status": 200,
+        "success": True,
+        "message": "Change password success!",
+    }

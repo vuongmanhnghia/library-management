@@ -47,6 +47,17 @@ class UserUpdate(BaseModel):
     avatar: Optional[str] = None
 
 
+class UserChangePassword(BaseModel):
+    old_password: str
+    new_password: str
+
+    @validator("new_password")
+    def hash_password(cls, value):
+        if not value:
+            raise ValueError("Password is required")
+        return hashpw(value.encode("utf-8"), gensalt(10)).decode("utf-8")
+
+
 # Schema cho phân trang
 class ReadRoot(BaseModel):
     page: int

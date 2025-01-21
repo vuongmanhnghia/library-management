@@ -67,6 +67,34 @@ async def read_book_by_id(user, id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+async def update_book(user, id, book):
+    # Lọc ra chỉ các trường cần cập nhật
+    update_fields = {key: value for key, value in book.items() if value is not None}
+
+    if not update_fields:
+        raise HTTPException(status_code=400, detail="No fields to update")
+
+    # Thực hiện cập nhật bản ghi trong MongoDB
+    result = await books.update_one(
+        {"_id": ObjectId(id), "user_id": user["_id"]}, {"$set": update_fields}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    # Lấy lại toàn bộ bản ghi sau khi cập nhật
+    book = await books.find_one({"_id": ObjectId(id), "user_id": user["_id"]})
+
+    if not book:
+        raise HTTPException(status_code=404, detail="Book not found after update")
+    print(book)
+
+    book["_id"] = str(book["_id"])
+    book["user_id"] = str(book["user_id"])
+    # Trả về chi tiết đầy đủ của bản ghi
+    return detail_book(book)
+
+
 async def delete_book(user, id):
     try:
         result = await books.delete_one({"_id": ObjectId(id), "user_id": user["_id"]})

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
 from app.controllers import auth_controller
-from app.models.user import UserLogin, UserRegister, UserUpdate
+from app.models.user import UserLogin, UserRegister, UserUpdate, UserChangePassword
 from app.middleware.require_authentication import require_authentication
 
 authRouter = APIRouter()
@@ -34,3 +34,8 @@ async def delete_user(request: Request):
 @authRouter.get("/me", dependencies=[Depends(require_authentication)])
 async def me(request: Request):
     return await auth_controller.get_me(request)
+
+
+@authRouter.put("/change-password", dependencies=[Depends(require_authentication)])
+async def change_password(request: Request, password: UserChangePassword):
+    return await auth_controller.change_password(request, password)
