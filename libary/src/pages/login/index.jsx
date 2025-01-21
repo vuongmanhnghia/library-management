@@ -1,47 +1,31 @@
 import React from 'react';
-import { Form, Input, Button, Row, message, Typography } from 'antd';
-import axios from 'axios';
+import { Form, Input, Button, Row, Typography, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { update } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import AuthService from '../../services/authService';
 import { getUser } from '../../utils/services/auth';
-
 const { Text } = Typography;
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate(); // Khởi tạo useNavigate hook
-    const apiUrl = process.env.REACT_APP_API_URL;
 
     const onFinish = async (values) => {
-        const payload = {
-            email: values.email,
-            password: values.password,
-        };
+        const onAuthFinish = await AuthService.login(values);
 
-        try {
-            const response = await axios.post(`${apiUrl}/auth/login`, payload);
-            if (response.data.status === 200) {
-                const { access_token } = response.data.data;
-
-                localStorage.setItem('access_token', access_token); // Lưu token vào localStorage
-                getUser(access_token).then((user) => {
-                    dispatch(update(user));
-                });
-                message.success('Login successfully!');
-
-                setTimeout(() => {
-                    navigate('/'); // Chuyển hướng sau 1 giây
-                }, 1000); // 1000ms = 1 giây // Sử dụng navigate thay vì return Navigate
-            } else {
-                throw new Error('Login failed. Please try again.');
-            }
-        } catch (error) {
-            const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
-            message.error(errorMessage);
+        if (onAuthFinish.success) {
+            getUser(onAuthFinish.token).then((user) => {
+                dispatch(update(user));
+            });
+            message.success(onAuthFinish.message);
+            setTimeout(() => {
+                navigate('/'); // Chuyển hướng sau 0.5 giây
+            }, 500);
+        } else {
+            message.error(onAuthFinish.message);
         }
     };
-
     return (
         <Row
             style={{
@@ -56,7 +40,16 @@ const Login = () => {
             }}
         >
             <Row>
-                <Text style={{ color: 'var(--ant-primary-8)', fontWeight: 'bold', fontSize: '32px', marginBottom: '16px' }}>Login Account</Text>
+                <Text
+                    style={{
+                        color: 'var(--ant-primary-8)',
+                        fontWeight: 'bold',
+                        fontSize: '32px',
+                        marginBottom: '16px',
+                    }}
+                >
+                    Login Account
+                </Text>
             </Row>
             <Row justify={'center'}>
                 <Text
@@ -72,7 +65,13 @@ const Login = () => {
                 </Text>
             </Row>
 
-            <Form name="login" layout="vertical" onFinish={onFinish} size="large" style={{ marginTop: '16px', width: '100%', padding: '16px' }}>
+            <Form
+                name="login"
+                layout="vertical"
+                onFinish={onFinish}
+                size="large"
+                style={{ marginTop: '16px', width: '100%', padding: '16px' }}
+            >
                 <Form.Item
                     className="custom-form-item"
                     label="Email address"
@@ -95,7 +94,7 @@ const Login = () => {
                 >
                     <Input.Password placeholder="Password" style={{ backgroundColor: 'transparent' }} />
                 </Form.Item>
-                <Form.Item className="custom-form-item" >
+                <Form.Item className="custom-form-item">
                     <Button type="primary" htmlType="submit" block style={{ marginTop: '16px' }}>
                         Login
                     </Button>

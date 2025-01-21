@@ -4,38 +4,12 @@ import { UserOutlined, UploadOutlined } from '@ant-design/icons';
 import { getBase64 } from '../../utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { update } from '../../redux/userSlice';
-import axios from 'axios';
+import UserService from '../../services/userService'; // Import the service
 import dayjs from 'dayjs';
 
 const { Content } = Layout;
 const { Option } = Select;
 const { Title, Text } = Typography;
-const apiUrl = process.env.REACT_APP_API_URL;
-const updateUser = async (userData, token) => {
-    try {
-        const response = await axios.put(
-            `${apiUrl}/auth/`,
-            {
-                email: userData.email,
-                full_name: userData.full_name || undefined,
-                phone_number: userData.phone_number || undefined,
-                avatar: userData.avatar,
-                gender: userData.gender,
-                date_of_birth: userData.date_of_birth,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            },
-        );
-        return response.data;
-    } catch (error) {
-        console.error('Error updating user:', error);
-        throw error;
-    }
-};
 
 const ProfilePage = () => {
     const [form] = Form.useForm();
@@ -50,35 +24,23 @@ const ProfilePage = () => {
         setFormData((prev) => ({ ...prev, ...changedValues }));
     };
 
-    console.log(userValue.date_of_birth);
-
     const handleUpdate = async (values) => {
         const token = localStorage.getItem('access_token');
-        if (!token) {
-            message.error('Authentication token is missing!');
-            return;
-        }
+        const updatedUser = {
+            full_name: values.full_name || userValue.full_name,
+            email: values.email || userValue.email,
+            phone_number: values.phone || userValue.phone_number,
+            avatar: previewAvatar || avatar || userValue.avatar,
+            gender: values.gender || userValue.gender,
+            date_of_birth: values.date_of_birth ? values.date_of_birth.format('DD/MM/YYYY') : userValue.date_of_birth,
+        };
 
-        try {
-            const updatedUser = {
-                full_name: values.full_name || userValue.full_name,
-                email: values.email || userValue.email,
-                phone_number: values.phone || userValue.phone_number,
-                avatar: previewAvatar || avatar || userValue.avatar,
-                gender: values.gender || userValue.gender,
-                date_of_birth: values.date_of_birth
-                    ? values.date_of_birth.format('DD/MM/YYYY')
-                    : userValue.date_of_birth,
-                country: values.country || 'Vietnam',
-            };
-
-            const response = await updateUser(updatedUser, token);
-            message.success('Profile updated successfully!');
-
-            // Update Redux state
+        const response = await UserService.update(updatedUser, token); 
+        if (response.success) {
+            message.success(response.message);
             dispatch(update(response.data));
-        } catch (error) {
-            message.error('Failed to update profile. Please try again.');
+        } else {
+            message.error(response.message);
         }
     };
 
@@ -133,7 +95,6 @@ const ProfilePage = () => {
                                 phone: userValue.phone_number,
                                 gender: userValue.gender,
                                 date_of_birth: userValue.date_of_birth ? dayjs(userValue.date_of_birth) : null,
-                                country: 'Vietnam',
                             }}
                             onValuesChange={handleInputChange}
                             onFinish={handleUpdate}
@@ -163,7 +124,7 @@ const ProfilePage = () => {
                             </Form.Item>
 
                             <Form.Item label="Gender" name="gender">
-                                <Select placeholder="Select your gender" >
+                                <Select placeholder="Select your gender">
                                     <Option value="male">Male</Option>
                                     <Option value="female">Female</Option>
                                     <Option value="other">Other</Option>
@@ -176,20 +137,6 @@ const ProfilePage = () => {
                                     placeholder="Select your birth date"
                                     format="DD/MM/YYYY"
                                 />
-                            </Form.Item>
-
-                            <Form.Item
-                                label="Country"
-                                name="country"
-                                rules={[{ required: true, message: 'Please select your country!' }]}
-                            >
-                                <Select placeholder="Select your country">
-                                    <Option value="Vietnam">Vietnam</Option>
-                                    <Option value="USA">USA</Option>
-                                    <Option value="Canada">Canada</Option>
-                                    <Option value="UK">UK</Option>
-                                    <Option value="Other">Other</Option>
-                                </Select>
                             </Form.Item>
 
                             <Form.Item style={{ textAlign: 'center' }}>

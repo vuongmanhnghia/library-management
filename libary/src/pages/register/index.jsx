@@ -1,47 +1,29 @@
 import React from 'react';
 import { Form, Input, Button, Row, message, Typography } from 'antd';
-import axios from 'axios';
+import AuthService from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
-import { convertImagePathToBase64 } from '../../utils';
 
 const { Text } = Typography;
 const Register = () => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const imagePath = process.env.PUBLIC_URL + '/static/imgs/image.png';
-    let base64IMG = ''; // Khai báo biến base64IMG
-    (async () => {
-        base64IMG = await convertImagePathToBase64(imagePath);
-    })();
-    const navigate = useNavigate(); // Khởi tạo useNavigate hook
+    const navigate = useNavigate();
+
     const onFinish = async (values) => {
-        const payload = {
-            email: values.email,
-            password: values.password,
-            phone_number: values.phoneNumber, // Map đúng key "phone_number"
-            full_name: values.name, // Map đúng key "full_name"
-            date_of_birth: '01/01/2000',
-            gender: '',
-            role: 'user',
-            avatar: base64IMG || '', // Gán ảnh mặc định
-        };
+        console.log('Received values of form: ', values);
         try {
-            const response = await axios.post(`${apiUrl}/auth/register`, payload);
-            if (response.data.status === 201) {
-                message.success('Registration successful!');
-                navigate('/login'); // Redirect or clear form if needed
-                // Redirect or clear form if needed
+            const onAuthFinish = await AuthService.register(values); // Chờ kết quả từ API
+
+            if (onAuthFinish.success) {
+                message.success(onAuthFinish.message);
+                setTimeout(() => {
+                    navigate('/login'); // Chuyển hướng sau 0.5 giây
+                }, 500);
             } else {
-                throw new Error('Registration failed!');
+                message.error(onAuthFinish.message);
             }
         } catch (error) {
-            message.error(error.response?.data?.message || 'Registration failed!');
+            message.error('Something went wrong. Please try again.');
         }
     };
-
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
-
     return (
         <Row
             className="shadow"
@@ -68,7 +50,13 @@ const Register = () => {
                     Create an Account
                 </Text>
             </Row>
-            <Form name="register" layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed} size="large" style={{ width: '100%', padding: '16px' }}>
+            <Form
+                name="register"
+                layout="vertical"
+                onFinish={onFinish}
+                size="large"
+                style={{ width: '100%', padding: '16px' }}
+            >
                 {/* Name Field */}
                 <Form.Item
                     className="custom-form-item"

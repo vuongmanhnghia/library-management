@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Modal, Row, Col, Card, Radio, message } from 'antd';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import UserService from '../../services/userService';
 import { logout } from '../../redux/userSlice';
 
 const Setting = () => {
-    const token = localStorage.getItem('access_token');
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // Handle password change submission
@@ -17,39 +15,27 @@ const Setting = () => {
         alert('Password has been updated successfully!');
     };
 
-    // Show delete account confirmation modal
     const showDeleteAccountModal = () => {
-        setIsModalVisible(true);
+        setIsModalOpen(true);
     };
 
     const handleDeleteAccount = async () => {
-        // Logic to delete the account
-        try {
-            const response = await axios.delete(`${apiUrl}/auth/`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            console.log(response);
-            if (response.data.status === 200) {
-                message.success('Account deleted successfully!');
-                setInterval(() => {
-                    navigate('/register');
-                    dispatch(logout());
-                }, 500);
-            } else {
-                throw new Error('Account deletion failed!');
-            }
-        } catch (error) {
-            message.error(error.response?.data?.message || 'Account deletion failed!');
+        const token = localStorage.getItem('access_token');
+        const response = await UserService.delete(token);
+        if (response.success) {
+            message.success(response.message);
+            setInterval(() => {
+                navigate('/register');
+                dispatch(logout());
+            }, 500);
+        } else {
+            message.error(response.message);
         }
-        setIsModalVisible(false);
+        setIsModalOpen(false);
     };
 
     const handleCancel = () => {
-        setIsModalVisible(false);
+        setIsModalOpen(false);
     };
 
     return (
@@ -157,7 +143,7 @@ const Setting = () => {
                         <span>Confirm Account Deletion</span>
                     </div>
                 }
-                visible={isModalVisible}
+                visible={isModalOpen}
                 onOk={handleDeleteAccount}
                 onCancel={handleCancel}
                 okText="Delete"
