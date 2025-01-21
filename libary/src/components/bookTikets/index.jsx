@@ -21,21 +21,19 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file }) => {
                         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                     },
                 });
-
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.message || 'Failed to delete book');
                 }
-
                 message.success('Delete book successfully');
-                // Dispatching removeBook action to update Redux state
+                // Xóa book và cập nhật lại sáchsách
                 dispatch(removeBook(id));
             } catch (error) {
                 console.error('Error deleting book:', error.message);
                 message.error('Failed to delete the book');
             }
         },
-        [dispatch]
+        [dispatch],
     );
 
     const confirmDelete = (id) => {

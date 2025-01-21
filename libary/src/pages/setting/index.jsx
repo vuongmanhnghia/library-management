@@ -1,3 +1,10 @@
+/* 
+    Chức năng chính page: Cài đặt của người dùng, cài đặt mật khóa, thay đổi mật khóa, xóa tài khoản
+    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
+    Các chức năng đăng phát triển: dark mode
+*/
+
+
 import React, { useState } from 'react';
 import { Form, Input, Button, Modal, Row, Col, Card, Radio, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +16,6 @@ const Setting = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // Handle password change submission
     const onFinishPasswordChange = (values) => {
         UserService.updatePassword(values)
             .then((response) => {
@@ -107,7 +113,7 @@ const Setting = () => {
                     </Card>
                 </Col>
 
-                {/* Other Setting */}
+                {/* Other Setting, danh sách những chức năng đang phát triển  */}
                 <Col span={12} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <Row style={{ display: 'inline-block' }}>
                         <Card title="Other Features (In Progress)" bordered>
@@ -131,7 +137,7 @@ const Setting = () => {
                     </Row>
                 </Col>
 
-                {/* Dark Mode Settings */}
+                {/* Dark Mode Settings, đang phát triển */}
                 <Col span={12}>
                     <Card title="Dark Mode Settings" bordered>
                         <Radio.Group defaultValue="system" buttonStyle="solid">

@@ -1,3 +1,7 @@
+/*
+    Chức năng: thiết lập đường dẫn cho các pages
+*/
+
 import UploadBook from '../pages/upload';
 import Contract from '../pages/contract';
 import Convarsation from '../pages/conversation';
@@ -29,7 +33,7 @@ const privateRoutes = [
     { path: '/setting', component: Setting, layout: OnlySideBarAndFooter },
     { path: '/my-books', component: MyBooks, layout: OnlySideBarAndFooter},
     { path: '/contract', component: Contract, layout: OnlySideBarAndFooter },
-    { path: '/view-book/:id', component:  ViewBook, layout: OnlySideBarAndFooter }, // Sửa đường dẫn này
+    { path: '/view-book/:id', component:  ViewBook, layout: OnlySideBarAndFooter },
     { path: '/edit-book/:id', component: EditBook, layout: OnlySideBarAndFooter },
 ];
 

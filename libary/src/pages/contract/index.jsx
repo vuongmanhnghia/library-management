@@ -1,3 +1,8 @@
+/* 
+    Chức năng chính page: Gửi phản hồi về sản phẩm với nhà phát triển 
+    Công nghệ sử dụng: EmailJS
+*/
+
 import React from 'react';
 import { Form, Input, Button, message, Select, Row, Typography } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
@@ -28,10 +33,10 @@ const Contract = () => {
 
         emailjs
             .send(
-                'service_h53j3ji', // Thay bằng Service ID trong EmailJS
-                'template_w1ic71w', // Thay bằng Template ID trong EmailJS
+                'service_h53j3ji', // Service ID trong EmailJS
+                'template_w1ic71w', // Template ID trong EmailJS
                 templateParams,
-                'GX77PhhpWopOUzlxQ', // Thay bằng User ID trong EmailJS
+                'GX77PhhpWopOUzlxQ', // User ID trong EmailJS
             )
             .then((response) => {
                 console.log('Email sent:', response);

@@ -1,3 +1,8 @@
+/* 
+    Chức năng chính page: Cho phép chỉnh sửa sách (người chủ sở hữu cuốn sách đó và admin mới được sửa)
+    Công nghệ sử dụng: dayjs (fomat ngày tháng), mã hóa base64 (giúp upload tài liệu lên server- tạm thời)
+*/
+
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message } from 'antd';
 import { useParams } from 'react-router-dom';

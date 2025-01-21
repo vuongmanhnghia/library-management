@@ -19,7 +19,7 @@ const CarouselSlide = ({ text, image, position='center' }) => {
         <div
             style={{
                 ...slideStyle,
-                backgroundImage: `url(${image})`, // Set background image dynamically
+                backgroundImage: `url(${image})`,
                 backgroundPosition: position,
             }}
         >

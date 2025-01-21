@@ -1,6 +1,6 @@
 function truncateText(text, lenText) {
     if (!text) {
-        return ''; // Or handle this case in the way that makes sense for your app (return a default value, throw an error, etc)
+        return ''; 
     }
     if (text.length > lenText) {
         return text.slice(0, lenText) + '...';
@@ -29,10 +29,10 @@ const convertImagePathToBase64 = async (imagePath) => {
         });
 
     try {
-        const response = await fetch(imagePath); // Tải ảnh từ đường dẫn
-        const blob = await response.blob(); // Chuyển ảnh thành Blob
-        const base64String = await getBase64(blob); // Chuyển Blob sang Base64
-        return base64String; // Trả về chuỗi Base64
+        const response = await fetch(imagePath); 
+        const blob = await response.blob(); 
+        const base64String = await getBase64(blob); 
+        return base64String; 
     } catch (error) {
         console.error('Lỗi khi chuyển ảnh thành Base64:', error);
         return null;

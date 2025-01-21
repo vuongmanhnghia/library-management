@@ -12,7 +12,7 @@ import {
     UserOutlined,
     LogoutOutlined,
 } from '@ant-design/icons';
-import { logout } from '../../redux/userSlice'; // Import action logout
+import { logout } from '../../redux/userSlice';
 
 const { Sider } = Layout;
 
@@ -68,7 +68,7 @@ const Sidebar = () => {
                     </Menu.Item>
                     <Menu.Item key="4" disabled>
                         <CommentOutlined style={{ marginRight: '8px' }} disabled />
-                        {/* <Link to="/conversation" disabled>Conversation</Link> */}
+                        {/* <Link to="/conversation" disabled>Conversation</Link> */} {/* Update sausau */}
                         <Link to="#" disabled>Conversation</Link>
                     </Menu.Item>
                     <Menu.Item key="5">

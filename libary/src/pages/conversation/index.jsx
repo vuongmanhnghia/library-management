@@ -1,3 +1,10 @@
+/* 
+    ĐANG PHÁT TRIỂN
+    Chức năng chính page: Diễn đàn sách cho các bạn đọc thảo luận bài đăng như 1 mạng xã hội
+    Công nghệ sử dụng: uuid( dùng để tao id )
+*/
+
+
 import React, { useState } from 'react';
 import { Card, List, Input, Button, Avatar, Typography, Upload, Select } from 'antd';
 import { UploadOutlined, ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
@@ -13,8 +20,8 @@ const Conversation = () => {
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState('');
     const [attachments, setAttachments] = useState([]);
-    const [anonymousMode, setAnonymousMode] = useState(true); // Anonymous mode
-    const [replyingTo, setReplyingTo] = useState(null); // Track the comment being replied to
+    const [anonymousMode, setAnonymousMode] = useState(true);
+    const [replyingTo, setReplyingTo] = useState(null); 
 
     const handleAddPost = () => {
         if (newPost.trim() || attachments.length > 0) {
@@ -37,7 +44,7 @@ const Conversation = () => {
     };
 
     const handleAddComment = (postId, comment, parentCommentId = null) => {
-        const timestamp = new Date().toLocaleString(); // Get the current time
+        const timestamp = new Date().toLocaleString(); 
         setPosts(
             posts.map((post) =>
                 post.id === postId
@@ -284,7 +291,7 @@ const Conversation = () => {
                                 onPressEnter={(e) => {
                                     if (e.target.value.trim()) {
                                         handleAddComment(post.id, e.target.value.trim());
-                                        e.target.value = ''; // Xóa nội dung input
+                                        e.target.value = '';
                                     }
                                 }}
                             />

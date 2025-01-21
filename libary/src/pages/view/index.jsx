@@ -1,3 +1,9 @@
+/* 
+    Chức năng chính page: Trang xem chi tiết sách trên hệ thống thư viện
+    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
+    Công nghệ đang phát triển: Chức năng feedback sách, đánh giá sao
+*/
+
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, Space, Row, Layout, Col, Descriptions, Rate, Input, Empty, Card } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons'; // Feedback logic, update later
@@ -48,7 +54,7 @@ const ViewBook = () => {
     const handleSubmitFeedback = () => {
         if (feedback.trim()) {
             setFeedbackList([...feedbackList, feedback]);
-            setFeedback(''); // Clear the input after submitting
+            setFeedback('');
         }
     };
 

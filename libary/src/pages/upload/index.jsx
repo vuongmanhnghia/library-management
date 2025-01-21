@@ -1,3 +1,8 @@
+/* 
+    Chức năng chính page: Cho phép upload sách lên trên hệ thống thư viện cho mọi người cùng truy cập
+    Công nghệ sử dụng: base64 (giúp upload ảnh, file sách lên server- tạm thời)
+*/
+
 import React, { useState } from 'react';
 import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message } from 'antd';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
@@ -30,16 +35,13 @@ const UploadBook = () => {
             const payload = {
                 title: values.title,
                 author: values.author,
-                published_date: values.date ? values.date.format('YYYY-MM-DD') : '0000-00-00', // Nếu không có date, trả về null
+                published_date: values.date ? values.date.format('YYYY-MM-DD') : '0000-00-00',
                 introduction: values.introduction,
                 cover: encodedCover,
                 file: encodedFile,
             };
 
-            // Lấy token từ localStorage
             const token = localStorage.getItem('access_token');
-
-            // API call
             const response = await fetch(`${apiUrl}/books/`, {
                 method: 'POST',
                 headers: {

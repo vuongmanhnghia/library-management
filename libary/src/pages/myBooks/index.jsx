@@ -1,3 +1,8 @@
+/* 
+    Chức năng chính page: Trang chính của website thể hiện toàn bộ sách của người dũng đã đăng 
+    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
+*/
+
 import { Layout, Row, Button, Result, Pagination } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -5,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import BookTikets from '../../components/bookTikets';
 import Loading from '../../components/loadingUI';
 import { setBooks } from '../../redux/bookSlice'; 
-
 import React from 'react';
 import Title from 'antd/es/typography/Title';
 
@@ -14,7 +18,6 @@ const MyBooks = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch(); 
-    // Accessing books from Redux state using useSelector
     const books = useSelector((state) => state.books.books);
 
     const fetchBooks = async () => {
@@ -29,8 +32,7 @@ const MyBooks = () => {
             });
             if (response.status === 200) {
                 const data = await response.json();
-                // Dispatching setBooks action to update Redux state
-                dispatch(setBooks(data.data || [])); // Ensure data is an array, default to empty array
+                dispatch(setBooks(data.data || [])); 
             } else {
                 console.error('Error fetching books:', response);
             }
@@ -45,7 +47,6 @@ const MyBooks = () => {
         fetchBooks();
     }, [dispatch]); 
 
-    // Ensure books is defined and is an array before calling .length
     const isBooksEmpty = !Array.isArray(books) || books.length === 0;
 
     return (

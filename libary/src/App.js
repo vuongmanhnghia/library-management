@@ -7,9 +7,8 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { useSelector } from 'react-redux';
 
 function App() {
-    const user = useSelector((state) => state.user.user); // Lấy thông tin user từ Redux store
+    const user = useSelector((state) => state.user.user);
 
-    // Hàm để render các routes
     const renderRoutes = (routes, isPrivate = false) => {
         return routes.map((route, index) => {
             let Layout = DefaultLayout;
@@ -26,7 +25,7 @@ function App() {
                     key={index}
                     path={route.path}
                     element={
-                        isPrivate && !user ? ( // Nếu là private và chưa đăng nhập thì điều hướng về login
+                        isPrivate && !user ? (
                             <Navigate to="/login" replace />
                         ) : (
                             <Layout>

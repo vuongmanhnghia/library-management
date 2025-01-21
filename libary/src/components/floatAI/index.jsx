@@ -6,7 +6,7 @@ const FloatAI = () => {
     const [isPopoverVisible, setPopoverVisible] = useState(false);
     const [messages, setMessages] = useState([{ sender: 'AI', text: 'Hello! How can I help you today?' }]);
     const [newMessage, setNewMessage] = useState('');
-    const chatBoxRef = useRef(null); // Tham chiếu đến phần danh sách tin nhắn
+    const chatBoxRef = useRef(null);
 
     const handleSendMessage = () => {
         if (newMessage.trim()) {

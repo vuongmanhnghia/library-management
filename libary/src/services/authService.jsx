@@ -32,7 +32,7 @@ const AuthService = {
     },
     register: async (values) => {
         try {
-            let base64IMG = ''; // Khai báo biến base64IMG
+            let base64IMG = '';
             if (imagePath) {
                 base64IMG = await convertImagePathToBase64(imagePath);
             }

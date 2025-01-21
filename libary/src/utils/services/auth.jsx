@@ -12,7 +12,7 @@ const getUser = async (token) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        return response.data.data; // Trả về data thay vì toàn bộ response
+        return response.data.data;
     } catch (error) {
         console.error(error);
         return null;

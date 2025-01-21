@@ -59,7 +59,7 @@ const OnlyFooter = ({ children }) => {
                     width: '100%',
                     textAlign: 'center',
                     padding: '20px 0',
-                    zIndex: 1, // Ensure the footer stays on top
+                    zIndex: 1, 
                     backgroundColor: 'transparent',
                 }}
             >

@@ -1,3 +1,8 @@
+/* 
+    Chức năng chính page: Cho phép người dùng đăng ký tài khoản để truy cập thư viện hệ thống 
+    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
+*/
+
 import React from 'react';
 import { Form, Input, Button, Row, message, Typography } from 'antd';
 import AuthService from '../../services/authService';
@@ -10,12 +15,13 @@ const Register = () => {
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
         try {
-            const onAuthFinish = await AuthService.register(values); // Chờ kết quả từ API
+            // Connect với API để register
+            const onAuthFinish = await AuthService.register(values);
 
             if (onAuthFinish.success) {
                 message.success(onAuthFinish.message);
                 setTimeout(() => {
-                    navigate('/login'); // Chuyển hướng sau 0.5 giây
+                    navigate('/login');
                 }, 500);
             } else {
                 message.error(onAuthFinish.message);
@@ -127,7 +133,7 @@ const Register = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         marginTop: '8px',
-                        gap: '4px', // Khoảng cách giữa các phần tử
+                        gap: '4px', 
                     }}
                 >
                     <span>Already have an account?</span>
@@ -135,9 +141,9 @@ const Register = () => {
                         type="link"
                         style={{
                             fontSize: '14px',
-                            padding: '0', // Loại bỏ padding mặc định
-                            lineHeight: 'normal', // Giữ chữ không bị lệch
-                            color: '#cc0d00', // Màu đỏ giống Register
+                            padding: '0',
+                            lineHeight: 'normal',
+                            color: '#cc0d00',
                         }}
                         onClick={() => navigate('/login')}
                     >

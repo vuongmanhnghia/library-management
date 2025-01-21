@@ -1,3 +1,5 @@
+// Tạo redux user để tái sử dụng trong app
+
 import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
@@ -7,10 +9,10 @@ const userSlice = createSlice({
     },
     reducers: {
         update: (state, action) => {
-            state.user = action.payload; // Lưu thông tin user
+            state.user = action.payload;
         },
         logout: (state) => {
-            state.user = null; // Xóa thông tin user
+            state.user = null;
             localStorage.clear();
             window.location.reload();
         },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Ensure useState is imported
+import React, { useState } from 'react';
 import { Card, Button } from 'antd';
 import { HeartOutlined, ShareAltOutlined, HeartFilled } from '@ant-design/icons';
 import { truncateText } from '../../utils';
@@ -18,17 +18,17 @@ const CardRender = ({
     id,
     states = false,
 }) => {
-    const [heard, setHeard] = useState(false); // Corrected state initialization
+    const [heard, setHeard] = useState(false);
 
     const handleFacebookShare = () => {
-        const url = window.location.href; // Get current page URL
+        const url = window.location.href;
         const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
 
         window.open(facebookShareUrl, '_blank', 'width=600,height=400');
     };
 
     const handleHeartClick = () => {
-        setHeard((prevState) => !prevState); // Toggle heart state
+        setHeard((prevState) => !prevState); 
     };
 
     return (
@@ -58,11 +58,10 @@ const CardRender = ({
                 description={
                     <>
                         <span style={{ fontWeight: 'bold' }}>Author:</span> {truncateText(author, 18)}{' '}
-                        {/* Adjust max length as needed */} <br />
+                        <br />
                         <span style={{ fontWeight: 'bold' }}>Published Date:</span> {date}
                         <br />
                         <span style={{ fontWeight: 'bold' }}>Introduction:</span> {truncateText(intro, 45)}{' '}
-                        {/* Adjust max length as needed */}
                     </>
                 }
             />

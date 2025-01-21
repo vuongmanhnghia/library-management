@@ -1,3 +1,9 @@
+/* 
+    Chức năng chính page: Trang chính của website thể hiện toàn bộ sách trong thư viện 
+    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
+    Chức năng đang phát triển: Thích sách, search book, sort book
+*/
+
 import React, { useEffect, useState } from 'react';
 import { Button, Pagination, Row, Col, Select, Carousel } from 'antd';
 import Loading from '../../components/loadingUI';
@@ -10,7 +16,6 @@ const publicUrl = process.env.PUBLIC_URL;
 
 const CardItem = ({ title, text, src, author, date, id }) => {
     return (
-        // Card Component
         <CardRender
             key={id}
             img={src}
@@ -25,7 +30,7 @@ const CardItem = ({ title, text, src, author, date, id }) => {
     );
 };
 const Home = () => {
-    // Khai báo state
+    // Khai báo state cho home page 
     const [cardData, setCardData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);

@@ -1,7 +1,9 @@
+// Tạo redux book để tái sử dụng trong app
+
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    books: [], // Danh sách sách
+    books: [], 
 };
 
 const bookSlice = createSlice({

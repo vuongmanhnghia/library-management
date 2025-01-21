@@ -1,17 +1,23 @@
+/* 
+    Chức năng chính page: Trang đăng nhập tài khoản người dùng
+    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
+*/
+
 import React from 'react';
 import { Form, Input, Button, Row, Typography, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { update } from '../../redux/userSlice';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import AuthService from '../../services/authService';
 import { getUser } from '../../utils/services/auth';
 const { Text } = Typography;
 
 const Login = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // Khởi tạo useNavigate hook
+    const navigate = useNavigate(); 
 
     const onFinish = async (values) => {
+        // Connect với API để login
         const onAuthFinish = await AuthService.login(values);
 
         if (onAuthFinish.success) {
@@ -20,7 +26,7 @@ const Login = () => {
             });
             message.success(onAuthFinish.message);
             setTimeout(() => {
-                navigate('/'); // Chuyển hướng sau 0.5 giây
+                navigate('/');
             }, 500);
         } else {
             message.error(onAuthFinish.message);
@@ -106,7 +112,7 @@ const Login = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         marginTop: '8px',
-                        gap: '4px', // Khoảng cách giữa các phần tử
+                        gap: '4px',
                     }}
                 >
                     <span>Don't have an account? </span>
@@ -114,8 +120,8 @@ const Login = () => {
                         type="link"
                         style={{
                             fontSize: '14px',
-                            padding: '0', // Loại bỏ padding mặc định
-                            lineHeight: 'normal', // Giữ chữ không bị lệch
+                            padding: '0', 
+                            lineHeight: 'normal', 
                             color: '#cc0d00',
                         }}
                         onClick={() => navigate('/register')}

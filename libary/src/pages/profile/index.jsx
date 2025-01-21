@@ -1,3 +1,8 @@
+/* 
+    Chức năng chính page: Thể hiện thông tin cá nhân của người dùng , và cho phép thay đổi cập nhật thông tintin
+    Công nghệ sử dụng: base64 (giúp upload ảnh lên server- tạm thời), dayjs (fomat ngày tháng)
+*/
+
 import React, { useState } from 'react';
 import { Layout, Form, Input, Button, Upload, message, Row, Col, Avatar, Select, DatePicker, Typography } from 'antd';
 import { UserOutlined, UploadOutlined } from '@ant-design/icons';
