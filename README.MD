@@ -10,11 +10,11 @@
 2. **Vương Mạnh Nghĩa**
    - Vai trò: Backend + database
 3. **Phạm Bá Tiến**
-   - Vai trò: 
+   - Vai trò: ...
 4. **Hoàng Thị Ngọc Linh**
-   - Vai trò: 
+   - Vai trò: ...
 5. **Lê Hoàng Anh**
-   - Vai trò: 
+   - Vai trò: ...
 
 ---
 ## **3. Ý tưởng:**
@@ -35,7 +35,7 @@ Dự án **Library Forum** cho phép:
 
 #### b. Quản lý đăng sách
 - Hệ thống chia sẻ sách lên như 1 diễn đàn.
-- **Chức năng chính:Đăng sách, sửa sách, xóa sách.
+- Chức năng chính:Đăng sách, sửa sách, xóa sách.
 - Chức năng phụ: Like và chia sẻ sách.
 - Xem chi tiết sách.
 - Đánh giá sao, feedback (đang phát triển).
@@ -62,56 +62,60 @@ git clone <link_git_repo>
 cd <thư_mục_dự_án>
 ```
 
+### **⚠️ Lưu ý chạy Frontend và Backend ở 2 terminal khác nhau để dự án hoạt động. ⚠️**
+
 ### **5.2 Cài đặt Backend**
+1. Từ thư mục gốc của dự án
 
 ```bash
 cd fastAPI
 ```
 
-1. Cài đặt môi trường ảo (Hãy chắc chắn rằng bạn đã cài python trên máy)
+2. Cài đặt môi trường ảo (Hãy chắc chắn rằng bạn đã cài python trên máy)
 
 ```bash
 python -m venv venv
 ```
 
-2. Create `.env` file và copy content trong file `.env.example` đến file `.env` và config các biến môi trường
+3. Create `.env` file và copy content trong file `.env.example` đến file `.env` và config các biến môi trường
 
-3. Select Interpreter
+4. Select Interpreter
 
 ```bash
 venv\Scripts\activate
 ```
 
-4. Cài đặt các thư viện cần thiết
+5. Cài đặt các thư viện cần thiết
 
 ```bash
 pip install -r requirements.txt
 ```
 
-5. Chạy dự án
+6. Chạy dự án
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
 ### **5.3 Cài đặt Frontend**
+1.- Từ thư mục gốc của dự án
 
 ```bash
 cd libary
 ```
 
-1. Cài đặt thư viện 
+2. Cài đặt thư viện 
 ```bash
 npm install
 ```
 
-2. Tạo file `.env` cùng cấp với `\src` và `\public` và thiết lập các biến như trong `.env.example`
+3. Tạo file `.env` cùng cấp với `\src` và `\public` và thiết lập các biến như trong `.env.example`
 
-3. Chạy dự án 
+4. Chạy dự án 
 ```bash
 npm start 
 ```
-4. Cài đặt các tthư viện bổ sung (nếu có)
+5. Cài đặt các tthư viện bổ sung (nếu có)
 - React Router Dom (quản lý điều hướng):
 ```bash
 npm install react-router-dom
