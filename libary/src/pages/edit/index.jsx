@@ -61,7 +61,7 @@ const EditBook = () => {
                     });
                 });
             } catch (error) {
-                console.error('Error fetching book:', error);
+                message.error('Failed to fetch book details. Please try again.');
             } finally {
                 setLoading(false);
             }

@@ -5,7 +5,7 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Space, Row, Layout, Col, Descriptions, Rate, Input, Empty, Card } from 'antd';
+import { Typography, Button, Space, Row, Layout, Col, Descriptions, Rate, Input, Empty, Card, message } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons'; // Feedback logic, update later
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -30,7 +30,7 @@ const ViewBook = () => {
                 const response = await BookService.getBooksById(id);
                 setBook(response.data);
             } catch (error) {
-                console.error('Error fetching book:', error);
+                message.error('An unexpected error occurred while fetching book.');
             } finally {
                 setLoading(false);
             }
