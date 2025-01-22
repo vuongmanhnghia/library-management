@@ -57,65 +57,24 @@ Dự án **Library Forum** cho phép:
 ### Cài đặt và chạy dự án
 
 ### **5.1 Clone project**
+1. Clone dự án
 ```bash
 git clone <link_git_repo>
 cd <thư_mục_dự_án>
 ```
+2. Cài đặt python
+- Tham khảo link: https://www.python.org/
 
-### **⚠️ Lưu ý chạy Frontend và Backend ở 2 terminal khác nhau để dự án hoạt động. ⚠️**
-
-### **5.2 Cài đặt Backend**
-1. Từ thư mục gốc của dự án
-
+3. Bật dự án lên và chạy file
 ```bash
-cd fastAPI
-```
+   python3 setup_project.py
+   ```
 
-2. Cài đặt môi trường ảo (Hãy chắc chắn rằng bạn đã cài python trên máy)
-
-```bash
-python -m venv venv
-```
-
-3. Create `.env` file và copy content trong file `.env.example` đến file `.env` và config các biến môi trường
-
-4. Select Interpreter
-
-```bash
-venv\Scripts\activate
-```
-
-5. Cài đặt các thư viện cần thiết
-
-```bash
-pip install -r requirements.txt
-```
-
-6. Chạy dự án
-
-```bash
-uvicorn app.main:app --reload
-```
-
-### **5.3 Cài đặt Frontend**
-1.- Từ thư mục gốc của dự án
-
+4. Cài đặt các tthư viện bổ sung (nếu có)
+- Từ thư mục gốc dự án điều hướng đến file
 ```bash
 cd libary
 ```
-
-2. Cài đặt thư viện 
-```bash
-npm install
-```
-
-3. Tạo file `.env` cùng cấp với `\src` và `\public` và thiết lập các biến như trong `.env.example`
-
-4. Chạy dự án 
-```bash
-npm start 
-```
-5. Cài đặt các tthư viện bổ sung (nếu có)
 - React Router Dom (quản lý điều hướng):
 ```bash
 npm install react-router-dom
