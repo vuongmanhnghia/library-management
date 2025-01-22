@@ -3,7 +3,7 @@
     Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
 */
 
-import { Layout, Row, Button, Result, Pagination } from 'antd';
+import { Layout, Row, Button, Result, Pagination, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; 
@@ -12,9 +12,9 @@ import Loading from '../../components/loadingUI';
 import { setBooks } from '../../redux/bookSlice'; 
 import React from 'react';
 import Title from 'antd/es/typography/Title';
+import BookService from '../../services/bookService';
 
 const MyBooks = () => {
-    const apiUrl = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch(); 
@@ -23,21 +23,14 @@ const MyBooks = () => {
     const fetchBooks = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${apiUrl}/users/my-books`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                },
-            });
-            if (response.status === 200) {
-                const data = await response.json();
-                dispatch(setBooks(data.data || [])); 
+            const response = await BookService.getUserBooks(1, 7);
+            if (response.success) {
+                dispatch(setBooks(response.data));
             } else {
-                console.error('Error fetching books:', response);
+                message.error(response.message);
             }
         } catch (error) {
-            console.error('Error fetching books:', error);
+            message.error('An unexpected error occurred while fetching books.');
         } finally {
             setLoading(false);
         }
@@ -45,7 +38,7 @@ const MyBooks = () => {
 
     useEffect(() => {
         fetchBooks();
-    }, [dispatch]); 
+    }, [dispatch, setLoading]);
 
     const isBooksEmpty = !Array.isArray(books) || books.length === 0;
 

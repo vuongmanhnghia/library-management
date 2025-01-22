@@ -9,13 +9,12 @@ import { useParams } from 'react-router-dom';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import CardRender from '../../components/bookCards';
 import { getBase64 } from '../../utils';
+import BookService from '../../services/bookService';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
 const { Title } = Typography;
-
 const defaultImage = 'https://via.placeholder.com/150';
-
 const EditBook = () => {
     const { id } = useParams();
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -23,9 +22,7 @@ const EditBook = () => {
 
     const [loading, setLoading] = useState(false);
     const [book, setBook] = useState({});
-
     const [form] = Form.useForm();
-
     const [previewCover, setPreviewCover] = useState(defaultImage);
     const [previewTitle, setPreviewTitle] = useState('Title of book');
     const [previewAuthor, setPreviewAuthor] = useState('author');
@@ -36,37 +33,32 @@ const EditBook = () => {
         const fetchBook = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${apiUrl}/books/${id}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                await BookService.getBooksById(id).then((response) => {
+                    const result = response.data;
+                    setBook(result);
+                    setPreviewCover(result.cover || defaultImage);
+                    setPreviewTitle(result.title || 'Title of book');
+                    setPreviewAuthor(result.author || 'author');
+                    setPreviewDate(result.published_date || '0000-00-00');
+                    setPreviewIntroduction(result.introduction || 'This is a brief introduction of the book.');
 
-                const fetchedBook = response.data.data;
-                setBook(fetchedBook);
-                setPreviewCover(fetchedBook.cover || defaultImage);
-                setPreviewTitle(fetchedBook.title || 'Title of book');
-                setPreviewAuthor(fetchedBook.author || 'author');
-                setPreviewDate(fetchedBook.published_date || '0000-00-00');
-                setPreviewIntroduction(fetchedBook.introduction || 'This is a brief introduction of the book.');
+                    // Chuẩn bị fileList cho upload
+                    const coverFileList = result.cover
+                        ? [{ uid: '-1', name: `${result.title}.jpg`, status: 'done', url: result.cover }]
+                        : [];
+                    const fileFileList = result.file
+                        ? [{ uid: '-2', name: `${result.title}.pdf`, status: 'done', url: result.file }]
+                        : [];
 
-                // Chuẩn bị fileList cho upload
-                const coverFileList = fetchedBook.cover
-                    ? [{ uid: '-1', name: `${fetchedBook.title}.jpg`, status: 'done', url: fetchedBook.cover }]
-                    : [];
-                const fileFileList = fetchedBook.file
-                    ? [{ uid: '-2', name: `${fetchedBook.title}.pdf`, status: 'done', url: fetchedBook.file }]
-                    : [];
-
-                // Update form fields với dữ liệu hiện tại
-                form.setFieldsValue({
-                    title: fetchedBook.title,
-                    author: fetchedBook.author,
-                    date: fetchedBook.published_date ? dayjs(fetchedBook.published_date) : null,
-                    introduction: fetchedBook.introduction,
-                    coverUpload: coverFileList,
-                    fileUpload: fileFileList,
+                    // Update form fields với dữ liệu hiện tại
+                    form.setFieldsValue({
+                        title: result.title,
+                        author: result.author,
+                        date: result.published_date ? dayjs(result.published_date) : null,
+                        introduction: result.introduction,
+                        coverUpload: coverFileList,
+                        fileUpload: fileFileList,
+                    });
                 });
             } catch (error) {
                 console.error('Error fetching book:', error);
@@ -79,32 +71,28 @@ const EditBook = () => {
 
     const handleFinish = async (values) => {
         setLoading(true);
+        const coverFile = values.coverUpload?.[0]?.originFileObj;
+        const bookFile = values.fileUpload?.[0]?.originFileObj;
+
+        const encodedCover = coverFile ? await getBase64(coverFile) : null;
+        const encodedFile = bookFile ? await getBase64(bookFile) : null;
+
+        const payload = {
+            ...book, // Giữ lại các trường cũ
+            title: values.title,
+            author: values.author,
+            published_date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : book.published_date,
+            introduction: values.introduction,
+            cover: encodedCover || book.cover,
+            file: encodedFile || book.file,
+        };
         try {
-            const coverFile = values.coverUpload?.[0]?.originFileObj;
-            const bookFile = values.fileUpload?.[0]?.originFileObj;
-
-            const encodedCover = coverFile ? await getBase64(coverFile) : null;
-            const encodedFile = bookFile ? await getBase64(bookFile) : null;
-
-            const payload = {
-                ...book, // Giữ lại các trường cũ
-                title: values.title,
-                author: values.author,
-                published_date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : book.published_date,
-                introduction: values.introduction,
-                cover: encodedCover || book.cover,
-                file: encodedFile || book.file,
-            };
-            console.log('Payload update', payload);
-            await axios.put(
-                `${apiUrl}/books/${id}`,payload,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                },
-            );
-            message.success('Book edited successfully.');
+            const response = await BookService.update(id, payload);
+            if (response.success) {
+                message.success(response.message);
+            } else {
+                message.error(response.message);
+            }
         } catch (error) {
             message.error('Failed to edit the book. Please try again.');
         } finally {

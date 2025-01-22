@@ -9,7 +9,7 @@ const OnlyFooter = ({ children }) => {
     return (
         <div style={{ minHeight: '100vh', position: 'relative' }}>
             <Row>
-                <Col xs={24} sm={24} md={12} lg={14} style={{ position: 'relative', borderRadius: '0 16px 16px 0' }}>
+                <Col xs={24} sm={24} md={12} lg={15} style={{ position: 'relative', borderRadius: '0 16px 16px 0' }}>
                     <Title
                         level={2}
                         style={{
@@ -40,14 +40,14 @@ const OnlyFooter = ({ children }) => {
                     xs={24}
                     sm={24}
                     md={12}
-                    lg={10}
+                    lg={9}
                     style={{
-                        backgroundColor: 'var(--ant-primary-2)', // Giữ nguyên màu từ biến CSS
-                        backdropFilter: 'blur(10px)', // Làm mờ nền phía sau
-                        WebkitBackdropFilter: 'blur(10px)', // Tương thích Webkit
-                        opacity: 0.8, // Tạo độ trong suốt cho màu
-                        borderRadius: '16px 0 0 16px', // Bo góc
-                        boxShadow: '0px 0px 20px 20px var(--ant-primary-2), 0 4px 6px var(--ant-primary-2);', // Bóng đổ
+                        backgroundColor: 'var(--ant-primary-2)', 
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        opacity: 0.8,
+                        borderRadius: '16px 0 0 16px',
+                        boxShadow: '0px 0px 20px 20px var(--ant-primary-2), 0 4px 6px var(--ant-primary-2)',
                     }}
                 >
                     <Row

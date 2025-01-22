@@ -14,7 +14,7 @@ const { Text } = Typography;
 
 const Login = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const onFinish = async (values) => {
         // Connect với API để login
@@ -120,8 +120,8 @@ const Login = () => {
                         type="link"
                         style={{
                             fontSize: '14px',
-                            padding: '0', 
-                            lineHeight: 'normal', 
+                            padding: '0',
+                            lineHeight: 'normal',
                             color: '#cc0d00',
                         }}
                         onClick={() => navigate('/register')}

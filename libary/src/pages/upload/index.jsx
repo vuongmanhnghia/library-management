@@ -7,14 +7,13 @@ import React, { useState } from 'react';
 import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message } from 'antd';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import CardRender from '../../components/bookCards';
+import BookService from '../../services/bookService';
 import { getBase64 } from '../../utils';
 
 const { Title } = Typography;
-
 const defaultImage = 'https://via.placeholder.com/150';
 
 const UploadBook = () => {
-    const apiUrl = process.env.REACT_APP_API_URL;
     const [loading, setLoading] = useState(false);
     const [previewCover, setPreviewCover] = useState(defaultImage);
     const [previewTitle, setPreviewTitle] = useState('Title of book');
@@ -24,14 +23,11 @@ const UploadBook = () => {
 
     const handleFinish = async (values) => {
         setLoading(true);
-
         try {
             const coverFile = values.coverUpload?.[0]?.originFileObj;
             const bookFile = values.fileUpload?.[0]?.originFileObj;
-
             const encodedCover = coverFile ? await getBase64(coverFile) : null;
             const encodedFile = bookFile ? await getBase64(bookFile) : null;
-
             const payload = {
                 title: values.title,
                 author: values.author,
@@ -40,28 +36,20 @@ const UploadBook = () => {
                 cover: encodedCover,
                 file: encodedFile,
             };
-
-            const token = localStorage.getItem('access_token');
-            const response = await fetch(`${apiUrl}/books/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(payload),
-            });
-            
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Error response:', errorData);
-                throw new Error(`HTTP error! status: ${response.status}`);
+            try {
+                const response = await BookService.create(payload);
+                if (response.success) {
+                    message.success(response.message);
+                } else {
+                    message.error(response.message);
+                }
+            } catch (error) {
+                message.error("An unexpected error occurred while creating books.");
             }
-            setLoading(false);
-            message.success('Book added successfully!');
         } catch (error) {
-            console.error('Error:', error);
+            message.error('An unexpected error occurred while creating books.');
+        } finally {
             setLoading(false);
-            message.error('Failed to add the book. Please try again.');
         }
     };
 
@@ -196,7 +184,9 @@ const UploadBook = () => {
                     lg={8}
                     style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}
                 >
-                    <Title level={5} style={{ marginTop: '0' }}>Preview Book</Title>
+                    <Title level={5} style={{ marginTop: '0' }}>
+                        Preview Book
+                    </Title>
                     <CardRender
                         img={previewCover}
                         title={previewTitle}
@@ -206,7 +196,7 @@ const UploadBook = () => {
                         canHover={false}
                         widthCard={280}
                         heightCard={280}
-                        states = {true}
+                        states={true}
                     />
                 </Col>
             </Row>

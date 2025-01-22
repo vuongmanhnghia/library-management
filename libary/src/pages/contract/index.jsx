@@ -6,19 +6,11 @@
 import React from 'react';
 import { Form, Input, Button, message, Select, Row, Typography } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
-import emailjs from '@emailjs/browser';
 import { useSelector } from 'react-redux';
+import MailService from '../../services/mailService';
 
-const { Option } = Select;
 const { Title } = Typography;
-
-// error get
-// const serviceID = process.env.SERVICE_EMAILJS_ID;
-// const templateID = process.env.TEMPLATE_EMAILJS_ID;
-// const userIDemailJS = process.env.USER_EMAILJS_ID;
-
 const Contract = () => {
-
     const userValue = useSelector((state) => state.user.user);
     const userStreamToken = localStorage.getItem('access_token').split('.')[1];
     const onFinish = (values) => {
@@ -31,23 +23,8 @@ const Contract = () => {
             inquiry: values.inquiry,
         };
 
-        emailjs
-            .send(
-                'service_h53j3ji', // Service ID trong EmailJS
-                'template_w1ic71w', // Template ID trong EmailJS
-                templateParams,
-                'GX77PhhpWopOUzlxQ', // User ID trong EmailJS
-            )
-            .then((response) => {
-                console.log('Email sent:', response);
-                message.success('Inquiry Submitted Successfully');
-            })
-            .catch((error) => {
-                console.error('Error sending email:', error);
-                message.error('Submission Failed');
-            });
+        MailService.send(templateParams);
     };
-
     return (
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
             <Row justify="center" style={{ marginTop: '24px' }}>

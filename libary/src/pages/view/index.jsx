@@ -11,14 +11,13 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../../components/loadingUI';
 import { useSelector } from 'react-redux';
+import BookService from '../../services/bookService';
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
 
 const ViewBook = () => {
     const { id } = useParams();
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const token = localStorage.getItem('access_token');
     const user = useSelector((state) => state.user.user);
 
     const [book, setBook] = useState({});
@@ -28,13 +27,8 @@ const ViewBook = () => {
         const fetchBook = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${apiUrl}/books/${id}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setBook(response.data.data);
+                const response = await BookService.getBooksById(id);
+                setBook(response.data);
             } catch (error) {
                 console.error('Error fetching book:', error);
             } finally {

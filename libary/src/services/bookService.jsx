@@ -56,12 +56,11 @@ const BookService = {
                     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                 },
             });
-            console.log('Response:', response);
             if (response.status === 200) {
-                const result = response;
+                const result = await response.json();
                 return {
                     success: true,
-                    data: result,
+                    data: result.data,
                     message: 'Get user books successfully!',
                 };
             } else {
@@ -75,6 +74,101 @@ const BookService = {
                 success: false,
                 message: error.detail || 'An error occurred while fetching books. Please try again.',
             };
+        }
+    },
+    getBooksById: async (id) => {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            return {
+                success: false,
+                message: 'Authentication token is missing.',
+            };
+        }
+
+        try {
+            const response = await axios.get(`${apiUrl}/books/${id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(response);
+            if (response.status === 200) {
+                return {
+                    success: true,
+                    data: response.data.data,
+                    message: 'Get book successfully!',
+                };
+            } else {
+                return { success: false, message: 'Failed to get book. Please try again.' };
+            }
+        } catch (error) {
+            if (error.response) {
+                return {
+                    success: false,
+                    message: error.response.data.detail || 'An error occurred while fetching book. Please try again.',
+                };
+            } else {
+                return { success: false, message: 'An error occurred while fetching book. Please try again.' };
+            }
+        }
+    },
+    create: async (payload) => {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            return {
+                success: false,
+                message: 'Authentication token is missing.',
+            };
+        }
+
+        try {
+            const response = await axios.post(`${apiUrl}/books/`, payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                return {
+                    success: true,
+                    data: response.data.data,
+                    message: response.data.message,
+                };
+            } else {
+                return { success: false, message: 'Failed to create book. Please try again.' };
+            }
+        } catch (error) {
+            return { success: false, message: 'An error occurred while creating book. Please try again.' };
+        }
+    },
+    update: async (id, payload) => {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            return {
+                success: false,
+                message: 'Authentication token is missing.',
+            };
+        }
+
+        try {
+            const response = await axios.put(`${apiUrl}/books/${id}`, payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                return {
+                    success: true,
+                    data: response.data.data,
+                    message: response.data.message,
+                };
+            } else {
+                return { success: false, message: 'Failed to update book. Please try again.' };
+            }
+        } catch (error) {
+            return { success: false, message: 'An error occurred while updating book. Please try again.' };
         }
     },
 };

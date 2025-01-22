@@ -38,13 +38,16 @@ const ProfilePage = () => {
             gender: values.gender || userValue.gender,
             date_of_birth: values.date_of_birth ? values.date_of_birth.format('DD/MM/YYYY') : userValue.date_of_birth,
         };
-
+        try{
         const response = await UserService.update(updatedUser); 
         if (response.success) {
             message.success(response.message);
             dispatch(update(response.data));
         } else {
             message.error(response.message);
+        }}
+        catch(error){
+            message.error('Failed to update user. Please try again.');
         }
     };
 

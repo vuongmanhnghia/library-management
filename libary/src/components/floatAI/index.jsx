@@ -48,6 +48,7 @@ const FloatAI = () => {
                             justifyContent: item.sender === 'User' ? 'flex-end' : 'flex-start',
                             display: 'flex',
                             padding: '0 10px',
+                            marginBottom: '10px',
                         }}
                     >
                         <div
