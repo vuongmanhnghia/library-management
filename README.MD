@@ -62,15 +62,78 @@ Dự án **Library Forum** cho phép:
 git clone <link_git_repo>
 cd <thư_mục_dự_án>
 ```
-2. Cài đặt python
+
+### Cách 1: Setup auto
+1. Cài đặt python
 - Tham khảo link: https://www.python.org/
 
-3. Bật dự án lên và chạy file
+2. Bật dự án lên và chạy file
+- Với thiết bị window
 ```bash
-   python3 setup_project.py
+   python3 setup_window.py
+   ```
+- Với thiết bị Mac/Linux
+```bash
+   python3 setup_mac_linux.py
    ```
 
-4. Cài đặt các tthư viện bổ sung (nếu có)
+### Cách 2: Setup thủ công
+
+### **⚠️ Lưu ý chạy Frontend và Backend ở 2 terminal khác nhau để dự án hoạt động. ⚠️**
+
+### **Cài đặt Backend**
+1. Từ thư mục gốc của dự án
+
+```bash
+cd fastAPI
+```
+
+2. Cài đặt môi trường ảo (Hãy chắc chắn rằng bạn đã cài python trên máy)
+
+```bash
+python -m venv venv
+```
+
+3. Create `.env` file và copy content trong file `.env.example` đến file `.env` và config các biến môi trường
+
+4. Select Interpreter
+
+```bash
+venv\Scripts\activate
+```
+
+5. Cài đặt các thư viện cần thiết
+
+```bash
+pip install -r requirements.txt
+```
+
+6. Chạy dự án
+
+```bash
+uvicorn app.main:app --reload
+```
+
+### **Cài đặt Frontend**
+1.- Từ thư mục gốc của dự án
+
+```bash
+cd libary
+```
+
+2. Cài đặt thư viện 
+```bash
+npm install
+```
+
+3. Tạo file `.env` cùng cấp với `\src` và `\public` và thiết lập các biến như trong `.env.example`
+
+4. Chạy dự án 
+```bash
+npm start 
+```
+
+### Cài đặt các thư viện bổ sung (nếu có)
 - Từ thư mục gốc dự án điều hướng đến file
 ```bash
 cd libary
@@ -87,6 +150,7 @@ npm install axios
 ```bash
 npm install sass
 ```
+
 
 ## **6. Nguồn Tham Khảo**
 - [Ant Design](https://ant.design)
