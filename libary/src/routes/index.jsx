@@ -14,11 +14,12 @@ import MyBooks from '../client/pages/myBooks';
 import ViewBook from '../client/pages/view';
 import EditBook from '../client/pages/edit';
 
-import AdminDashboard from '../admin/pages/dashboard';
-
-
 import OnlyFooter from '../client/components/layouts/OnlyFooter';
 import OnlySideBarAndFooter from '../client/components/layouts/OnlySideBarAndFooter';
+
+import AdminDashboard from '../admin/pages/dashboard';
+
+import OnlySideBarAndFooterAdmin from '../admin/components/layout/OnlySideBarAndFooterAdmin';
 // allow view, user can't login
 const publicRoutes = [
     { path: '/login', component: Login, layout: OnlyFooter },
@@ -41,7 +42,8 @@ const privateRoutes = [
 
 // allow view, admin can login
 const adminRoutes = [
-    { path: '/admin/dashboard', component: AdminDashboard, layout: OnlySideBarAndFooter },
+    { path: '/admin/', component: AdminDashboard, layout: OnlySideBarAndFooterAdmin },
+    { path: '/admin/dashboard', component: AdminDashboard, layout: OnlySideBarAndFooterAdmin },
     { path: '/admin/service/book_checker', component: Profile },
 ];
 

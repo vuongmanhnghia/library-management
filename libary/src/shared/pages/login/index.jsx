@@ -1,8 +1,3 @@
-/* 
-    Chức năng chính page: Trang đăng nhập tài khoản người dùng
-    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
-*/
-
 import React from 'react';
 import { Form, Input, Button, Row, Typography, message } from 'antd';
 import { useDispatch } from 'react-redux';
@@ -10,28 +5,42 @@ import { update } from '../../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../../services/authService';
 import { getUser } from '../../utils/services/auth';
+import { useSelector } from 'react-redux';
 const { Text } = Typography;
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const user = useSelector((state) => state.user.user);
 
     const onFinish = async (values) => {
         // Connect với API để login
         const onAuthFinish = await AuthService.login(values);
 
         if (onAuthFinish.success) {
-            getUser(onAuthFinish.token).then((user) => {
-                dispatch(update(user));
-            });
-            message.success(onAuthFinish.message);
-            setTimeout(() => {
-                navigate('/');
-            }, 500);
+            // Fetch user data using the token
+            const userData = await getUser(onAuthFinish.token);
+
+            if (userData) {
+                // Update the Redux store with the user data
+                dispatch(update(userData));
+
+                // Show success message
+                message.success(onAuthFinish.message);
+
+                // Navigate based on the user's role
+                setTimeout(() => {
+                    const isAdmin = userData.role === 'admin';
+                    isAdmin ? navigate('/admin/dashboard') : navigate('/');
+                }, 500);
+            } else {
+                message.error('Failed to fetch user data.');
+            }
         } else {
             message.error(onAuthFinish.message);
         }
     };
+
     return (
         <Row
             style={{

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 function App() {
     const user = useSelector((state) => state.user.user);
-    const isAdmin = user?.role === "admin";
+    const isAdmin = user?.role === 'admin';
     const isAuthenticated = Boolean(user);
 
     const renderRoutes = (routes, isPrivate = false, isAdminRoute = false) => {
@@ -21,18 +21,24 @@ function App() {
                     element={
                         isAdminRoute ? (
                             isAdmin ? (
-                                <Layout><Page /></Layout>
+                                <Layout>
+                                    <Page />
+                                </Layout>
                             ) : (
                                 <Navigate to="/" replace />
                             )
                         ) : isPrivate ? (
                             isAuthenticated ? (
-                                <Layout><Page /></Layout>
+                                <Layout>
+                                    <Page />
+                                </Layout>
                             ) : (
                                 <Navigate to="/login" replace />
                             )
                         ) : (
-                            <Layout><Page /></Layout>
+                            <Layout>
+                                <Page />
+                            </Layout>
                         )
                     }
                 />
