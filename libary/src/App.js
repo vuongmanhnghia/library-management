@@ -1,22 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { privateRoutes, publicRoutes } from './routes';
-import DefaultLayout from './components/layouts/DefaultLayout/';
-import { Fragment } from 'react';
-import './styles/GlobalStyle/global.scss';
+import { privateRoutes, publicRoutes, adminRoutes } from './routes';
+import DefaultLayout from './client/components/layouts/DefaultLayout';
+import './shared/styles/GlobalStyle';
 import { useSelector } from 'react-redux';
 
 function App() {
     const user = useSelector((state) => state.user.user);
+    const isAdmin = user?.role === "admin";
+    const isAuthenticated = Boolean(user);
 
-    const renderRoutes = (routes, isPrivate = false) => {
+    const renderRoutes = (routes, isPrivate = false, isAdminRoute = false) => {
         return routes.map((route, index) => {
-            let Layout = DefaultLayout;
-            if (route.layout) {
-                Layout = route.layout;
-            } else if (route.layout === null) {
-                Layout = Fragment;
-            }
-
+            let Layout = route.layout !== undefined ? route.layout : DefaultLayout;
             const Page = route.component;
 
             return (
@@ -24,12 +19,20 @@ function App() {
                     key={index}
                     path={route.path}
                     element={
-                        isPrivate && !user ? (
-                            <Navigate to="/login" replace />
+                        isAdminRoute ? (
+                            isAdmin ? (
+                                <Layout><Page /></Layout>
+                            ) : (
+                                <Navigate to="/" replace />
+                            )
+                        ) : isPrivate ? (
+                            isAuthenticated ? (
+                                <Layout><Page /></Layout>
+                            ) : (
+                                <Navigate to="/login" replace />
+                            )
                         ) : (
-                            <Layout>
-                                <Page />
-                            </Layout>
+                            <Layout><Page /></Layout>
                         )
                     }
                 />
@@ -41,10 +44,12 @@ function App() {
         <Router>
             <div className="App">
                 <Routes>
-                    {/* Render public routes */}
+                    {/* Public routes */}
                     {renderRoutes(publicRoutes)}
-                    {/* Render private routes */}
+                    {/* Private routes (requires authentication) */}
                     {renderRoutes(privateRoutes, true)}
+                    {/* Admin routes (requires admin role) */}
+                    {renderRoutes(adminRoutes, true, true)}
                 </Routes>
             </div>
         </Router>

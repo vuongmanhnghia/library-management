@@ -156,7 +156,7 @@ npm install sass
 - [Ant Design](https://ant.design)
 - [EmailJS](https://www.emailjs.com)
 - [Redux](https://redux-toolkit.js.org/)
-- [Thư viện để xử lý và thao tác với ngày tháng DayJS](https://day.js.org/)
+- [DayJS](https://day.js.org/)
 - [Redux-persist](https://github.com/rt2zz/redux-persist)
 - Chat GPT
 - [Slink PTIT](slink.ptit.edu.vn)
