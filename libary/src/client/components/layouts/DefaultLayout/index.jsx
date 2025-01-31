@@ -1,63 +1,50 @@
-import React from 'react';
-import Header from '../../header';
-import Footer from '../../footer';
-import Sidebar from '../../../../shared/components/sidebar';
+import React, { useState, useEffect } from 'react';
 import { Layout } from 'antd';
-import FloatAI from '../../floatAI';
+import Header from '../../header';
+import SiderComponent from '../../../../shared/components/sidebar';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { itemsSibar } from '../valueSidbar';
+import Footer from '../../../../shared/components/footer';
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 const DefaultLayout = ({ children }) => {
+    // Get the sidebar collapse state from localStorage, defaulting to false
+    const stateSibar = localStorage.getItem('stateSibar');
+    const [collapsed, setCollapsed] = useState(stateSibar ? JSON.parse(stateSibar) : false);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    // Get the sidebar items using dispatch and navigate
+    const menuItems = itemsSibar(dispatch, navigate);
+
+    useEffect(() => {
+        // Save the sidebar state to localStorage whenever it changes
+        localStorage.setItem('stateSibar', JSON.stringify(collapsed));
+    }, [collapsed]);
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            {/* Sidebar */}
-            <Sider
-                width={200}
-                style={{
-                    background: '#fff',
-                    position: 'sticky',
-                    top: 0,
-                    height: '100vh',
-                }}
-            >
-                <Sidebar />
-            </Sider>
-
-            {/* Content */}
-            <Layout>
-                {/* Header */}
-                <Layout.Header
-                    style={{
-                        background: '#fff',
-                        padding: '0 16px',
-                        marginBottom: 16,
-                    }}
-                >
-                    <Header />
-                </Layout.Header>
-
-                {/* Main Content */}
-                <Content
-                    style={{
-                        padding: '16px',
-                        background: '#fff',
-                    }}
-                >
-                    {children}
+            <SiderComponent collapsed={collapsed} onCollapse={setCollapsed} items={menuItems} />{' '}
+            {/* Truyền mảng items vào đây */}
+            <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'margin-left 0.3s' }}>
+                <Header />
+                <Content style={{ margin: '0 16px' }}>
+                    <div
+                        style={{
+                            padding: 24,
+                            minHeight: 360,
+                            background: 'white',
+                            borderRadius: 8,
+                        }}
+                    >
+                        {children}
+                    </div>
                 </Content>
-
-                {/* Footer */}
-                <Layout.Footer
-                    style={{
-                        textAlign: 'center',
-                        background: '#fff',
-                        paddingTop: 16,
-                    }}
-                >
-                    <Footer />
-                </Layout.Footer>
+                < Footer />
             </Layout>
-            <FloatAI/>
         </Layout>
     );
 };

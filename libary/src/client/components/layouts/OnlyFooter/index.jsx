@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from '../../footer';
+import Footer from '../../../../shared/components/footer';
 import { Layout, Row, Col, Typography } from 'antd';
 const { Footer: AntFooter } = Layout;
 const { Title } = Typography;

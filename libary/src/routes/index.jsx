@@ -18,8 +18,11 @@ import OnlyFooter from '../client/components/layouts/OnlyFooter';
 import OnlySideBarAndFooter from '../client/components/layouts/OnlySideBarAndFooter';
 
 import AdminDashboard from '../admin/pages/dashboard';
+import BookChecker from '../admin/pages/bookCheck';
+import FindUser from '../admin/pages/findUser';
+import AdminSettings from '../admin/pages/setting';
 
-import OnlySideBarAndFooterAdmin from '../admin/components/layout/OnlySideBarAndFooterAdmin';
+import DefaultLayoutAdmin from '../admin/components/layout/DeafultLayoutAdmin';
 // allow view, user can't login
 const publicRoutes = [
     { path: '/login', component: Login, layout: OnlyFooter },
@@ -33,7 +36,7 @@ const privateRoutes = [
     { path: '/profile', component: Profile, layout: OnlySideBarAndFooter },
     { path: '/upload-book', component: UploadBook, layout: OnlySideBarAndFooter },
     { path: '/conversation', component: Convarsation, layout: OnlySideBarAndFooter },
-    { path: '/setting', component: Setting, layout: OnlySideBarAndFooter },
+    { path: '/settings', component: Setting, layout: OnlySideBarAndFooter },
     { path: '/my-books', component: MyBooks, layout: OnlySideBarAndFooter},
     { path: '/contract', component: Contract, layout: OnlySideBarAndFooter },
     { path: '/view-book/:id', component:  ViewBook, layout: OnlySideBarAndFooter },
@@ -42,9 +45,14 @@ const privateRoutes = [
 
 // allow view, admin can login
 const adminRoutes = [
-    { path: '/admin/', component: AdminDashboard, layout: OnlySideBarAndFooterAdmin },
-    { path: '/admin/dashboard', component: AdminDashboard, layout: OnlySideBarAndFooterAdmin },
-    { path: '/admin/service/book_checker', component: Profile },
+    { path: '/admin/', component: AdminDashboard, layout: DefaultLayoutAdmin },
+    { path: '/admin/dashboard', component: AdminDashboard, layout: DefaultLayoutAdmin },
+    { path: '/admin/book_service/book_checker', component: BookChecker, layout: DefaultLayoutAdmin },
+    { path: '/admin/book_service/upload-book', component: UploadBook, layout: DefaultLayoutAdmin },
+    { path: '/admin/book_service/all_books', component: Home, layout: DefaultLayoutAdmin },
+    { path: '/admin/user_service/find', component: FindUser, layout: DefaultLayoutAdmin },
+    { path: '/admin/settings', component: AdminSettings, layout: DefaultLayoutAdmin },
+    { path: '/admin/profile', component: Profile, layout: DefaultLayoutAdmin },
 ];
 
 export { publicRoutes, privateRoutes, adminRoutes };

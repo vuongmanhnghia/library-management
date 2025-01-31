@@ -3,7 +3,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    books: [], 
+    books: [],
 };
 
 const bookSlice = createSlice({
@@ -14,10 +14,15 @@ const bookSlice = createSlice({
             state.books = action.payload;
         },
         removeBook: (state, action) => {
-            state.books = state.books.filter(book => book.id !== action.payload);
-        }
+            state.books = state.books.filter((book) => book.id !== action.payload);
+        },
+
+        logoutBook: (state) => {
+            state.books = [];
+            localStorage.clear();
+        },
     },
 });
 
-export const { setBooks, removeBook } = bookSlice.actions;
+export const { setBooks, removeBook, logoutBook } = bookSlice.actions;
 export default bookSlice.reducer;

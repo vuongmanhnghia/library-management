@@ -21,6 +21,18 @@ body {
     background-color: #fff;
 }
 
+.ant-layout-sider {
+    background-color: #fff !important;
+    border-right: 1px solid #f0f0f0;
+}
+
+.ant-layout-sider-trigger{
+    background-color: var(--ant-primary-1) !important;
+}
+.ant-layout-sider-trigger > * {
+    color: var(--ant-primary-color) !important;
+}
+
 /* Tùy chỉnh thanh cuộn cho hộp chat */
 .custom-scrollbar {
     scrollbar-width: thin; /* Thanh cuộn mỏng (cho Firefox) */
@@ -91,7 +103,7 @@ body {
     color: #fff;
 }
 
-.ant-menu-item-active {
+.ant-menu-item-active{
     background-color: var(--ant-primary-1) !important;
     color: var(--ant-primary-6) !important;
 }
@@ -103,6 +115,14 @@ body {
 
 .ant-menu-item:hover {
     background-color: var(--ant-primary-1) !important;
+    color: var(--ant-primary-6) !important;
+}
+
+.ant-menu-submenu-title{
+    color: #000 !important;
+}
+
+.ant-menu-submenu-open > .ant-menu-submenu-title{
     color: var(--ant-primary-6) !important;
 }
 

@@ -14,10 +14,11 @@ const Footer = () => {
                 fontSize: '90%',
                 color: 'rgba(0, 0, 0, 0.1)',
                 backgroundColor: 'transparent',
-                
+                marginBottom: '24px',
             }}
         >
-            Copyright © 2024 : Team Chivas Probation <br />
+            Libary Management ©{new Date().getFullYear()} Created by Team Chivas Probation
+            <br />
             Google Developer Group - GDG on Campus: PTIT
         </AntFooter>
     );
