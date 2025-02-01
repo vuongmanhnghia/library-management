@@ -4,7 +4,7 @@
 */
 
 import React from 'react';
-import { Form, Input, Button, message, Select, Row, Typography } from 'antd';
+import { Form, Input, Button, Row, Typography } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import MailService from '../../../shared/services/mailService';

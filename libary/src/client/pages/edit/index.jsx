@@ -16,8 +16,6 @@ const { Title } = Typography;
 const defaultImage = 'https://via.placeholder.com/150';
 const EditBook = () => {
     const { id } = useParams();
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const token = localStorage.getItem('access_token');
 
     const [loading, setLoading] = useState(false);
     const [book, setBook] = useState({});

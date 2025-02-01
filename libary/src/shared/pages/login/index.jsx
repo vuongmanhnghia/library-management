@@ -5,13 +5,13 @@ import { update } from '../../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../../services/authService';
 import { getUser } from '../../utils/services/auth';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 const { Text } = Typography;
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const user = useSelector((state) => state.user.user);
+    // const user = useSelector((state) => state.user.user);
 
     const onFinish = async (values) => {
         // Connect với API để login

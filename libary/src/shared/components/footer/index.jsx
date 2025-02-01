@@ -17,7 +17,7 @@ const Footer = () => {
                 marginBottom: '24px',
             }}
         >
-            Libary Management ©{new Date().getFullYear()} Created by Team Chivas Probation
+            Libary Forum ©{new Date().getFullYear()} Created by Team Chivas Probation
             <br />
             Google Developer Group - GDG on Campus: PTIT
         </AntFooter>
