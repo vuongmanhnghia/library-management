@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Layout, Menu } from 'antd';
+import { Layout, Menu } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../redux/userSlice';
@@ -37,7 +37,7 @@ const SiderComponent = ({ collapsed, onCollapse, items }) => {
                 left: 0,
                 top: 0,
                 bottom: 0,
-                overflow: 'auto',
+                
             }}
         >
             <div
@@ -58,7 +58,6 @@ const SiderComponent = ({ collapsed, onCollapse, items }) => {
             </div>
             <div>
                 <Menu defaultSelectedKeys={['1']} mode="inline" items={items} style={{ border: 'none' }} />
-                <Divider />
                 <Menu mode="inline" >{logoutItem}</Menu>
             </div>
         </Sider>

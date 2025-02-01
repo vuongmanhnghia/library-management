@@ -96,7 +96,13 @@ async def update_book(user, id, book):
 
 async def delete_book(user, id):
     try:
-        result = await books.delete_one({"_id": ObjectId(id), "user_id": user["_id"]})
+        # Nếu user là admin, xóa bất kỳ sách nào mà không cần kiểm tra user_id
+        query = {"_id": ObjectId(id)}
+        if user["role"] != "admin":
+            query["user_id"] = user["_id"]
+
+        result = await books.delete_one(query)
+
         if result.deleted_count:
             return {"_id": id}
         else:

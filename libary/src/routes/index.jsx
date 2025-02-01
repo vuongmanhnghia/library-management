@@ -19,6 +19,7 @@ import OnlySideBarAndFooter from '../client/components/layouts/OnlySideBarAndFoo
 
 import AdminDashboard from '../admin/pages/dashboard';
 import BookChecker from '../admin/pages/bookCheck';
+import AllBooks from '../admin/pages/allBooks';
 import FindUser from '../admin/pages/findUser';
 import AdminSettings from '../admin/pages/setting';
 
@@ -49,7 +50,7 @@ const adminRoutes = [
     { path: '/admin/dashboard', component: AdminDashboard, layout: DefaultLayoutAdmin },
     { path: '/admin/book_service/book_checker', component: BookChecker, layout: DefaultLayoutAdmin },
     { path: '/admin/book_service/upload-book', component: UploadBook, layout: DefaultLayoutAdmin },
-    { path: '/admin/book_service/all_books', component: Home, layout: DefaultLayoutAdmin },
+    { path: '/admin/book_service/all_books', component: AllBooks, layout: DefaultLayoutAdmin },
     { path: '/admin/user_service/find', component: FindUser, layout: DefaultLayoutAdmin },
     { path: '/admin/settings', component: AdminSettings, layout: DefaultLayoutAdmin },
     { path: '/admin/profile', component: Profile, layout: DefaultLayoutAdmin },

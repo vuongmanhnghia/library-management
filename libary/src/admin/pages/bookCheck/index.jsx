@@ -1,7 +1,111 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Table, Button, message, Layout, Typography, Row } from 'antd';
+import BookService from '../../../shared/services/bookService';
+import Loading from '../../../shared/components/loadingUI';
+import { truncateText } from '../../../shared/utils';
+const { Title } = Typography;
 
 const BookChecker = () => {
-    return <div>BookChecker</div>;
+    const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchBooks = async () => {
+            setLoading(true);
+            try {
+                const response = await BookService.getPendingBooks();
+                setBooks(response.data);
+            } catch (error) {
+                message.error('Error fetching data');
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBooks();
+    }, []);
+
+    const columns = [
+        {
+            title: 'Title',
+            dataIndex: 'title',
+            key: 'title',
+            render: (text) => truncateText(text, 30),
+        },
+        {
+            title: 'Author',
+            dataIndex: 'author',
+            key: 'author',
+            render: (text) => truncateText(text, 20),
+        },
+        {
+            title: 'Introduction',
+            dataIndex: 'introduction',
+            key: 'introduction',
+            render: (text) => truncateText(text, 50),
+        },
+        {
+            title: 'Published Date',
+            dataIndex: 'published_date',
+            key: 'published_date',
+        },
+        {
+            title: 'View',
+            key: 'view',
+            render: (book) => (
+                <Button type="default" onClick={() => handleView(book.id)}>
+                    View
+                </Button>
+            )
+        },
+        {
+            title: 'Checker',
+            key: 'checker',
+            render: (book) => (
+                <Button type="primary" onClick={() => handleCheckStatus(book.id)}>
+                    Approve
+                </Button>
+            ),
+        },
+
+    ];
+
+    const handleCheckStatus = async (id) => {
+        try {
+            const response = await BookService.updateStatus(id);
+            if (response.success) {
+                message.success('Book approved successfully');
+                // Chỉ cập nhật lại bảng mà không thay đổi status
+                setBooks((prevBooks) =>
+                    prevBooks.filter((book) => book.id !== id)
+                );
+            }
+        } catch (error) {
+            message.error('Error approving book');
+        }
+    };
+
+    const handleView = (id) => {
+        console.log(id);
+    };
+
+    return (
+        <Layout >
+            <Title level={3}>Book Checker</Title>
+            {loading ? (
+                <Row justify="center">
+                    <Loading />
+                </Row>
+            ) : (
+                <Table
+                    columns={columns}
+                    dataSource={books}
+                    loading={loading}
+                    rowKey="_id"
+                />)}
+        </Layout>
+    );
 };
 
 export default BookChecker;

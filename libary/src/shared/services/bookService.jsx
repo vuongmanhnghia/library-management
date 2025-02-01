@@ -21,8 +21,6 @@ const BookService = {
             });
             if (response.data.status === 200) {
                 const result = response.data.data;
-
-                console.log(result);
                 return {
                     success: true,
                     data: result,
@@ -77,6 +75,43 @@ const BookService = {
                 message: error.detail || 'An error occurred while fetching books. Please try again.',
             };
         }
+    },
+
+    getPendingBooks: async () => {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            return {
+                success: false,
+                message: 'Authentication token is missing.',
+            };
+        }
+
+        try {
+            const response = await axios.get(`${apiUrl}/books/pending/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.data.status === 200) {
+                const result = response.data.data;
+                return {
+                    success: true,
+                    data: result,
+                    message: 'Get pending books successfully!',
+                };
+            } else {
+                return {
+                    success: false,
+                    message: 'Failed to get pending books. Please try again.',
+                };
+            }
+        } catch (error) {
+            return {
+                success: false,
+                message: error.response?.data?.detail || 'An error occurred while fetching pending books. Please try again.',
+            };
+        }
+
     },
     getBooksById: async (id) => {
         const token = localStorage.getItem('access_token');
@@ -172,6 +207,62 @@ const BookService = {
             return { success: false, message: 'An error occurred while updating book. Please try again.' };
         }
     },
+    updateStatus: async (id) => {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            return {
+                success: false,
+                message: 'Authentication token is missing.',
+            };
+        }
+
+        try {
+            const response = await axios.patch(`${apiUrl}/books/${id}/status`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                return {
+                    success: true,
+                    message: response.data.message,
+                };
+            } else {
+                return { success: false, message: 'Failed to update book. Please try again.' };
+            }
+        } catch (error) {
+            return { success: false, message: 'An error occurred while updating book. Please try again.' };
+        }
+        },
+        deleteBook: async (id) => {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                return {
+                    success: false,
+                    message: 'Authentication token is missing.',
+                };
+            }
+    
+            try {
+                const response = await axios.delete(`${apiUrl}/books/${id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (response.status === 200) {
+                    return {
+                        success: true,
+                        message: response.data?.message,
+                    };
+                } else {
+                    return { success: false, message: 'Failed to delete book. Please try again.' };
+                }
+            } catch (error) {
+                return { success: false, message: 'An error occurred while deleting book. Please try again.' };
+            }
+        },
 };
 
 export default BookService;

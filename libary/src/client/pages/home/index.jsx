@@ -45,7 +45,6 @@ const Home = () => {
 
         if (response.success) {
             const books = Array.isArray(response.data.books) ? response.data.books : [];
-            console.log("Processed Books:", books);
             setCardData(books);
             setTotalBooks(books.length);
         }

@@ -6,6 +6,7 @@ import {
     BookOutlined,
     CommentOutlined,
     SettingOutlined,
+    PhoneOutlined
 } from '@ant-design/icons';
 
 const getItem = (label, key, icon, children = [], onClick = () => {}) => ({
@@ -23,7 +24,7 @@ export const itemsSibar = (dispatch, navigate) => [
         getItem('My books', '3', <BookOutlined />, [], () => navigate('/my-books')),
     ]),
     getItem('Conversation', '4', <CommentOutlined />, [], () => navigate('/conversation')),
-    getItem('Contract', 'sub5', <UserOutlined />, [], () => navigate('/contract')),
+    getItem('Contract', 'sub5', <PhoneOutlined />, [], () => navigate('/contract')),
     getItem('Setting', '6', <SettingOutlined />, [], () => navigate('/settings')),
     getItem('Profile', '7', <UserOutlined />, [], () => navigate('/profile')),
     

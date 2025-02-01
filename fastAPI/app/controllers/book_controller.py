@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Query
+from fastapi import HTTPException, Query, Request
 from app.configs.database import books
 from bson import ObjectId
 from app.services import book_service
@@ -41,7 +41,7 @@ async def read_book_by_id(request, id):
 
 
 # Xóa sách theo ID
-async def delete_book(request, id):
+async def delete_book(request: Request, id: str):
     result = await book_service.delete_book(request.current_user, id)
     return {
         "status": 200,
