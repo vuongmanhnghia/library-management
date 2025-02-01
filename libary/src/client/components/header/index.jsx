@@ -21,7 +21,7 @@ function Header() {
       style={{
         display: "flex",
         alignItems: "center",
-        padding: "16px",
+        padding: "24px",
       }}
     >
       <Space wrap>

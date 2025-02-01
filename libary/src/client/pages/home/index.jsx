@@ -42,12 +42,17 @@ const Home = () => {
     const fetchBooks = async () => {
         setLoading(true);
         const response = await BookService.getAll(currentPage, 8);
+
         if (response.success) {
-            setCardData(response.data || []);
-            setTotalBooks(response.data.length || 0); 
+            const books = Array.isArray(response.data.books) ? response.data.books : [];
+            console.log("Processed Books:", books);
+            setCardData(books);
+            setTotalBooks(books.length);
         }
+
         setLoading(false);
     };
+
 
     useEffect(() => {
         fetchBooks();

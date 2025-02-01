@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import React from 'react';
 
-const BookTikets = ({ id, img, title, create_date, edit_date, file }) => {
+const BookTikets = ({ id, img, title, create_date, edit_date, file, status }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -83,6 +83,8 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file }) => {
                                     {create_date.split('T')[0]}
                                     <br />
                                     <span style={{ fontWeight: 'bold' }}>Last Edit:</span> {edit_date.split('T')[0]}
+                                    <br />
+                                    <span style={{ fontWeight: 'bold' }}>Status:</span> {status === 'false' ? 'Inactive' : 'Active'}
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px', marginRight: '8px' }}>
                                     <Button download={`${title}.pdf`} href={file}>

@@ -65,6 +65,7 @@ const MyBooks = () => {
                             create_date={book.created_at}
                             edit_date={book.updated_at}
                             file={book.file}
+                            status={book.status}
                         />
                     ))
                 )}

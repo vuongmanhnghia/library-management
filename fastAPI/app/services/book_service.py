@@ -13,7 +13,7 @@ async def read_root(query_params):
     skip = (page - 1) * per_page
 
     try:
-        books_cursor = books.find().skip(skip).limit(per_page)
+        books_cursor = books.find({"status": "true"}).skip(skip).limit(per_page)
         raw_books = await books_cursor.to_list(length=per_page)
 
         # Chuyển đổi sang đối tượng Pydantic
@@ -21,17 +21,16 @@ async def read_root(query_params):
         for book in raw_books:
             book["_id"] = str(book["_id"])  # Chuyển ObjectId sang chuỗi
             book["user_id"] = str(book["user_id"])
-            book["created_at"] = book["created_at"]
-            book["updated_at"] = book["updated_at"]
             list_books.append(detail_book(book))
 
         return {
-            "books": [list_books],
+            "books": list_books,
             "page": page,
             "per_page": per_page,
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 
 # Tạo sách mới
@@ -119,6 +118,33 @@ async def read_my_books(user):
             book["user_id"] = str(book["user_id"])
             book["created_at"] = book["created_at"]
             book["updated_at"] = book["updated_at"]
+            list_books.append(detail_book(book))
+
+        return list_books
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+# update book status
+async def update_book_status(id: str):
+    book = await books.find_one({"_id": ObjectId(id)})
+    if not book:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    new_status = "false" if book["status"] == "true" else "true"
+
+    await books.update_one({"_id": ObjectId(id)}, {"$set": {"status": new_status, "updated_at": datetime.utcnow()}})
+
+    return {"id": id, "status": new_status}
+
+async def get_pending_books():
+    try:
+        books_cursor = books.find({"status": "false"})  # Truy vấn đúng kiểu dữ liệu
+        raw_books = await books_cursor.to_list(length=None)
+
+        list_books = []
+        for book in raw_books:
+            book["_id"] = str(book["_id"])  # Chuyển ObjectId thành chuỗi
+            book["user_id"] = str(book["user_id"]) if "user_id" in book else None
             list_books.append(detail_book(book))
 
         return list_books

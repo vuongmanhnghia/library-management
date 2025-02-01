@@ -21,9 +21,11 @@ const BookService = {
             });
             if (response.data.status === 200) {
                 const result = response.data.data;
+
+                console.log(result);
                 return {
                     success: true,
-                    data: result.books[0],
+                    data: result,
                     message: 'Get books successfully!',
                 };
             } else {

@@ -12,6 +12,7 @@ class Book(BaseModel):
     introduction: str = Field(..., description="Introduction to the book")
     cover: str = Field(..., description="URL of the book cover")
     file: str = Field(..., description="URL of the book file")
+    status: str = Field(default="false", description="Status of the book")
     created_at: Optional[datetime] = Field(None, description="Creation time")
     updated_at: Optional[datetime] = Field(None, description="Last updated time")
 
@@ -38,3 +39,7 @@ class BookUpdate(BaseModel):
 class ReadRoot(BaseModel):
     page: int
     per_page: int
+    
+# Schema cho cap nhat status
+class BookUpdateStatus(BaseModel):
+    status: str

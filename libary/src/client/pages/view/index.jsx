@@ -107,6 +107,7 @@ const ViewBook = () => {
                             <Col span={12}>
                                 <Descriptions bordered size="small" column={1} style={{ width: '100%', marginTop: 40 }}>
                                     <Descriptions.Item label="Title">{book.title}</Descriptions.Item>
+                                    <Descriptions.Item label="Status">{book.status == 'false' ? 'Inactive' : 'Active'}</Descriptions.Item>
                                     <Descriptions.Item label="Author">{book.author}</Descriptions.Item>
                                     <Descriptions.Item label="Genre">{book.genre || 'Undefined'}</Descriptions.Item>
                                     <Descriptions.Item label="Published Date">{book.published_date}</Descriptions.Item>
