@@ -13,7 +13,7 @@ const BookService = {
         }
 
         try {
-            const response = await axios.get(`${apiUrl}/books/?page=${currentPage}&perpage=${perPage}`, {
+            const response = await axios.get(`${apiUrl}/books/?page=${currentPage}&per_page=${perPage}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,

@@ -13,6 +13,7 @@ async def read_root(query_params):
     skip = (page - 1) * per_page
 
     try:
+        total_books = await books.count_documents({"status": "true"})
         books_cursor = books.find({"status": "true"}).skip(skip).limit(per_page)
         raw_books = await books_cursor.to_list(length=per_page)
 
@@ -27,6 +28,7 @@ async def read_root(query_params):
             "books": list_books,
             "page": page,
             "per_page": per_page,
+            "total_books": total_books
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

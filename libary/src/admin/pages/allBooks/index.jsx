@@ -8,24 +8,30 @@ const { Title } = Typography;
 
 const AllBooks = () => {
     const [loading, setLoading] = useState(false);
-    const [books, setBooks] = useState([]); // Sử dụng useState để lưu trữ dữ liệu sách
-    const currentPage = 1; // Bạn có thể lấy số trang từ state hoặc props nếu cần
+    const [books, setBooks] = useState([]);
+    const [totalBooks, setTotalBooks] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const perPage = 10;
 
     useEffect(() => {
         const fetchBooks = async () => {
             setLoading(true);
-            const response = await BookService.getAll(currentPage, 8);
-
-            if (response.success) {
-                const fetchedBooks = Array.isArray(response.data.books) ? response.data.books : [];
-                setBooks(fetchedBooks); // Lưu sách vào state
+            try {
+                const response = await BookService.getAll(currentPage, perPage);
+                console.log(response);
+                if (response.success) {
+                    setBooks(response.data.books || []);
+                    setTotalBooks(response.data.total_books || 0);
+                }
+            } catch (error) {
+                console.error('Error fetching books:', error);
+                message.error('Error fetching books');
             }
-
             setLoading(false);
         };
 
         fetchBooks();
-    }, [currentPage]); // Dependency array có currentPage
+    }, [currentPage]);
 
     const columns = [
         {
@@ -83,12 +89,9 @@ const AllBooks = () => {
     const handleCheckStatus = async (id) => {
         try {
             const response = await BookService.updateStatus(id);
-            console.log(response);
             if (response.success) {
                 message.success('Book unapproved successfully');
-                setBooks((prevBooks) =>
-                    prevBooks.filter((book) => book.id !== id)
-                );
+                setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id));
             }
         } catch (error) {
             message.error('Error approving book');
@@ -107,12 +110,10 @@ const AllBooks = () => {
             cancelText: 'No',
             onOk: async () => {
                 try {
-                    const response = await BookService.deleteBook(id);  // Thay bằng API xóa sách
+                    const response = await BookService.deleteBook(id);
                     if (response.success) {
                         message.success('Book deleted successfully');
-                        setBooks((prevBooks) =>
-                            prevBooks.filter((book) => book.id !== id)
-                        );
+                        setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id));
                     }
                 } catch (error) {
                     message.error('Error deleting book');
@@ -131,13 +132,20 @@ const AllBooks = () => {
                 <Row justify="center">
                     <Loading />
                 </Row>
-                ) : (
-            <Table
-                columns={columns}
-                dataSource={books}  // Dữ liệu lấy từ state books
-                loading={loading}
-                rowKey="_id"
-            />)}
+            ) : (
+                <Table
+                    columns={columns}
+                    dataSource={books}
+                    loading={loading}
+                    rowKey="_id"
+                    pagination={{
+                        current: currentPage,
+                        pageSize: perPage,
+                        total: totalBooks,
+                        onChange: (page) => setCurrentPage(page),
+                    }}
+                />
+            )}
         </Layout>
     );
 };
