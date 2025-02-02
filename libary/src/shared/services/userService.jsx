@@ -33,6 +33,7 @@ const UserService = {
                     avatar: userData.avatar,
                     gender: userData.gender,
                     date_of_birth: userData.date_of_birth,
+                    address: userData.address || undefined,
                 },
                 {
                     headers: {

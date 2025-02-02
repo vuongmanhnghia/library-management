@@ -30,34 +30,54 @@ const AdminService = {
         }
     },
     getUserByEmail: async (email) => {
-        try{
-        const response = await axios.post(
-            `${apiUrl}/users/find-user-by-email`,
-            { email },
-            {
+        try {
+            const response = await axios.post(
+                `${apiUrl}/users/find-user-by-email`,
+                { email },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            const userData = response.data?.data?.data;
+            const result = {
+                id: userData.user_id,
+                ...userData.user_details,
+            };
+
+            return {
+                success: true,
+                data: result,
+                message: response.detail,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.response?.data?.detail || 'Failed to find user. Please try again.',
+            };
+        }
+    },
+    getAllUsers: async (page = 1, perPage = 10) => {
+        try {
+            const response = await axios.get(`${apiUrl}/users/?page=${page}&per_page=${perPage}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                     'Content-Type': 'application/json',
                 },
-            }
-        );
-        const userData = response.data?.data?.data;
-        const result = {
-            id: userData.user_id,
-            ...userData.user_details,
-        };
-
-        return {
-            success: true,
-            data: result,
-            message: response.detail,
-        };
-    } catch (error) {
-        return {
-            success: false,
-            message: error.response?.data?.detail || 'Failed to find user. Please try again.',
-        };
-    }
+            });
+            return {
+                success: true,
+                data: response.data.data,
+                message: response.data.message,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.response?.data?.detail || 'Failed to get users. Please try again.',
+            };
+        }
     }
 };
 

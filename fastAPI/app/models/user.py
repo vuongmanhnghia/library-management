@@ -40,12 +40,15 @@ class UserLogin(BaseModel):
     password: str
 
 
-# Schema cho cập nhật sách
+# Schema cho cập nhật user
 class UserUpdate(BaseModel):
     email: Optional[str] = None
     full_name: Optional[str] = None
     phone_number: Optional[str] = None
     avatar: Optional[str] = None
+    address: Optional[str] = None
+    gender: Optional[str] = None
+    # date_of_birth: Optional[str] = None
 
 
 class UserChangePassword(BaseModel):
@@ -75,3 +78,8 @@ class ReadRoot(BaseModel):
     
 class ReadUserByEmail(BaseModel):
     email: str
+    
+class GetALLUsers(BaseModel):
+    page: int
+    per_page: int
+    total_users: int

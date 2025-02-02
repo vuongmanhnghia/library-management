@@ -37,6 +37,7 @@ const ProfilePage = () => {
             avatar: previewAvatar || avatar || userValue.avatar,
             gender: values.gender || userValue.gender,
             date_of_birth: values.date_of_birth ? values.date_of_birth.format('DD/MM/YYYY') : userValue.date_of_birth,
+            address: values.address || userValue.address,
         };
         try{
         const response = await UserService.update(updatedUser); 
@@ -102,6 +103,7 @@ const ProfilePage = () => {
                                 phone: userValue.phone_number,
                                 gender: userValue.gender,
                                 date_of_birth: userValue.date_of_birth ? dayjs(userValue.date_of_birth) : null,
+                                address: userValue.address,
                             }}
                             onValuesChange={handleInputChange}
                             onFinish={handleUpdate}
@@ -144,6 +146,10 @@ const ProfilePage = () => {
                                     placeholder="Select your birth date"
                                     format="DD/MM/YYYY"
                                 />
+                            </Form.Item>
+
+                            <Form.Item label="Address" name="address">
+                                <Input placeholder="Enter your address" />
                             </Form.Item>
 
                             <Form.Item style={{ textAlign: 'center' }}>

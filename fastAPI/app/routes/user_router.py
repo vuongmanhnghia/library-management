@@ -24,3 +24,10 @@ async def read_users(payload: ReadUserByEmail, request: Request):
         "success": True,
         "data": result
     }
+    
+@userRouter.get("/", dependencies=[Depends(require_authentication)])
+async def get_all_users(request: Request):
+    user = request.current_user
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Only admin can get all users")
+    return await user_controller.get_all_users(request)

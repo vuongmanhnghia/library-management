@@ -10,3 +10,11 @@ async def get_user_by_email(email: str):
         "success": True,
         "data": result
     }
+async def get_all_users(request):
+    query_params = request.query_params
+    result = await user_service.get_all_users(query_params)
+    return {
+        "status": 200,
+        "success": True,
+        "data": result
+    }
