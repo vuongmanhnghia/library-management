@@ -4,7 +4,7 @@ from app.configs.database import users
 from app.schemas.user_schemas import details_user, user_id
 from app.utils.verify_password import verify_password
 from app.utils.token_helper import generate_token, decode_token
-
+from bson import ObjectId
 
 # AuthService
 async def register(user):
@@ -94,7 +94,6 @@ async def get_me(current_user):
 
 
 async def change_password(current_user, password):
-    try:
         user = await users.find_one({"_id": current_user["_id"]})
         if user and verify_password(password.old_password, user["password"]):
             result = await users.update_one(
@@ -104,5 +103,25 @@ async def change_password(current_user, password):
             if result.modified_count:
                 return
         raise HTTPException(status_code=500, detail="Change password failed")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+
+async def change_password_by_id(current_user, password, id: str):
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Only admin can change other users' password")
+    user = await users.find_one({"_id": ObjectId(id)}) 
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if user["role"] == "admin":
+        raise HTTPException(status_code=403, detail="Admin cannot change password of another admin")
+    result = await users.update_one(
+        {"_id": ObjectId(id)},
+        {"$set": {"password": password.new_password}},
+    )
+    if result.modified_count:
+        return {"message": "Password updated successfully"}
+    else:
+        raise HTTPException(status_code=500, detail="Change password failed")
+    
+
+
+

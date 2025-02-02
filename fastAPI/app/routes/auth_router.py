@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
 from app.controllers import auth_controller
-from app.models.user import UserLogin, UserRegister, UserUpdate, UserChangePassword
+from app.models.user import UserLogin, UserRegister, UserUpdate, UserChangePassword, ChangePasswordByAdmin
 from app.middleware.require_authentication import require_authentication
 
 authRouter = APIRouter()
@@ -39,3 +39,7 @@ async def me(request: Request):
 @authRouter.put("/change-password", dependencies=[Depends(require_authentication)])
 async def change_password(request: Request, password: UserChangePassword):
     return await auth_controller.change_password(request, password)
+
+@authRouter.put("/change-password-by-id/{id}", dependencies=[Depends(require_authentication)])
+async def change_password_by_id(request: Request, password: ChangePasswordByAdmin, id: str):
+        return await auth_controller.change_password_by_id(request, password, id)

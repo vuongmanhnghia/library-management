@@ -70,3 +70,11 @@ async def change_password(request, password):
         "success": True,
         "message": "Change password success!",
     }
+
+async def change_password_by_id(request, password, id):
+    result = await auth_service.change_password_by_id(request.current_user, password, id)
+    return {
+        "status": 200,
+        "success": True,
+        "message": "Change password success!",
+    }

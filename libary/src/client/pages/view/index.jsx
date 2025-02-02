@@ -5,7 +5,7 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Space, Row, Layout, Col, Descriptions, Rate, Input, Empty, Card, message } from 'antd';
+import { Typography, Button, Space, Row, Layout, Col, Descriptions, Rate, Input, Empty, Card, message, Tag } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons'; // Feedback logic, update later
 import { useParams } from 'react-router-dom';
 import Loading from '../../../shared/components/loadingUI';
@@ -107,7 +107,7 @@ const ViewBook = () => {
                             <Col span={12}>
                                 <Descriptions bordered size="small" column={1} style={{ width: '100%', marginTop: 40 }}>
                                     <Descriptions.Item label="Title">{book.title}</Descriptions.Item>
-                                    <Descriptions.Item label="Status">{book.status === 'false' ? 'Inactive' : 'Active'}</Descriptions.Item>
+                                    <Descriptions.Item label="Status">{book.status === 'false' ? <Tag color="red">Unavailable</Tag> : <Tag color="green">Available</Tag>  }</Descriptions.Item>
                                     <Descriptions.Item label="Author">{book.author}</Descriptions.Item>
                                     <Descriptions.Item label="Genre">{book.genre || 'Undefined'}</Descriptions.Item>
                                     <Descriptions.Item label="Published Date">{book.published_date}</Descriptions.Item>

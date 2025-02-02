@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col, message, Modal } from 'antd';
+import { Card, Button, Row, Col, message, Modal, Tag } from 'antd';
 import { EditOutlined, DeleteOutlined, DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { removeBook } from '../../../redux/bookSlice';
@@ -6,6 +6,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import React from 'react';
+
 
 const BookTikets = ({ id, img, title, create_date, edit_date, file, status }) => {
     const navigate = useNavigate();
@@ -84,7 +85,7 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file, status }) =>
                                     <br />
                                     <span style={{ fontWeight: 'bold' }}>Last Edit:</span> {edit_date.split('T')[0]}
                                     <br />
-                                    <span style={{ fontWeight: 'bold' }}>Status:</span> {status === 'false' ? 'Inactive' : 'Active'}
+                                    <span style={{ fontWeight: 'bold' }}>Status:</span> {status === 'false' ? <Tag color="red">Inactive</Tag> : <Tag color="green">Active</Tag>}
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px', marginRight: '8px' }}>
                                     <Button download={`${title}.pdf`} href={file}>

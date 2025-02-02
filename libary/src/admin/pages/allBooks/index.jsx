@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Layout, Typography, message, Row, Modal } from 'antd';
+import { Table, Button, Layout, Typography, message, Row, Modal, Skeleton  } from 'antd';
+import {  DeleteOutlined, MinusSquareOutlined, EyeOutlined } from '@ant-design/icons';
 import BookService from '../../../shared/services/bookService';
-import Loading from '../../../shared/components/loadingUI';
 import { truncateText } from '../../../shared/utils';
 
 const { Title } = Typography;
@@ -62,7 +62,7 @@ const AllBooks = () => {
             key: 'view',
             render: (book) => (
                 <Button type="default" onClick={() => handleView(book.id)}>
-                    View
+                    <EyeOutlined />
                 </Button>
             )
         },
@@ -71,7 +71,7 @@ const AllBooks = () => {
             key: 'approve',
             render: (book) => (
                 <Button type="default" onClick={() => handleCheckStatus(book.id)}>
-                    Unapprove
+                    <MinusSquareOutlined />
                 </Button>
             )
         },
@@ -80,7 +80,7 @@ const AllBooks = () => {
             key: 'action',
             render: (book) => (
                 <Button type="primary" onClick={() => handleDelete(book.id)}>
-                    Delete
+                    <DeleteOutlined />
                 </Button>
             ),
         },
@@ -130,7 +130,7 @@ const AllBooks = () => {
             <Title level={3}>All Books</Title>
             {loading ? (
                 <Row justify="center">
-                    <Loading />
+                    <Skeleton active />
                 </Row>
             ) : (
                 <Table

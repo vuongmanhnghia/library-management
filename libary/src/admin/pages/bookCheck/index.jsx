@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, message, Layout, Typography, Row } from 'antd';
+import { Table, Button, message, Layout, Typography, Row, Skeleton  } from 'antd';
+import { EyeOutlined, CheckOutlined } from '@ant-design/icons';
 import BookService from '../../../shared/services/bookService';
-import Loading from '../../../shared/components/loadingUI';
 import { truncateText } from '../../../shared/utils';
 const { Title } = Typography;
 
@@ -55,7 +55,7 @@ const BookChecker = () => {
             key: 'view',
             render: (book) => (
                 <Button type="default" onClick={() => handleView(book.id)}>
-                    View
+                    <EyeOutlined />
                 </Button>
             )
         },
@@ -64,7 +64,7 @@ const BookChecker = () => {
             key: 'checker',
             render: (book) => (
                 <Button type="primary" onClick={() => handleCheckStatus(book.id)}>
-                    Approve
+                    <CheckOutlined />
                 </Button>
             ),
         },
@@ -95,7 +95,7 @@ const BookChecker = () => {
             <Title level={3}>Book Checker</Title>
             {loading ? (
                 <Row justify="center">
-                    <Loading />
+                    <Skeleton active />
                 </Row>
             ) : (
                 <Table
