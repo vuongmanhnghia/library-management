@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { convertImagePathToBase64 } from '../utils';
 
 const apiUrl = process.env.REACT_APP_API_URL;
-const imagePath = `${process.env.PUBLIC_URL}/static/imgs/image.png`;
 
 const AuthService = {
     login: async (values) => {
@@ -32,19 +30,15 @@ const AuthService = {
     },
     register: async (values) => {
         try {
-            let base64IMG = '';
-            if (imagePath) {
-                base64IMG = await convertImagePathToBase64(imagePath);
-            }
             const payload = {
                 email: values.email,
                 password: values.password,
                 phone_number: values.phoneNumber,
                 full_name: values.name,
-                date_of_birth: '01/01/2000', // Date default
-                gender: '', // Gender default
+                date_of_birth: '01/01/2000',
+                gender: '',
                 role: 'user', // Role default
-                avatar: base64IMG || '', // Gán ảnh mặc định
+                avatar: 'https://via.placeholder.com/150' || ''
             };
             const response = await axios.post(`${apiUrl}/auth/register`, payload);
             if (response.data.status === 201) {

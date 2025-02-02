@@ -1,27 +1,15 @@
-import { Layout, Input, Divider, Empty, Row, Col, Descriptions, Typography, Tag, Avatar, Button, Modal, Form } from 'antd';
+import { Layout, Input, Divider, Empty, Row, Col, Descriptions, Typography, Tag, Avatar, Button, Modal, Form, message } from 'antd';
 import { useState } from 'react';
 import AdminService from '../../../shared/services/adminService';
 import React from 'react';
 
 const { Search } = Input;
 const { Title } = Typography;
-
-const userFind = {
-    id: '679cbcdfb0f5abbeb255c0b3',
-    full_name: "Nguyen Van A",
-    email: "KQmJt@example.com",
-    phone_number: "0123456789",
-    date_of_birth: "01/01/2000",
-    address: "Ha Noi",
-    gender: "male",
-    role: "user",
-    created_at: "2023-01-01T00:00:00.000Z",
-    updated_at: "2023-01-01T00:00:00.000Z",
-    avatar: "https://via.placeholder.com/150",
-}
+const publicUrl = process.env.PUBLIC_URL;
 
 const FindUser = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [userFind, setUserFind] = useState(null);
     const [form] = Form.useForm();
 
     const handleChangePassword = () => {
@@ -57,7 +45,20 @@ const FindUser = () => {
         setIsModalVisible(false);
     };
 
-    const onSearch = (value) => console.log(value);
+    const onSearch = async (value) => {
+        try {
+            const response = await AdminService.getUserByEmail(value);
+            if (!response.success) {
+                setUserFind(null);
+                message.error(response.message);
+                return;
+            }
+            setUserFind(response.data);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <Layout>
@@ -72,19 +73,24 @@ const FindUser = () => {
             />
             <Divider />
             <Row>
-                {!userFind ? (
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                {userFind === null ? (
+                    <Row justify="center" style={{ width: '100%' }}>
+
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    </Row>
                 ) : (
                     <Row gutter={[16, 16]} align="middle" style={{ gap: 16, width: '100%' }}>
                         <Col span={12} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                             <Descriptions bordered size="middle" column={1} style={{ width: '100%' }}>
-                                <Descriptions.Item label="ID">{userFind.id}</Descriptions.Item>
-                                <Descriptions.Item label="Full Name">{userFind.full_name}</Descriptions.Item>
-                                <Descriptions.Item label="Date of Birth">{userFind.date_of_birth}</Descriptions.Item>
-                                <Descriptions.Item label="Email">{userFind.email}</Descriptions.Item>
-                                <Descriptions.Item label="Phone Number">{userFind.phone_number}</Descriptions.Item>
-                                <Descriptions.Item label="Address">{userFind.address}</Descriptions.Item>
-                                <Descriptions.Item label="Gender">{userFind.gender}</Descriptions.Item>
+                                <Descriptions.Item label="User ID">{userFind.id || '-'}</Descriptions.Item>
+                                <Descriptions.Item label="Full Name">{userFind.full_name || '-'}</Descriptions.Item>
+                                <Descriptions.Item label="Date of Birth">
+                                { Intl.DateTimeFormat('vi-VN').format(new Date(userFind.date_of_birth)) || '-'}
+                                </Descriptions.Item>
+                                <Descriptions.Item label='Address'>{userFind.address || '-'}</Descriptions.Item>
+                                <Descriptions.Item label="Email">{userFind.email || '-'}</Descriptions.Item>
+                                <Descriptions.Item label="Phone Number">{userFind.phone_number || '-'}</Descriptions.Item>
+                                <Descriptions.Item label="Gender">{userFind.gender || '-'}</Descriptions.Item>
                                 <Descriptions.Item label="Role">
                                     {userFind.role === "user" ? (
                                         <Tag color="green">User</Tag>
@@ -106,7 +112,7 @@ const FindUser = () => {
                         </Col>
                         <Col span={10} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <div style={{ textAlign: 'center' }}>
-                                <Avatar size={300} src={userFind.avatar} />
+                                <img src={userFind.avatar === "" ? (`${publicUrl}/static/imgs/avatar.jpg`) : (userFind.avatar)} alt="User Avatar" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
                             </div>
                         </Col>
                     </Row>

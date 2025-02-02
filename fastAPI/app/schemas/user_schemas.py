@@ -5,6 +5,7 @@ def details_user(user):
         "phone_number": user["phone_number"],
         "avatar": user["avatar"],
         "date_of_birth": user["date_of_birth"],
+        "address": user["address"],
         "gender": user["gender"],
         "role": user["role"],
     }
