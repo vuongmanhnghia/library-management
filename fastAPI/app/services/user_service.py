@@ -11,9 +11,13 @@ async def get_user_by_email(email: str):
         raise HTTPException(status_code=403, detail="Forbidden: Admins cannot access other admins' details")
     
     user_id = str(user["_id"])
+    created_at = user["created_at"]
+    updated_at = user["updated_at"]
     
     return {
         "user_id": user_id,
+        "created_at": created_at,
+        "updated_at": updated_at,
         "user_details": details_user(user)
     }
     

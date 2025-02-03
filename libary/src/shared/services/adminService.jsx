@@ -1,3 +1,4 @@
+import create from '@ant-design/icons/lib/components/IconFont';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -44,6 +45,8 @@ const AdminService = {
             const userData = response.data?.data?.data;
             const result = {
                 id: userData.user_id,
+                created_at: userData.created_at,
+                updated_at: userData.updated_at,
                 ...userData.user_details,
             };
 

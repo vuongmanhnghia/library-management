@@ -12,7 +12,6 @@ const Conversation = () => {
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState('');
     const [loading, setLoading] = useState(false);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPosts, setTotalPosts] = useState(0);
     const perPage = 5;
@@ -20,7 +19,6 @@ const Conversation = () => {
     const fetchPosts = async () => {
         try {
             const response = await PostService.getPosts(currentPage, perPage);
-            console.log(response);
             if (response.success) {
                 setPosts(response.data.posts);
                 setTotalPosts(response.data.total_posts);

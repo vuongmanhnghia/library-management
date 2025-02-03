@@ -1,9 +1,13 @@
 import React from 'react';
-import { Card, List, Avatar, Button, Input, Tag, Divider } from 'antd';
+import { Card, List, Button, Input, Tag, Divider, Col, Row, Typography } from 'antd';
 import { ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import CommentSection from '../Comments';
 
+const { Text } = Typography;
+
+
 const Post = ({ posts, toggleLike, handleAddComment }) => {
+    console.log(posts);
     return (
         <List
             itemLayout="vertical"
@@ -14,7 +18,7 @@ const Post = ({ posts, toggleLike, handleAddComment }) => {
                     style={{ marginTop: '20px' }}
                     title={
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <span style={{ marginLeft: '10px' }}>{post.full_name}</span> 
+                            <span style={{ marginLeft: '10px' }}>{post.full_name}</span>
                             <span style={{ marginLeft: '10px' }}>{post.role === 'admin' ? <Tag color="red">Admin</Tag> : <Tag color="green">User</Tag>}</span>
                         </div>
                     }
@@ -22,9 +26,18 @@ const Post = ({ posts, toggleLike, handleAddComment }) => {
                         <span>{new Date(post.created_at).toLocaleString()}</span>
                     }
                 >
-                    <p>{post.content}</p>
+                    <div>
+                        {post.image !== null ? (
+                            <Text >{post.content}</Text>
+                        ) : (
+                            <Row gutter={[16, 16]} style={{ gap: '16px' }}>
+                                <Col span={12}><Text >{post.content}</Text></Col>
+                                <Col span={10}><img src={post.image} alt="Image" style={{ width: '100px', height: 'auto' }} /></Col>
+                            </Row>
+                        )}
+
+                    </div>
                     <Divider />
-                    <CommentSection post={post} handleAddComment={handleAddComment} />
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginTop: '5px' }}>
                         <Input
                             placeholder="Viết bình luận..."
@@ -43,6 +56,7 @@ const Post = ({ posts, toggleLike, handleAddComment }) => {
                         />
                         <Button type="text" icon={<ShareAltOutlined />} />
                     </div>
+                    <CommentSection post={post} handleAddComment={handleAddComment} />
                 </Card>
             )}
         />

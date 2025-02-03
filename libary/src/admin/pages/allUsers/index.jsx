@@ -56,25 +56,25 @@ const AllUsers = () => {
             title: 'Gender',
             dataIndex: 'gender',
             key: 'gender',
-            render: (text) => text === null ? "-": text,
+            render: (text) => text === null ? "N/A": text,
         },
         {
             title: 'Phone',
             dataIndex: 'phone_number',
             key: 'phone_number',
-            render: (text) => text === null ? "-": text,
+            render: (text) => text === null ? "N/A": text,
         },
         {
             title: 'Address',
             dataIndex: 'address',
             key: 'address',
-            render: (text) => text === null ? "-": text,
+            render: (text) => text === null ? "N/A": text,
         },
         {
             title: 'Date of Birth',
             dataIndex: 'date_of_birth',
             key: 'date_of_birth',
-            render: (text) =>   text !== null ? dayjs(text).format('DD/MM/YYYY') : "-" 
+            render: (text) =>   text !== null ? dayjs(text).format('DD/MM/YYYY') : "N/A" 
         },
         {
             title: 'Action',

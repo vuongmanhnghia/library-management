@@ -49,6 +49,7 @@ const BookChecker = () => {
             title: 'Published Date',
             dataIndex: 'published_date',
             key: 'published_date',
+            render: (text) => text === null ? 'N/A' : text
         },
         {
             title: 'View',

@@ -80,7 +80,7 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file, status }) =>
                                     <h3 style={{ fontWeight: 'bold', color: 'var(--ant-primary-8)', margin: '0' }}>
                                         {title}
                                     </h3>
-                                    <span style={{ fontWeight: 'bold' }}>Published Date:</span>{' '}
+                                    <span style={{ fontWeight: 'bold' }}>Upload Date:</span>{' '}
                                     {create_date.split('T')[0]}
                                     <br />
                                     <span style={{ fontWeight: 'bold' }}>Last Edit:</span> {edit_date.split('T')[0]}

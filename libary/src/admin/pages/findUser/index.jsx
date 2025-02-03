@@ -75,22 +75,21 @@ const FindUser = () => {
             <Row>
                 {userFind === null ? (
                     <Row justify="center" style={{ width: '100%' }}>
-
                         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                     </Row>
                 ) : (
                     <Row gutter={[16, 16]} align="middle" style={{ gap: 16, width: '100%' }}>
                         <Col span={12} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                             <Descriptions bordered size="middle" column={1} style={{ width: '100%' }}>
-                                <Descriptions.Item label="User ID">{userFind.id || '-'}</Descriptions.Item>
-                                <Descriptions.Item label="Full Name">{userFind.full_name || '-'}</Descriptions.Item>
+                                <Descriptions.Item label="User ID">{userFind.id || "N/A"}</Descriptions.Item>
+                                <Descriptions.Item label="Full Name">{userFind.full_name || "N/A"}</Descriptions.Item>
                                 <Descriptions.Item label="Date of Birth">
-                                { Intl.DateTimeFormat('vi-VN').format(new Date(userFind.date_of_birth)) || '-'}
+                                { userFind.date_of_birth !== null ?Intl.DateTimeFormat('vi-VN').format(new Date(userFind.date_of_birth)) : "N/A"}
                                 </Descriptions.Item>
-                                <Descriptions.Item label='Address'>{userFind.address || '-'}</Descriptions.Item>
-                                <Descriptions.Item label="Email">{userFind.email || '-'}</Descriptions.Item>
-                                <Descriptions.Item label="Phone Number">{userFind.phone_number || '-'}</Descriptions.Item>
-                                <Descriptions.Item label="Gender">{userFind.gender || '-'}</Descriptions.Item>
+                                <Descriptions.Item label='Address'>{userFind.address || "N/A"}</Descriptions.Item>
+                                <Descriptions.Item label="Email">{userFind.email || "N/A"}</Descriptions.Item>
+                                <Descriptions.Item label="Phone Number">{userFind.phone_number || "N/A"}</Descriptions.Item>
+                                <Descriptions.Item label="Gender">{userFind.gender || "N/A"}</Descriptions.Item>
                                 <Descriptions.Item label="Role">
                                     {userFind.role === "user" ? (
                                         <Tag color="green">User</Tag>
@@ -111,9 +110,7 @@ const FindUser = () => {
                             </Row>
                         </Col>
                         <Col span={10} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <div style={{ textAlign: 'center' }}>
-                                <img src={userFind.avatar === "" ? (`${publicUrl}/static/imgs/avatar.jpg`) : (userFind.avatar)} alt="User Avatar" style={{ width: '250px', height: '250px', borderRadius: '50%', objectFit: 'cover' }} />
-                            </div>
+                            
                         </Col>
                     </Row>
                 )}

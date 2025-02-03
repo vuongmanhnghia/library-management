@@ -18,7 +18,7 @@ const UploadBook = () => {
     const [previewCover, setPreviewCover] = useState(defaultImage);
     const [previewTitle, setPreviewTitle] = useState('Title of book');
     const [previewAuthor, setPreviewAuthor] = useState('author');
-    const [previewDate, setPreviewDate] = useState('0000-00-00');
+    const [previewDate, setPreviewDate] = useState(null);
     const [previewIntroduction, setPreviewIntroduction] = useState('This is a brief introduction of the book.');
 
     const handleFinish = async (values) => {
@@ -31,7 +31,7 @@ const UploadBook = () => {
             const payload = {
                 title: values.title,
                 author: values.author,
-                published_date: values.date ? values.date.format('YYYY-MM-DD') : '0000-00-00',
+                published_date: values.date ? values.date.toDate() : null,
                 introduction: values.introduction,
                 cover: encodedCover,
                 file: encodedFile,
@@ -75,7 +75,7 @@ const UploadBook = () => {
     };
 
     const handleDateChange = (date) => {
-        date = date ? date.format('YYYY-MM-DD') : '0000-00-00';
+        date = date ? date.toDate() : null;
         setPreviewDate(date);
     };
 

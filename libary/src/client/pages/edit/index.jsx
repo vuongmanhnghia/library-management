@@ -23,7 +23,7 @@ const EditBook = () => {
     const [previewCover, setPreviewCover] = useState(defaultImage);
     const [previewTitle, setPreviewTitle] = useState('Title of book');
     const [previewAuthor, setPreviewAuthor] = useState('author');
-    const [previewDate, setPreviewDate] = useState('0000-00-00');
+    const [previewDate, setPreviewDate] = useState(null);
     const [previewIntroduction, setPreviewIntroduction] = useState('This is a brief introduction of the book.');
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const EditBook = () => {
                     setPreviewCover(result.cover || defaultImage);
                     setPreviewTitle(result.title || 'Title of book');
                     setPreviewAuthor(result.author || 'author');
-                    setPreviewDate(result.published_date || '0000-00-00');
+                    setPreviewDate(result.published_date || null);
                     setPreviewIntroduction(result.introduction || 'This is a brief introduction of the book.');
 
                     // Chuẩn bị fileList cho upload

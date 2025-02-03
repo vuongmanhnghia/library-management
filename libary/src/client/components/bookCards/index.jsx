@@ -59,7 +59,7 @@ const CardRender = ({
                     <>
                         <span style={{ fontWeight: 'bold' }}>Author:</span> {truncateText(author, 18)}{' '}
                         <br />
-                        <span style={{ fontWeight: 'bold' }}>Published Date:</span> {date}
+                        <span style={{ fontWeight: 'bold' }}>Published Date:</span> {date === null ? 'N/A' : date}
                         <br />
                         <span style={{ fontWeight: 'bold' }}>Introduction:</span> {truncateText(intro, 45)}{' '}
                     </>

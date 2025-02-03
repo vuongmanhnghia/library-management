@@ -18,7 +18,6 @@ const AllBooks = () => {
             setLoading(true);
             try {
                 const response = await BookService.getAll(currentPage, perPage);
-                console.log(response);
                 if (response.success) {
                     setBooks(response.data.books || []);
                     setTotalBooks(response.data.total_books || 0);
@@ -56,6 +55,7 @@ const AllBooks = () => {
             title: 'Published Date',
             dataIndex: 'published_date',
             key: 'published_date',
+            render: (text) => text === null ? "N/A": text,
         },
         {
             title: 'View',

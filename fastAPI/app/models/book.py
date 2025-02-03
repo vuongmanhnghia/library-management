@@ -8,7 +8,7 @@ class Book(BaseModel):
     id: Optional[str] = Field(default=None, alias="_id")  # Alias cho MongoDB ObjectId
     title: str = Field(..., description="Title of the book")
     author: str = Field(..., description="Author of the book")
-    published_date: str = Field(..., description="Publication date of the book")
+    published_date: Optional[str] = Field(default=None, description="Publication date of the book")
     introduction: str = Field(..., description="Introduction to the book")
     cover: str = Field(..., description="URL of the book cover")
     file: str = Field(..., description="URL of the book file")
@@ -22,8 +22,11 @@ class Book(BaseModel):
 
 # Schema cho tạo mới sách
 class BookCreate(Book):
-    pass
-
+    tiltle: Optional[str] = None
+    author: Optional[str] = None
+    introduction: Optional[str] = None
+    cover: Optional[str] = None
+    file: Optional[str] = None
 
 # Schema cho cập nhật sách
 class BookUpdate(BaseModel):
