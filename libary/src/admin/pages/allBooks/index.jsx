@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Layout, Typography, message, Row, Modal, Skeleton  } from 'antd';
 import {  DeleteOutlined, MinusSquareOutlined, EyeOutlined } from '@ant-design/icons';
+import {useNavigate} from 'react-router-dom';
 import BookService from '../../../shared/services/bookService';
 import { truncateText } from '../../../shared/utils';
 
 const { Title } = Typography;
 
 const AllBooks = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [books, setBooks] = useState([]);
     const [totalBooks, setTotalBooks] = useState(0);
@@ -99,7 +101,7 @@ const AllBooks = () => {
     };
 
     const handleView = (id) => {
-        console.log(id);
+        navigate(`/admin/view_book/${id}`);
     };
 
     const handleDelete = (id) => {

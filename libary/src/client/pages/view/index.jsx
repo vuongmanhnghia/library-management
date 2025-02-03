@@ -4,20 +4,20 @@
     Công nghệ đang phát triển: Chức năng feedback sách, đánh giá sao
 */
 
-import React, { useState, useEffect } from 'react';
-import { Typography, Button, Space, Row, Layout, Col, Descriptions, Rate, Input, Empty, Card, message, Tag } from 'antd';
+import React, { useState, useEffect, use } from 'react';
+import { Typography, Button, Space, Row, Layout, Col, Descriptions, Rate, Input, Empty, Card, message, Tag, Divider } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons'; // Feedback logic, update later
 import { useParams } from 'react-router-dom';
 import Loading from '../../../shared/components/loadingUI';
-import { useSelector } from 'react-redux';
 import BookService from '../../../shared/services/bookService';
+import Feedbacks from '../../components/Feedbacks';
+import CommentService from '../../../shared/services/commentService';
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
 
 const ViewBook = () => {
     const { id } = useParams();
-    const user = useSelector((state) => state.user.user);
 
     const [book, setBook] = useState({});
     const [loading, setLoading] = useState(false);
@@ -30,8 +30,6 @@ const ViewBook = () => {
                 setBook(response.data);
             } catch (error) {
                 message.error('An unexpected error occurred while fetching book.');
-            } finally {
-                setLoading(false);
             }
         };
         fetchBook();
@@ -40,13 +38,33 @@ const ViewBook = () => {
     const [feedback, setFeedback] = useState('');
     const [feedbackList, setFeedbackList] = useState([]);
 
+    useEffect(() => {
+        const fetchFeedback = async () => {
+            try {
+                const response = await CommentService.getCommentsByPostId(id);
+                setFeedbackList(response.data.data);
+            } catch (error) {
+                message.error('An unexpected error occurred while fetching feedback.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFeedback();
+    }, [id]);
+
     const handleFeedbackChange = (e) => {
         setFeedback(e.target.value);
     };
 
     const handleSubmitFeedback = () => {
         if (feedback.trim()) {
-            setFeedbackList([...feedbackList, feedback]);
+            const newFeedback = { content: feedback };
+            try {
+                CommentService.createComment(id, newFeedback);
+            } catch (error) {
+                message.error('An unexpected error occurred while creating feedback.');
+            }
+            setFeedbackList([...feedbackList, newFeedback]);
             setFeedback('');
         }
     };
@@ -82,7 +100,7 @@ const ViewBook = () => {
                             <Col span={6} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <img
                                     draggable={false}
-                                    src={book.cover}
+                                    src={book.cover || 'https://via.placeholder.com/150'}
                                     alt={book.title}
                                     style={{
                                         width: '300px',
@@ -107,7 +125,7 @@ const ViewBook = () => {
                             <Col span={12}>
                                 <Descriptions bordered size="small" column={1} style={{ width: '100%', marginTop: 40 }}>
                                     <Descriptions.Item label="Title">{book.title}</Descriptions.Item>
-                                    <Descriptions.Item label="Status">{book.status === 'false' ? <Tag color="red">Unavailable</Tag> : <Tag color="green">Available</Tag>  }</Descriptions.Item>
+                                    <Descriptions.Item label="Status">{book.status === 'false' ? <Tag color="red">Unavailable</Tag> : <Tag color="green">Available</Tag>}</Descriptions.Item>
                                     <Descriptions.Item label="Author">{book.author}</Descriptions.Item>
                                     <Descriptions.Item label="Genre">{book.genre || 'Undefined'}</Descriptions.Item>
                                     <Descriptions.Item label="Published Date">{book.published_date}</Descriptions.Item>
@@ -123,51 +141,37 @@ const ViewBook = () => {
                             </Col>
                         </Row>
                         {/* Feedback Input Section, UPDATE LATER */}
-                            <Card
-                                style={{
-                                    display: 'inline-block',
-                                    width: '80%',
-                                    textAlign: 'center',
-                                    marginTop: '24px',
-                                }}
-                            >
-                                <Title level={4} style={{ marginTop: '0' }}>
-                                    Share your feedback
-                                </Title>
-                                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                                    <Input
-                                        size="large"
-                                        placeholder="Share your thoughts about the book..."
-                                        value={feedback}
-                                        onChange={handleFeedbackChange}
-                                        style={{ flex: 1, marginRight: '10px' }}
-                                    />
-                                    <Button type="primary" icon={<ArrowUpOutlined />} onClick={handleSubmitFeedback} />
-                                </div>
-                            </Card>
-                            <Title level={4}>Some Feedbacks</Title>
-                            <div style={{ display: 'inline-block', textAlign: 'start', width: '80%', padding: '20px' }}>
+                        <Card
+                            style={{
+                                display: 'inline-block',
+                                width: '80%',
+                                textAlign: 'center',
+                                marginTop: '24px',
+                            }}
+                        >
+                            <Title level={4} style={{ marginTop: '0' }}>
+                                Share your feedback
+                            </Title>
+                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px',padding: '20px'}}>
+                                <Input
+                                    size="large"
+                                    placeholder="Share your thoughts about the book..."
+                                    value={feedback}
+                                    onChange={handleFeedbackChange}
+                                    style={{ flex: 1, marginRight: '10px' }}
+                                    onPressEnter={handleSubmitFeedback}
+                                />
+                                <Button type="primary" icon={<ArrowUpOutlined />} onClick={handleSubmitFeedback} />
+                            </div>
+                            <Divider />
+                            <div style={{ display: 'inline-block', textAlign: 'start', width: '90%'}}>
                                 {feedbackList.length === 0 ? (
                                     <Empty />
                                 ) : (
-                                    feedbackList.map((fb, index) => (
-                                        <div
-                                            key={index}
-                                            style={{
-                                                marginBottom: '10px',
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                            }}
-                                        >
-                                            <div>
-                                                <strong>{user.full_name}: </strong>
-                                                <span>{fb}</span>
-                                            </div>
-                                            <inherit> {new Date().toLocaleString()} </inherit>
-                                        </div>
-                                    ))
+                                    <Feedbacks comments={feedbackList} />
                                 )}
                             </div>
+                        </Card>
                     </Content>
                 </Layout>
             )}
