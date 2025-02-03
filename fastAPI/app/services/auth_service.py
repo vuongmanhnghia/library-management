@@ -18,7 +18,6 @@ async def register(user):
     user.pop("_id", None)
     user["created_at"] = now
     user["updated_at"] = now
-    user["date_of_birth"] = datetime.strptime(user["date_of_birth"], "%d/%m/%Y")
 
     try:
         result = await users.insert_one(user)

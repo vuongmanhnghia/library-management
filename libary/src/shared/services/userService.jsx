@@ -28,12 +28,12 @@ const UserService = {
                 `${apiUrl}/auth/`,
                 {
                     email: userData.email,
-                    full_name: userData.full_name || undefined,
-                    phone_number: userData.phone_number || undefined,
-                    avatar: userData.avatar,
-                    gender: userData.gender,
-                    date_of_birth: userData.date_of_birth,
-                    address: userData.address || undefined,
+                    full_name: userData.full_name,
+                    phone_number: userData.phone_number,
+                    avatar: userData.avatar || null,
+                    gender: userData.gender || null,
+                    date_of_birth: userData.date_of_birth|| null,
+                    address: userData.address || null,
                 },
                 {
                     headers: {

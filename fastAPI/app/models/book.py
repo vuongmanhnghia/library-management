@@ -39,6 +39,7 @@ class BookUpdate(BaseModel):
 class ReadRoot(BaseModel):
     page: int
     per_page: int
+    total_books: int
     
 # Schema cho cap nhat status
 class BookUpdateStatus(BaseModel):

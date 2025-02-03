@@ -112,7 +112,7 @@ const FindUser = () => {
                         </Col>
                         <Col span={10} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <div style={{ textAlign: 'center' }}>
-                                <img src={userFind.avatar === "" ? (`${publicUrl}/static/imgs/avatar.jpg`) : (userFind.avatar)} alt="User Avatar" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
+                                <img src={userFind.avatar === "" ? (`${publicUrl}/static/imgs/avatar.jpg`) : (userFind.avatar)} alt="User Avatar" style={{ width: '250px', height: '250px', borderRadius: '50%', objectFit: 'cover' }} />
                             </div>
                         </Col>
                     </Row>

@@ -3,6 +3,7 @@ import { Table, Button, Layout, Typography, message, Row, Modal, Skeleton, Tag  
 import {  DeleteOutlined, MinusSquareOutlined, EyeOutlined } from '@ant-design/icons';
 import AdminServices from '../../../shared/services/adminService';
 import { truncateText } from '../../../shared/utils';
+import dayjs from 'dayjs';
 
 const { Title } = Typography;
 
@@ -55,25 +56,25 @@ const AllUsers = () => {
             title: 'Gender',
             dataIndex: 'gender',
             key: 'gender',
-            render: (text) => text === "" ? "-": text,
+            render: (text) => text === null ? "-": text,
         },
         {
             title: 'Phone',
             dataIndex: 'phone_number',
             key: 'phone_number',
-            render: (text) => text === "" ? "-": text,
+            render: (text) => text === null ? "-": text,
         },
         {
             title: 'Address',
             dataIndex: 'address',
             key: 'address',
-            render: (text) => text === "" ? "-": text,
+            render: (text) => text === null ? "-": text,
         },
         {
             title: 'Date of Birth',
             dataIndex: 'date_of_birth',
             key: 'date_of_birth',
-            render: (text) => text.split('T')[0],
+            render: (text) =>   text !== null ? dayjs(text).format('DD/MM/YYYY') : "-" 
         },
         {
             title: 'Action',

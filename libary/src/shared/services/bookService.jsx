@@ -49,7 +49,7 @@ const BookService = {
         }
 
         try {
-            const response = await fetch(`${apiUrl}/users/my-books/?page=${currentPage}&perpage=${perPage}`, {
+            const response = await fetch(`${apiUrl}/users/my-books/?page=${currentPage}&per_page=${perPage}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

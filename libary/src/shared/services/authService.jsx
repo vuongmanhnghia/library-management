@@ -35,10 +35,6 @@ const AuthService = {
                 password: values.password,
                 phone_number: values.phoneNumber,
                 full_name: values.name,
-                date_of_birth: '01/01/2000',
-                gender: '',
-                role: 'user', // Role default
-                avatar: 'https://via.placeholder.com/150' || ''
             };
             const response = await axios.post(`${apiUrl}/auth/register`, payload);
             if (response.data.status === 201) {

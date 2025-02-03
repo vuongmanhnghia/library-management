@@ -11,10 +11,10 @@ class User(BaseModel):
     password: str = Field(..., description="Password of the user")
     phone_number: str = Field(..., description="Phone number of the user")
     full_name: str = Field(..., description="Full name of the user")
-    date_of_birth: str = Field(..., description="Date of birth of the user")
-    address: str = Field(default="", description="Address of the user")
+    date_of_birth: str = Field(None, description="Date of birth of the user")
+    address: str = Field(None, description="Address of the user")
     gender: Optional[str] = Field(None, description="Gender")
-    avatar: str = Field(default="", description="URL of the user avatar")
+    avatar: str = Field(None, description="URL of the user avatar")
     role: str = Field(default="user", description="Role of the user")
     created_at: Optional[datetime] = Field(None, description="Creation time")
     updated_at: Optional[datetime] = Field(None, description="Last updated time")
@@ -48,7 +48,7 @@ class UserUpdate(BaseModel):
     avatar: Optional[str] = None
     address: Optional[str] = None
     gender: Optional[str] = None
-    # date_of_birth: Optional[str] = None
+    date_of_birth: Optional[datetime] = None
 
 
 class UserChangePassword(BaseModel):

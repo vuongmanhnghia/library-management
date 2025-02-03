@@ -36,7 +36,7 @@ const ProfilePage = () => {
             phone_number: values.phone || userValue.phone_number,
             avatar: previewAvatar || avatar || userValue.avatar,
             gender: values.gender || userValue.gender,
-            date_of_birth: values.date_of_birth ? values.date_of_birth.format('DD/MM/YYYY') : userValue.date_of_birth,
+            date_of_birth: values.date_of_birth ? values.date_of_birth.toDate() : userValue.date_of_birth.toDate(),
             address: values.address || userValue.address,
         };
         try{

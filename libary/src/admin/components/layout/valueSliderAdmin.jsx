@@ -9,6 +9,7 @@ import {
     UserOutlined,
     CheckSquareOutlined,
     UploadOutlined,
+    CommentOutlined
 } from '@ant-design/icons';
 
 
@@ -31,7 +32,8 @@ export const itemsSibar = (dispatch, navigate) => [
         getItem('All users', '5', <FileProtectOutlined />, [], () => navigate('/admin/user_service/all_users')),
         getItem('Find user', '6', <SearchOutlined />, [], () => navigate('/admin/user_service/find')),
     ]),
-    getItem('Setting', '7', <SettingOutlined />, [], () => navigate('/admin/settings')),
-    getItem('Profile', '8', <UserOutlined />, [], () => navigate('/admin/profile')),
+    getItem('Conversation', '7', <CommentOutlined />, [], () => navigate('/admin/conversation')),
+    getItem('Setting', '8', <SettingOutlined />, [], () => navigate('/admin/settings')),
+    getItem('Profile', '9', <UserOutlined />, [], () => navigate('/admin/profile')),
 
 ];

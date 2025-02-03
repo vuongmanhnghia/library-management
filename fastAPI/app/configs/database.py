@@ -15,3 +15,4 @@ db = client["LibraryManagement"]
 # Các collection
 users = db["users"]
 books = db["books"]
+posts = db["posts"]
