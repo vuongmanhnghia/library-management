@@ -42,12 +42,12 @@ const OnlyFooter = ({ children }) => {
                     md={12}
                     lg={9}
                     style={{
-                        backgroundColor: 'var(--ant-primary-2)', 
+                        backgroundColor: 'var(--ant-primary-1)', 
                         backdropFilter: 'blur(10px)',
                         WebkitBackdropFilter: 'blur(10px)',
                         opacity: 0.8,
                         borderRadius: '16px 0 0 16px',
-                        boxShadow: '0px 0px 20px 20px var(--ant-primary-2), 0 4px 6px var(--ant-primary-2)',
+                        boxShadow: '0px 0px 20px 20px var(--ant-primary-1), 0 4px 6px var(--ant-primary-1)',
                     }}
                 >
                     <Row
