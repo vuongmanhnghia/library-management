@@ -1,5 +1,6 @@
 import React from 'react';
-import { List, Tag, Typography, Card } from 'antd';
+import { List, Tag, Typography } from 'antd';
+import { EnterOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 const { Text } = Typography;
@@ -25,7 +26,10 @@ const Feedbacks = ({ comments }) => {
                             </span>
                             <span style={{ fontSize: '12px', color: 'gray' }}>{dayjs(comment.created_at).format('YYYY-MM-DD HH:mm:ss')}</span>
                         </div>
-                        <Text style={{ marginLeft: '20px' }}>{comment.content}</Text>
+                        <div style={{ marginLeft: '20px' }}> 
+                            <EnterOutlined style={{ transform: 'scaleX(-1)'}} />
+                            <span> {comment.content}</span>
+                        </div>
                     </div>
                 )}
             />

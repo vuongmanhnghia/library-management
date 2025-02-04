@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Input, Button, Typography, Skeleton, Pagination, Row, Upload, Space } from 'antd';
+import { Card, Input, Button, Typography, Skeleton, Pagination, Row, Upload, Space, Empty, message } from 'antd';
 import { ArrowUpOutlined, UploadOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import Post from '../../components/Post';
 import PostService from '../../../shared/services/postService';
-import { getBase64 } from '../../../shared/utils';
+import { getBase64, truncateText } from '../../../shared/utils';
 
 const { Title } = Typography;
 
@@ -32,10 +32,9 @@ const Conversation = () => {
     const handleAddPost = async () => {
         if (newPost.trim()) {
             const newPostData = {
-                title: userValue.full_name,
                 content: newPost,
-                image: image,
-            };
+                ...(image !== null && { image: image }) 
+            };            
             try {
                 const response = await PostService.createPost(newPostData);
                 if (response.success) {
@@ -79,7 +78,17 @@ const Conversation = () => {
                             listType="picture"
                             maxCount={1}
                             beforeUpload={(file) => {
-                                getBase64(file).then((base64) => setImage(base64));
+                                const isImage = file.type.startsWith('image/');
+                                const isSmallEnough = file.size / 1024 / 1024 < 1.5; 
+                                if (!isImage) {
+                                    message.error(`${truncateText(file.name,10)} is not an image file`);
+                                    return Upload.LIST_IGNORE;
+                                }
+                                if (!isSmallEnough) {
+                                    message.error(`${truncateText(file.name,10)} is larger than 1,5MB`);
+                                    return Upload.LIST_IGNORE;
+                                }
+                                getBase64(file).then((base64String) => setImage(base64String));
                                 return false;
                             }}
                         >
@@ -89,13 +98,18 @@ const Conversation = () => {
                 </div>
             </Card>
             <Title level={4}>Posts</Title>
-            {loading ? <Skeleton active /> : (
-                posts.map((post) => (
-                    <Post
-                        post={post}
-                    />
-                ))
+            {loading ? (
+                <Skeleton active />
+            ) : (
+                posts.length === 0 ? (
+                    <Empty description="No posts found" />
+                ) : (
+                    posts.map((post) => (
+                        <Post key={post.id} post={post} />
+                    ))
+                )
             )}
+
             <Row justify="center" style={{ marginTop: '24px' }}>
                 <Pagination
                     current={currentPage}

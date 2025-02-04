@@ -12,6 +12,7 @@ import Loading from '../../../shared/components/loadingUI';
 import BookService from '../../../shared/services/bookService';
 import Feedbacks from '../../components/Feedbacks';
 import CommentService from '../../../shared/services/commentService';
+import dayjs from 'dayjs';
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -127,8 +128,8 @@ const ViewBook = () => {
                                     <Descriptions.Item label="Title">{book.title}</Descriptions.Item>
                                     <Descriptions.Item label="Status">{book.status === 'false' ? <Tag color="red">Unavailable</Tag> : <Tag color="green">Available</Tag>}</Descriptions.Item>
                                     <Descriptions.Item label="Author">{book.author}</Descriptions.Item>
-                                    <Descriptions.Item label="Genre">{book.genre || 'Undefined'}</Descriptions.Item>
-                                    <Descriptions.Item label="Published Date">{book.published_date}</Descriptions.Item>
+                                    <Descriptions.Item label="Genre">{book.genre || 'N/A'}</Descriptions.Item>
+                                    <Descriptions.Item label="Published Date">{dayjs(book.published_date).format('YYYY-MM-DD')}</Descriptions.Item>
                                     <Descriptions.Item label="Price">${book.price || '000'}</Descriptions.Item>
                                     <Descriptions.Item label="Introduction">{book.introduction}</Descriptions.Item>
                                 </Descriptions>
@@ -140,7 +141,11 @@ const ViewBook = () => {
                                 </Row>
                             </Col>
                         </Row>
-                        {/* Feedback Input Section, UPDATE LATER */}
+                        <Divider />
+                        <Row justify="center">
+                            {book.file === null ? (<Text>Invalid URL</Text>) : 
+                            (<iframe src={book.file} width="80%" height="600px" title={`${book.title}.pdf`} ></iframe>)}
+                        </Row>
                         <Card
                             style={{
                                 display: 'inline-block',
@@ -152,7 +157,7 @@ const ViewBook = () => {
                             <Title level={4} style={{ marginTop: '0' }}>
                                 Share your feedback
                             </Title>
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px',padding: '20px'}}>
+                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '20px' }}>
                                 <Input
                                     size="large"
                                     placeholder="Share your thoughts about the book..."
@@ -164,7 +169,7 @@ const ViewBook = () => {
                                 <Button type="primary" icon={<ArrowUpOutlined />} onClick={handleSubmitFeedback} />
                             </div>
                             <Divider />
-                            <div style={{ display: 'inline-block', textAlign: 'start', width: '90%'}}>
+                            <div style={{ display: 'inline-block', textAlign: 'start', width: '90%' }}>
                                 {feedbackList.length === 0 ? (
                                     <Empty />
                                 ) : (

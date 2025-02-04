@@ -31,10 +31,10 @@ const DefaultLayout = ({ children }) => {
             {/* Truyền mảng items vào đây */}
             <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'margin-left 0.3s' }}>
                 <Header />
-                <Content style={{ margin: '0 16px' }}>
+                <Content style={{ margin: '0' }}>
                     <div
                         style={{
-                            padding: 24,
+                            padding: '0 16px',
                             minHeight: 360,
                             background: 'white',
                             borderRadius: 8,

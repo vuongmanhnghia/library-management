@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Pagination, Row, Col, Select, Carousel } from 'antd';
+import { Button, Pagination, Row, Col, Select, Carousel, Result } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../../../shared/components/loadingUI';
 import CardRender from '../../components/bookCards';
 import CarouselSlide from '../../components/carouselRender';
@@ -25,6 +26,7 @@ const CardItem = ({ title, text, src, author, date, id }) => {
 };
 
 const Home = () => {
+    const navigate = useNavigate();
     const [cardData, setCardData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -86,26 +88,37 @@ const Home = () => {
                 {loading ? (
                     <Loading />
                 ) : (
-                    cardData.map((book) => (
-                        <Col
-                            key={book._id}
-                            xs={24}
-                            sm={12}
-                            md={8}
-                            lg={6}
-                            style={{ display: 'flex', justifyContent: 'center' }}
-                        >
-                            <CardItem
-                                key={book.id}
-                                title={book.title}
-                                text={book.introduction}
-                                src={book.cover}
-                                author={book.author}
-                                date={book.published_date}
-                                id={book.id}
-                            />
-                        </Col>
-                    ))
+                    cardData.length === 0 ? ( // Sửa điều kiện kiểm tra mảng rỗng
+                        <Result
+                            title="No books found"
+                            extra={
+                                <Button type="default" key="consol" size="large" onClick={() => navigate('/upload-book')}>
+                                    Go Upload First Book
+                                </Button>
+                            }
+                        />
+                    ) : (
+                        cardData.map((book) => (
+                            <Col
+                                key={book._id}
+                                xs={24}
+                                sm={12}
+                                md={8}
+                                lg={6}
+                                style={{ display: 'flex', justifyContent: 'center' }}
+                            >
+                                <CardItem
+                                    key={book.id}
+                                    title={book.title}
+                                    text={book.introduction}
+                                    src={book.cover}
+                                    author={book.author}
+                                    date={book.published_date}
+                                    id={book.id}
+                                />
+                            </Col>
+                        ))
+                    )
                 )}
             </Row>
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Card, List, Button, Input, Tag, Divider, Col, Row, Typography, message } from 'antd';
-import { ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { Card, List, Button, Input, Tag, Divider, Col, Row, Typography, message, Image } from 'antd';
+import { ArrowUpOutlined, HeartFilled, HeartOutlined, ShareAltOutlined, EnterOutlined } from '@ant-design/icons';
 import CommentService from '../../../shared/services/commentService';
 
 const { Text } = Typography;
 
 const Post = ({ post }) => {
     const [comments, setComments] = useState([]);
-    const [newComment, setNewComment] = useState(""); 
+    const [newComment, setNewComment] = useState("");
     const [commentSuccess, setCommentSuccess] = useState(false);
     useEffect(() => {
         async function fetchComments() {
@@ -31,13 +31,13 @@ const Post = ({ post }) => {
         if (newComment.trim()) {
             try {
                 setCommentSuccess(false);
-                const result = CommentService.createComment(post.id, {"content": newComment});
+                const result = CommentService.createComment(post.id, { "content": newComment });
                 console.log("Comment created:", result);
                 if (result.content !== null) {
                     setNewComment("");
                     setCommentSuccess(true);
                     message.success("Comment created successfully!");
-                    }
+                }
             }
             catch (error) {
                 console.log(error);
@@ -59,13 +59,20 @@ const Post = ({ post }) => {
             }
             extra={<span>{new Date(post.created_at).toLocaleString()}</span>}
         >
-            <div style={{ marginLeft: '16px'}}>
+            <div style={{ marginLeft: '16px' }}>
                 {post.image === null ? (
                     <Text>{post.content}</Text>
                 ) : (
                     <Row gutter={[16, 16]} style={{ gap: '16px', display: 'flex', justifyContent: 'space-between' }}>
                         <Col span={12}><Text>{post.content}</Text></Col>
-                        <Col span={8}><img draggable="false" src={post.image} alt="Image" style={{ width: '100%', maxHeight: '300rem' }} /></Col>
+                        <hr style={{ border: '0.25px solid #ccc' }} />
+                        <Col span={8}>
+                            <Image
+                                width={200}
+                                src={post.image}
+                                alt="Image"
+                            />
+                        </Col>
                     </Row>
                 )}
             </div>
@@ -77,7 +84,7 @@ const Post = ({ post }) => {
                     onPressEnter={handleCommentSubmit}
                     placeholder="Write a comment..."
                 />
-                <Button type="text" icon={<ArrowUpOutlined />} onClick={handleCommentSubmit}/>
+                <Button type="text" icon={<ArrowUpOutlined />} onClick={handleCommentSubmit} />
                 <Button
                     type="text"
                     icon={post.liked ? <HeartFilled style={{ color: 'black' }} /> : <HeartOutlined />}
@@ -86,15 +93,22 @@ const Post = ({ post }) => {
             </div>
             <Divider />
             <List
-                dataSource={comments} 
+                dataSource={comments}
                 locale={{ emptyText: 'No comments yet.' }}
                 renderItem={(comment) => (
                     <div key={comment.id} style={{ marginLeft: '20px', marginTop: '10px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <span style={{ fontWeight: 'bold' }}>{comment.full_name}</span>
+                            <span style={{ fontWeight: 'bold' }}>
+                                {comment.full_name} <span>{comment.role === 'admin' ? <Tag color="red">Admin</Tag> : <Tag color="green">User</Tag>}</span>
+                            </span>
+
                             <span style={{ fontSize: '12px', color: 'gray' }}>{new Date(comment.created_at).toLocaleString()}</span>
                         </div>
-                        <p>{comment.content}</p>
+                        <div style={{ marginLeft: '20px' }}>
+                            <EnterOutlined style={{ transform: 'scaleX(-1)' }} />
+                            <span> {comment.content}</span>
+                        </div>
+
                     </div>
                 )}
             />

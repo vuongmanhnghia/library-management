@@ -68,6 +68,7 @@ const Setting = () => {
                                 newPassword: '',
                                 confirmPassword: '',
                             }}
+                            clearOnDestroy
                         >
                             <Form.Item
                                 label="Current Password"

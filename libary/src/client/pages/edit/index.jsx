@@ -8,7 +8,7 @@ import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message 
 import { useParams } from 'react-router-dom';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import CardRender from '../../components/bookCards';
-import { getBase64 } from '../../../shared/utils';
+import { getBase64, truncateText } from '../../../shared/utils';
 import BookService from '../../../shared/services/bookService';
 import dayjs from 'dayjs';
 
@@ -196,7 +196,20 @@ const EditBook = () => {
                             <Upload
                                 listType="picture-card"
                                 maxCount={1}
-                                beforeUpload={() => false}
+                                beforeUpload={(file) => {
+                                    const isImage = file.type.startsWith('image/');
+                                    const isSmallEnough = file.size / 1024 / 1024 < 1.5;
+                                    if (!isImage) {
+                                        message.error(`${truncateText(file.name, 10)} is not an image file`);
+                                        return Upload.LIST_IGNORE;
+                                    }
+                                    if (!isSmallEnough) {
+                                        message.error(`${truncateText(file.name, 10)} is larger than 1,5MB`);
+                                        return Upload.LIST_IGNORE;
+                                    }
+                                    handlePreviewCover(file); // Xử lý file ở đây
+                                    return false;
+                                }}
                                 onChange={(info) => {
                                     const file = info.fileList[0]?.originFileObj || null;
                                     handlePreviewCover(file);
@@ -222,7 +235,19 @@ const EditBook = () => {
                         >
                             <Upload
                                 maxCount={1}
-                                beforeUpload={() => false}
+                                beforeUpload={(file) => {
+                                    const isPDF = file.type === 'application/pdf';
+                                    const isSmallEnough = file.size / 1024 / 1024 < 4;
+                                    if (!isPDF) {
+                                        message.error(`${truncateText(file.name, 10)} is not a PDF file`);
+                                        return Upload.LIST_IGNORE;
+                                    }
+                                    if (!isSmallEnough) {
+                                        message.error(`${truncateText(file.name, 10)} is larger than 4MB`);
+                                        return Upload.LIST_IGNORE;
+                                    }
+                                    return false;
+                                }}
                                 defaultFileList={
                                     book.file ? [{ uid: '-2', name: 'book.pdf', status: 'done', url: book.file }] : []
                                 }

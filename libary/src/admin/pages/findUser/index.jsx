@@ -1,11 +1,10 @@
-import { Layout, Input, Divider, Empty, Row, Col, Descriptions, Typography, Tag, Avatar, Button, Modal, Form, message } from 'antd';
+import { Layout, Input, Divider, Empty, Row, Col, Descriptions, Typography, Tag, Button, Modal, Form, message } from 'antd';
 import { useState } from 'react';
 import AdminService from '../../../shared/services/adminService';
 import React from 'react';
 
 const { Search } = Input;
 const { Title } = Typography;
-const publicUrl = process.env.PUBLIC_URL;
 
 const FindUser = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);

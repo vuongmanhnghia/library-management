@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col, message, Modal, Tag } from 'antd';
+import { Card, Button, Row, Col, message, Modal, Tag, Image } from 'antd';
 import { EditOutlined, DeleteOutlined, DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { removeBook } from '../../../redux/bookSlice';
@@ -58,16 +58,10 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file, status }) =>
             <Row gutter={16} align="middle">
                 {/* Ảnh bìa */}
                 <Col flex="120px">
-                    <img
-                        draggable={false}
+                    <Image
+                        width={100}
+                        height={100}
                         src={img}
-                        alt="Preview Cover"
-                        style={{
-                            width: '100px',
-                            height: '100px',
-                            objectFit: 'cover',
-                            objectPosition: 'top center',
-                        }}
                     />
                 </Col>
 

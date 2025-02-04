@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { EyeInvisibleOutlined, EyeOutlined, HomeFilled, UserOutlined, WalletOutlined } from '@ant-design/icons';
+import { EyeOutlined, HomeFilled, UserOutlined, WalletOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Statistic, Layout, Flex, Progress, Typography, Table, Button, Skeleton } from 'antd';
 import AdminService from '../../../shared/services/adminService';
 import { truncateText } from '../../../shared/utils';
@@ -9,7 +9,7 @@ import Title from 'antd/es/typography/Title';
 const { Text } = Typography
 
 const AdminDashboard = () => {
-  const naviga = useNavigate();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [datas, setDatas] = useState({});
   const [books, setBooks] = useState([]);
@@ -17,23 +17,22 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     setLoading(true);
-    try{
+    try {
       AdminService.getDashboard().then((res) => {
         setLoading(false);
         setDatas(res.data);
         setBooks(res.data.books);
         setUsers(res.data.users);
       });
-    }catch (error) {
+    } catch (error) {
       console.log(error);
     }
-    finally{
-      setLoading(false);}
+    finally {
+      setLoading(false);
+    }
   }, []);
 
   const handelViewUser = (id) => {
-    console.log(id);
-    // naviga(`/admin/view_user/${id}`);
   }
   const userColumns = [
     {
@@ -74,7 +73,7 @@ const AdminDashboard = () => {
     },
   ];
   return (
-    loading ? <Skeleton active />  : (
+    loading ? <Skeleton active /> : (
       <Layout>
         <Title level={3}><HomeFilled /> Dashboard</Title>
         <Row gutter={16} style={{ gap: '16px' }}>
@@ -96,7 +95,7 @@ const AdminDashboard = () => {
                 <Card bordered={false} hoverable>
                   <Statistic
                     title="Active Books"
-                    value={datas.total_books}
+                    value={datas.total_books - datas.pending_books}
                     prefix={<WalletOutlined />}
                     valueStyle={{
                       color: '#1a9ce7',
@@ -135,11 +134,17 @@ const AdminDashboard = () => {
               <Card bordered={false} style={{ width: '100%' }} hoverable>
                 <Flex gap="middle" wrap>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Progress type="dashboard" size={250} percent={(datas.total_books - datas.pending_books) / datas.total_books * 100} />
+                    <Progress
+                      type="dashboard"
+                      precision={2}
+                      size={250}
+                      percent={((datas.total_books - datas.pending_books) / datas.total_books * 100).toFixed(2)} // Làm tròn đến 2 chữ số thập phân
+                      status='normal'
+                    />
                     <Text>Approved Books</Text>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Progress type="dashboard" percent={datas.pending_books / datas.total_books * 100} size={150} />
+                    <Progress type="dashboard" precision={2} percent={(datas.pending_books / datas.total_books * 100).toFixed(2)} size={150} status="normal" />
                     <Text>Pending Books</Text>
                   </div>
                 </Flex>

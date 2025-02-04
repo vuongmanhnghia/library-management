@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { Layout, Form, Input, Button, Upload, message, Row, Col, Avatar, Select, DatePicker, Typography } from 'antd';
 import { UserOutlined, UploadOutlined } from '@ant-design/icons';
-import { getBase64 } from '../../../shared/utils';
+import { getBase64,truncateText } from '../../../shared/utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { update } from '../../../redux/userSlice';
 import UserService from '../../../shared/services/userService'; // Import the service
@@ -177,7 +177,19 @@ const ProfilePage = () => {
                         />
                         <Upload
                             maxCount={1}
-                            beforeUpload={() => false}
+                            beforeUpload={(file) => {
+                                const isImage = file.type.startsWith('image/');
+                                const isSmallEnough = file.size / 1024 / 1024 < 1.5; 
+                                if (!isImage) {
+                                    message.error(`${truncateText(file.name,10)} is not an image file`);
+                                    return Upload.LIST_IGNORE;
+                                }
+                                if (!isSmallEnough) {
+                                    message.error(`${truncateText(file.name,10)} is larger than 1,5MB`);
+                                    return Upload.LIST_IGNORE;
+                                }
+                                return false;
+                            }}
                             onChange={(info) => {
                                 const file = info.fileList[0]?.originFileObj || null;
                                 handlePreviewAvatar(file);

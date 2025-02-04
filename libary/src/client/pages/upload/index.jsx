@@ -8,7 +8,8 @@ import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message 
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import CardRender from '../../components/bookCards';
 import BookService from '../../../shared/services/bookService';
-import { getBase64 } from '../../../shared/utils';
+import { getBase64, truncateText } from '../../../shared/utils';
+import dayjs from 'dayjs';
 
 const { Title } = Typography;
 const defaultImage = 'https://via.placeholder.com/150';
@@ -31,7 +32,7 @@ const UploadBook = () => {
             const payload = {
                 title: values.title,
                 author: values.author,
-                published_date: values.date ? values.date.toDate() : null,
+                published_date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : null,
                 introduction: values.introduction,
                 cover: encodedCover,
                 file: encodedFile,
@@ -75,9 +76,9 @@ const UploadBook = () => {
     };
 
     const handleDateChange = (date) => {
-        date = date ? date.toDate() : null;
-        setPreviewDate(date);
+        setPreviewDate(date ? dayjs(date).format('YYYY-MM-DD') : null);
     };
+
 
     const handelIntroductionChange = (e) => {
         const introduction = e.target.value;
@@ -147,10 +148,19 @@ const UploadBook = () => {
                             <Upload
                                 listType="picture-card"
                                 maxCount={1}
-                                beforeUpload={() => false}
-                                onChange={(info) => {
-                                    const file = info.fileList[0]?.originFileObj || null;
-                                    handlePreviewCover(file);
+                                beforeUpload={(file) => {
+                                    const isImage = file.type.startsWith('image/');
+                                    const isSmallEnough = file.size / 1024 / 1024 < 1.5; 
+                                    if (!isImage) {
+                                        message.error(`${truncateText(file.name,10)} is not an image file`);
+                                        return Upload.LIST_IGNORE;
+                                    }
+                                    if (!isSmallEnough) {
+                                        message.error(`${truncateText(file.name,10)} is larger than 1,5MB`);
+                                        return Upload.LIST_IGNORE;
+                                    }
+                                    handlePreviewCover(file); // Xử lý file ở đây
+                                    return false;
                                 }}
                             >
                                 <div>
@@ -158,6 +168,8 @@ const UploadBook = () => {
                                     <div style={{ marginTop: 8 }}>Upload</div>
                                 </div>
                             </Upload>
+
+
                         </Form.Item>
                         <Form.Item
                             label="File Upload"
@@ -166,9 +178,26 @@ const UploadBook = () => {
                             getValueFromEvent={normFile}
                             rules={[{ required: true, message: 'Please upload the book file.' }]}
                         >
-                            <Upload maxCount={1} beforeUpload={() => false}>
+                            <Upload
+                                maxCount={1}
+                                beforeUpload={(file) => {
+                                    const isPDF = file.type === 'application/pdf';
+                                    const isSmallEnough = file.size / 1024 / 1024 < 4; 
+                                    if (!isPDF) {
+                                        message.error(`${truncateText(file.name,10)} is not a PDF file`);
+                                        return Upload.LIST_IGNORE; 
+                                    }
+                                    if (!isSmallEnough) {
+                                        message.error(`${truncateText(file.name,10)} is larger than 4MB`);
+                                        return Upload.LIST_IGNORE; 
+                                    }
+                                    return false; 
+                                }}
+                            >
                                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
                             </Upload>
+
+
                         </Form.Item>
                         <Form.Item wrapperCol={{ span: 24 }} style={{ textAlign: 'center' }}>
                             <Button type="primary" loading={loading} htmlType="submit">

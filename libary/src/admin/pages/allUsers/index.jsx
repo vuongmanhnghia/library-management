@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Layout, Typography, message, Row, Modal, Skeleton, Tag  } from 'antd';
-import {  DeleteOutlined, MinusSquareOutlined, EyeOutlined } from '@ant-design/icons';
+import { Table, Button, Layout, Typography, message, Row, Skeleton, Tag  } from 'antd';
+import {  DeleteOutlined } from '@ant-design/icons';
 import AdminServices from '../../../shared/services/adminService';
 import { truncateText } from '../../../shared/utils';
 import dayjs from 'dayjs';
@@ -21,7 +21,6 @@ const AllUsers = () => {
                 const response = await AdminServices.getAllUsers(currentPage, perPage);
                 if (response.success) {
                     setUsers(response.data.users || []);
-                    console.log(response.data.users);
                     setTotalUsers(response.data.total_users || 0);
                 }
             } catch (error) {

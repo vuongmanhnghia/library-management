@@ -27,7 +27,7 @@ const MyBooks = () => {
             if (response.success) {
                 dispatch(setBooks(response.data));
             } else {
-                message.error(response.message);
+                console.log(response.message);
             }
         } catch (error) {
             message.error('An unexpected error occurred while fetching books.');
