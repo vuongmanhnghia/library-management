@@ -65,7 +65,7 @@ const Post = ({ post }) => {
                 ) : (
                     <Row gutter={[16, 16]} style={{ gap: '16px', display: 'flex', justifyContent: 'space-between' }}>
                         <Col span={12}><Text>{post.content}</Text></Col>
-                        <Col span={8}><image draggable="false" src={post.image} alt="Image" style={{ width: '100%', maxHeight: '300rem' }} /></Col>
+                        <Col span={8}><img draggable="false" src={post.image} alt="Image" style={{ width: '100%', maxHeight: '300rem' }} /></Col>
                     </Row>
                 )}
             </div>
