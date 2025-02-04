@@ -1,4 +1,3 @@
-import create from '@ant-design/icons/lib/components/IconFont';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_API_URL;

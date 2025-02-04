@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from app.configs.database import users
+from app.configs.database import users, books, posts
 from app.schemas.user_schemas import details_user
 
 async def get_user_by_email(email: str):
@@ -45,3 +45,28 @@ async def get_all_users(query_params):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+async def get_dashboard_data():
+    try:
+        total_users = await users.count_documents({})
+        total_books = await books.count_documents({})
+        total_posts = await posts.count_documents({})
+        pending_books = await books.count_documents({"status": "false"})
+
+        user_list = await users.find({}, {"_id": 1, "avatar": 1, "full_name": 1, "email": 1}).sort("created_at", -1).to_list(5)
+        user_list = [{"id": str(user["_id"]), "full_name": user["full_name"], "email": user["email"]} for user in user_list]
+
+        book_list = await books.find({}, {"_id": 1, "title": 1, "author": 1}).sort("created_at", -1).to_list(3)
+        book_list = [{"id": str(book["_id"]), "title": book["title"], "author": book["author"]} for book in book_list]
+
+        return {
+            "total_users": total_users,
+            "total_books": total_books,
+            "total_posts": total_posts,
+            "pending_books": pending_books,
+            "users": user_list,
+            "books": book_list,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+

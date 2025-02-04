@@ -1,4 +1,3 @@
-import create from '@ant-design/icons/lib/components/IconFont';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -81,7 +80,27 @@ const AdminService = {
                 message: error.response?.data?.detail || 'Failed to get users. Please try again.',
             };
         }
-    }
+    },
+    getDashboard: async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/users/dashboard`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            return {
+                success: true,
+                data: response.data.data,
+                message: response.data.message,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.response.detail || 'Failed to get dashboard. Please try again.',
+            };
+        }
+    },
 };
 
 export default AdminService;

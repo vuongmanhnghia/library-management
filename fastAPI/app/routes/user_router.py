@@ -31,3 +31,10 @@ async def get_all_users(request: Request):
     if user.get("role") != "admin":
         raise HTTPException(status_code=403, detail="Only admin can get all users")
     return await user_controller.get_all_users(request)
+
+@userRouter.get("/dashboard", dependencies=[Depends(require_authentication)])
+async def get_dashboard_data(request: Request):
+    user = request.current_user
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Only admin can get dashboard data")
+    return await user_controller.get_dashboard_data()

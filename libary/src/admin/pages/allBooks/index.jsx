@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Layout, Typography, message, Row, Modal, Skeleton  } from 'antd';
-import {  DeleteOutlined, MinusSquareOutlined, EyeOutlined } from '@ant-design/icons';
-import {useNavigate} from 'react-router-dom';
+import { Table, Button, Layout, Typography, message, Row, Modal, Skeleton, Tag } from 'antd';
+import { DeleteOutlined, MinusSquareOutlined, EyeOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import BookService from '../../../shared/services/bookService';
 import { truncateText } from '../../../shared/utils';
 
@@ -57,7 +57,7 @@ const AllBooks = () => {
             title: 'Published Date',
             dataIndex: 'published_date',
             key: 'published_date',
-            render: (text) => text === null ? "N/A": text,
+            render: (text) => text === null ? "N/A" : text,
         },
         {
             title: 'View',
@@ -129,7 +129,9 @@ const AllBooks = () => {
 
     return (
         <Layout>
-            <Title level={3}>All Books</Title>
+            <Title level={3} >All Books </Title>
+            
+
             {loading ? (
                 <Row justify="center">
                     <Skeleton active />

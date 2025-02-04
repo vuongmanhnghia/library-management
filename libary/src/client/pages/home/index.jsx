@@ -4,7 +4,6 @@ import Loading from '../../../shared/components/loadingUI';
 import CardRender from '../../components/bookCards';
 import CarouselSlide from '../../components/carouselRender';
 import BookService from '../../../shared/services/bookService';
-import axios from 'axios';
 
 const { Option } = Select;
 const publicUrl = process.env.PUBLIC_URL;

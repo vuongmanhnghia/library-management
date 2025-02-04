@@ -18,3 +18,12 @@ async def get_all_users(request):
         "success": True,
         "data": result
     }
+    
+async def get_dashboard_data():
+    result = await user_service.get_dashboard_data()
+    return {
+        "status": 200,
+        "success": True,
+        "message": "Dashboard data retrieved successfully",
+        "data": result,
+    }
