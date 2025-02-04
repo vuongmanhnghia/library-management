@@ -53,6 +53,7 @@ const adminRoutes = [
     { path: '/admin/book_service/upload-book', component: UploadBook, layout: DefaultLayoutAdmin },
     { path: '/admin/book_service/all_books', component: AllBooks, layout: DefaultLayoutAdmin },
     { path: '/admin/view_book/:id', component: ViewBook, layout: DefaultLayoutAdmin },
+    { path: '/admin/view_user/:id', component: Profile, layout: DefaultLayoutAdmin },
     { path: '/admin/user_service/all_users', component: AllUsers, layout: DefaultLayoutAdmin },
     { path: '/admin/user_service/find', component: FindUser, layout: DefaultLayoutAdmin },
     { path: '/admin/conversation', component: Convarsation, layout: DefaultLayoutAdmin },

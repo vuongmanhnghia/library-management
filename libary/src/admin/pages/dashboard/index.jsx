@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { EyeInvisibleOutlined, EyeOutlined, HomeFilled, UserOutlined, WalletOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Statistic, Layout, Flex, Progress, Typography, Table, Button, Skeleton } from 'antd';
 import AdminService from '../../../shared/services/adminService';
@@ -7,15 +8,8 @@ import Title from 'antd/es/typography/Title';
 
 const { Text } = Typography
 
-const datas =
-{
-  total_users: 27,
-  total_books: 100,
-  total_posts: 234,
-  pending_books: 34
-}
-
 const AdminDashboard = () => {
+  const naviga = useNavigate();
   const [loading, setLoading] = useState(false);
   const [datas, setDatas] = useState({});
   const [books, setBooks] = useState([]);
@@ -32,9 +26,15 @@ const AdminDashboard = () => {
       });
     }catch (error) {
       console.log(error);
-      setLoading(false);
     }
+    finally{
+      setLoading(false);}
   }, []);
+
+  const handelViewUser = (id) => {
+    console.log(id);
+    // naviga(`/admin/view_user/${id}`);
+  }
   const userColumns = [
     {
       title: 'Name',
@@ -51,9 +51,9 @@ const AdminDashboard = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (user) => (
+      render: (text) => (
         <Button type="default">
-          <EyeOutlined />
+          <EyeOutlined onClick={handelViewUser} />
         </Button>
       ),
     }
@@ -80,7 +80,7 @@ const AdminDashboard = () => {
         <Row gutter={16} style={{ gap: '16px' }}>
           <Col span={12}>
             <Row style={{ width: '100%', gap: '16px' }}>
-              <Col span={11}>
+              <Col span={7}>
                 <Card bordered={false} hoverable >
                   <Statistic
                     title="Active Users"
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
                   />
                 </Card>
               </Col>
-              <Col span={11}>
+              <Col span={8}>
                 <Card bordered={false} hoverable>
                   <Statistic
                     title="Active Books"
@@ -100,6 +100,18 @@ const AdminDashboard = () => {
                     prefix={<WalletOutlined />}
                     valueStyle={{
                       color: '#1a9ce7',
+                    }}
+                  />
+                </Card>
+              </Col>
+              <Col span={7}>
+                <Card bordered={false} hoverable>
+                  <Statistic
+                    title="Posts"
+                    value={datas.total_posts}
+                    prefix={<WalletOutlined />}
+                    valueStyle={{
+                      color: '#3f8600',
                     }}
                   />
                 </Card>
