@@ -10,7 +10,7 @@ MONGO_URL = os.getenv("MONGO_URL")
 client = AsyncIOMotorClient(MONGO_URL)
 
 # Kết nối đến database
-db = client["LibraryManagement"]
+db = client["LibraryForum"]
 
 # Các collection
 users = db["users"]
