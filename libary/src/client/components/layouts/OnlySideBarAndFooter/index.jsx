@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import SiderComponent from '../../../../shared/components/sidebar';
+import HeaderMB from '../../../../shared/components/headerMB';
 import Footer from '../../../../shared/components/footer';
 import FloatAI from '../../floatAI';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { itemsSibar } from '../valueSidbar';
-import { Layout } from 'antd';
+import { Layout, Grid } from 'antd';
 const { Content } = Layout;
 
+const { useBreakpoint } = Grid;
+
 const OnlySideBarAndFooter = ({ children }) => {
+    const breakpoint = useBreakpoint();
     // Get the sidebar state from localStorage and ensure it's parsed as a boolean
     const stateSibar = localStorage.getItem('stateSibar');
     const [collapsed, setCollapsed] = useState(stateSibar ? JSON.parse(stateSibar) : false);
@@ -27,10 +31,18 @@ const OnlySideBarAndFooter = ({ children }) => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             {/* Sidebar */}
-            <SiderComponent collapsed={collapsed} onCollapse={setCollapsed} items={menuItems} />
+            {
+                !breakpoint.md ?
+                    <HeaderMB items={menuItems} /> :
+                    <SiderComponent collapsed={collapsed} onCollapse={setCollapsed} items={menuItems} />
+            }
 
             {/* Content */}
-            <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'margin-left 0.3s' }}>
+            <Layout style={{
+                marginLeft: breakpoint.md ? (collapsed ? 80 : 200) : 0,
+                marginTop: breakpoint.md ? 0 : 64,
+                transition: 'margin-left 0.3s'
+            }}>
                 {/* Main Content */}
                 <Content
                     style={{

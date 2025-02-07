@@ -1,21 +1,16 @@
-/* 
-    Chức năng chính page: Cài đặt của người dùng, cài đặt mật khóa, thay đổi mật khóa, xóa tài khoản
-    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
-    Các chức năng đăng phát triển: dark mode
-*/
-
-
 import React, { useState } from 'react';
-import { Form, Input, Button, Modal, Row, Col, Card, Radio, message } from 'antd';
+import { Form, Input, Button, Modal, Row, Col, Card, Radio, message, Layout, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import UserService from '../../../shared/services/userService';
 import { logout } from '../../../redux/userSlice';
 
+const { Title, Text } = Typography;
 const Setting = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const onFinishPasswordChange = (values) => {
         UserService.updatePassword(values)
             .then((response) => {
@@ -38,7 +33,7 @@ const Setting = () => {
         const response = await UserService.delete();
         if (response.success) {
             message.success(response.message);
-            setInterval(() => {
+            setTimeout(() => {
                 navigate('/register');
                 dispatch(logout());
             }, 500);
@@ -53,93 +48,54 @@ const Setting = () => {
     };
 
     return (
-        <div style={{ padding: 24 }}>
-            <h2>Setting</h2>
-
-            <Row gutter={[16, 16]}>
-                {/* Change Password */}
-                <Col span={12}>
+        <Layout>
+            <Title level={3}>Settings</Title>
+            <Row gutter={[16, 16]} wrap>
+                <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                     <Card title="Change Password" bordered>
-                        <Form
-                            layout="vertical"
-                            onFinish={onFinishPasswordChange}
-                            initialValues={{
-                                oldPassword: '',
-                                newPassword: '',
-                                confirmPassword: '',
-                            }}
-                            clearOnDestroy
-                        >
-                            <Form.Item
-                                label="Current Password"
-                                name="oldPassword"
-                                rules={[{ required: true, message: 'Please enter your current password!' }]}
-                            >
+                        <Form layout="vertical" onFinish={onFinishPasswordChange}>
+                            <Form.Item label="Current Password" name="oldPassword" rules={[{ required: true, message: 'Please enter your current password!' }]}>
                                 <Input.Password placeholder="Current password" />
                             </Form.Item>
-                            <Form.Item
-                                label="New Password"
-                                name="newPassword"
-                                rules={[
-                                    { required: true, message: 'Please enter a new password!' },
-                                    { min: 6, message: 'Password must be at least 6 characters!' },
-                                ]}
-                            >
+                            <Form.Item label="New Password" name="newPassword" rules={[{ required: true, message: 'Please enter a new password!' }, { min: 6, message: 'Password must be at least 6 characters!' }]}>
                                 <Input.Password placeholder="New password" />
                             </Form.Item>
-                            <Form.Item
-                                label="Confirm New Password"
-                                name="confirmPassword"
-                                dependencies={['newPassword']}
-                                rules={[
-                                    { required: true, message: 'Please confirm your new password!' },
-                                    ({ getFieldValue }) => ({
-                                        validator(_, value) {
-                                            if (!value || getFieldValue('newPassword') === value) {
-                                                return Promise.resolve();
-                                            }
-                                            return Promise.reject(new Error('The two passwords do not match!'));
-                                        },
-                                    }),
-                                ]}
-                            >
+                            <Form.Item label="Confirm New Password" name="confirmPassword" dependencies={['newPassword']} rules={[({ getFieldValue }) => ({ validator(_, value) { return !value || getFieldValue('newPassword') === value ? Promise.resolve() : Promise.reject(new Error('The two passwords do not match!')); } })]}>
                                 <Input.Password placeholder="Confirm new password" />
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit">
+                                <Button type="primary" htmlType="submit" block>
                                     Save Changes
                                 </Button>
                             </Form.Item>
                         </Form>
                     </Card>
                 </Col>
-
-                {/* Other Setting, danh sách những chức năng đang phát triển  */}
-                <Col span={12} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <Row style={{ display: 'inline-block' }}>
+                <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+                    <Col span={24}>
                         <Card title="Other Features (In Progress)" bordered>
-                            <p>- Conversation page </p>
-                            <p>- Enable/Disable Dark Mode</p>
-                            <p>- Auto logout after 30 minutes of inactivity</p>
-                            <Button type="dashed" disabled>
+                            <Text>- Conversation Textage</Text>
+                            <br />
+                            <Text>- Enable/Disable Dark Mode</Text>
+                            <br />
+                            <Text>- Auto logout after 30 minutes of inactivity</Text>
+                            <Button type="dashed" disabled block style={{ marginTop: 16 }}>
                                 Coming Soon...
                             </Button>
                         </Card>
-                    </Row>
-                    <Row style={{ display: 'inline-block' }}>
-                        <Card title="Delete Account" bordered>
-                            <p style={{ color: 'red' }}>
+                    </Col>
+                    <Col span={24}>
+                        <Card title="Delete Account" bordered style={{ marginTop: 16 }}>
+                            <Text style={{ color: 'red' }}>
                                 <b>Warning:</b> This action is irreversible!
-                            </p>
-                            <Button danger onClick={showDeleteAccountModal}>
+                            </Text>
+                            <Button danger onClick={showDeleteAccountModal} block style={{ marginTop: 16 }}>
                                 Delete Account
                             </Button>
                         </Card>
-                    </Row>
+                    </Col>
                 </Col>
-
-                {/* Dark Mode Settings, đang phát triển */}
-                <Col span={12}>
+                <Col xs={24} sm={24} md={12} lg={8} xl={8}>
                     <Card title="Dark Mode Settings" bordered>
                         <Radio.Group defaultValue="system" buttonStyle="solid">
                             <Radio value="system">System mode</Radio>
@@ -149,16 +105,12 @@ const Setting = () => {
                     </Card>
                 </Col>
             </Row>
-
-            {/* Delete Account Confirmation Modal */}
             <Modal
-                title={
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <span style={{ color: '#ff4d4f', fontSize: '1.5rem' }}>⚠</span>
-                        <span>Confirm Account Deletion</span>
-                    </div>
-                }
-                visible={isModalOpen}
+                title={<div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ color: '#ff4d4f', fontSize: '1.5rem' }}>⚠</span>
+                    <span>Confirm Account Deletion</span>
+                </div>}
+                open={isModalOpen}
                 onOk={handleDeleteAccount}
                 onCancel={handleCancel}
                 okText="Delete"
@@ -166,14 +118,15 @@ const Setting = () => {
                 cancelText="Cancel"
                 centered
             >
-                <p style={{ fontSize: '1rem', color: '#333', marginBottom: '1rem' }}>
+                <Text style={{ fontSize: '1rem', color: '#333', marginBottom: '1rem' }}>
                     Are you sure you want to delete your account? This action <b>cannot</b> be undone.
-                </p>
-                <p style={{ color: '#ff4d4f', fontWeight: 'bold' }}>
+                </Text>
+                <br />
+                <Text style={{ color: '#ff4d4f', fontWeight: 'bold' }}>
                     Warning: Deleting your account will permanently remove all your data.
-                </p>
+                </Text>
             </Modal>
-        </div>
+        </Layout>
     );
 };
 

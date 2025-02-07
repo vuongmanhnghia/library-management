@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, message, Layout, Typography, Row, Skeleton  } from 'antd';
+import { Table, Button, message, Layout, Typography, Row, Skeleton } from 'antd';
 import { EyeOutlined, CheckOutlined } from '@ant-design/icons';
 import BookService from '../../../shared/services/bookService';
 import { truncateText } from '../../../shared/utils';
@@ -104,6 +104,9 @@ const BookChecker = () => {
                     dataSource={books}
                     loading={loading}
                     rowKey="_id"
+                    scroll={{
+                        x: 'max-content',
+                    }}
                 />)}
         </Layout>
     );

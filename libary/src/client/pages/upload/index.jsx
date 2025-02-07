@@ -1,8 +1,3 @@
-/* 
-    Chức năng chính page: Cho phép upload sách lên trên hệ thống thư viện cho mọi người cùng truy cập
-    Công nghệ sử dụng: base64 (giúp upload ảnh, file sách lên server- tạm thời)
-*/
-
 import React, { useState } from 'react';
 import { Button, Form, Row, Col, Input, Upload, DatePicker, Typography, message } from 'antd';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
@@ -79,7 +74,6 @@ const UploadBook = () => {
         setPreviewDate(date ? dayjs(date).format('YYYY-MM-DD') : null);
     };
 
-
     const handelIntroductionChange = (e) => {
         const introduction = e.target.value;
         setPreviewIntroduction(introduction);
@@ -95,7 +89,7 @@ const UploadBook = () => {
                 justifyContent: 'center',
             }}
         >
-            <Title level={2} style={{ marginBottom: '24px' }}>
+            <Title level={3} style={{ marginBottom: '24px' }}>
                 Upload New Book
             </Title>
 
@@ -150,16 +144,16 @@ const UploadBook = () => {
                                 maxCount={1}
                                 beforeUpload={(file) => {
                                     const isImage = file.type.startsWith('image/');
-                                    const isSmallEnough = file.size / 1024 / 1024 < 1.5; 
+                                    const isSmallEnough = file.size / 1024 / 1024 < 1.5;
                                     if (!isImage) {
-                                        message.error(`${truncateText(file.name,10)} is not an image file`);
+                                        message.error(`${truncateText(file.name, 10)} is not an image file`);
                                         return Upload.LIST_IGNORE;
                                     }
                                     if (!isSmallEnough) {
-                                        message.error(`${truncateText(file.name,10)} is larger than 1,5MB`);
+                                        message.error(`${truncateText(file.name, 10)} is larger than 1,5MB`);
                                         return Upload.LIST_IGNORE;
                                     }
-                                    handlePreviewCover(file); // Xử lý file ở đây
+                                    handlePreviewCover(file);
                                     return false;
                                 }}
                             >
@@ -168,8 +162,6 @@ const UploadBook = () => {
                                     <div style={{ marginTop: 8 }}>Upload</div>
                                 </div>
                             </Upload>
-
-
                         </Form.Item>
                         <Form.Item
                             label="File Upload"
@@ -182,22 +174,20 @@ const UploadBook = () => {
                                 maxCount={1}
                                 beforeUpload={(file) => {
                                     const isPDF = file.type === 'application/pdf';
-                                    const isSmallEnough = file.size / 1024 / 1024 < 4; 
+                                    const isSmallEnough = file.size / 1024 / 1024 < 4;
                                     if (!isPDF) {
-                                        message.error(`${truncateText(file.name,10)} is not a PDF file`);
-                                        return Upload.LIST_IGNORE; 
+                                        message.error(`${truncateText(file.name, 10)} is not a PDF file`);
+                                        return Upload.LIST_IGNORE;
                                     }
                                     if (!isSmallEnough) {
-                                        message.error(`${truncateText(file.name,10)} is larger than 4MB`);
-                                        return Upload.LIST_IGNORE; 
+                                        message.error(`${truncateText(file.name, 10)} is larger than 4MB`);
+                                        return Upload.LIST_IGNORE;
                                     }
-                                    return false; 
+                                    return false;
                                 }}
                             >
                                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
                             </Upload>
-
-
                         </Form.Item>
                         <Form.Item wrapperCol={{ span: 24 }} style={{ textAlign: 'center' }}>
                             <Button type="primary" loading={loading} htmlType="submit">
@@ -206,13 +196,7 @@ const UploadBook = () => {
                         </Form.Item>
                     </Form>
                 </Col>
-                <Col
-                    xs={24}
-                    sm={8}
-                    md={6}
-                    lg={8}
-                    style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}
-                >
+                <Col xs={24} sm={8} md={6} lg={8} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                     <Title level={5} style={{ marginTop: '0' }}>
                         Preview Book
                     </Title>

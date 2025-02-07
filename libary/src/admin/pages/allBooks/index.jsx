@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Layout, Typography, message, Row, Modal, Skeleton, Tag } from 'antd';
+import { Table, Button, Layout, Typography, message, Row, Modal, Skeleton } from 'antd';
 import { DeleteOutlined, MinusSquareOutlined, EyeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import BookService from '../../../shared/services/bookService';
@@ -130,7 +130,7 @@ const AllBooks = () => {
     return (
         <Layout>
             <Title level={3} >All Books </Title>
-            
+
 
             {loading ? (
                 <Row justify="center">
@@ -147,6 +147,9 @@ const AllBooks = () => {
                         pageSize: perPage,
                         total: totalBooks,
                         onChange: (page) => setCurrentPage(page),
+                    }}
+                    scroll={{
+                        x: 'max-content',
                     }}
                 />
             )}

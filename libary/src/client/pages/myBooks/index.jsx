@@ -3,13 +3,13 @@
     Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
 */
 
-import { Layout, Row, Button, Result, Pagination, message } from 'antd';
+import { Layout, Row, Button, Result, Pagination, message, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'; 
+import { useDispatch, useSelector } from 'react-redux';
 import BookTikets from '../../components/bookTikets';
 import Loading from '../../../shared/components/loadingUI';
-import { setBooks } from '../../../redux/bookSlice'; 
+import { setBooks } from '../../../redux/bookSlice';
 import React from 'react';
 import Title from 'antd/es/typography/Title';
 import BookService from '../../../shared/services/bookService';
@@ -17,7 +17,7 @@ import BookService from '../../../shared/services/bookService';
 const MyBooks = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
     const books = useSelector((state) => state.books.books);
 
     const fetchBooks = async () => {
@@ -47,7 +47,7 @@ const MyBooks = () => {
             <Row justify="center">
                 <Title level={2}>List of my books</Title>
             </Row>
-            <Row justify="center">
+            <Row justify="center" gutter={[16, 16]}>
                 {loading ? (
                     <Loading />
                 ) : isBooksEmpty ? (
@@ -57,16 +57,18 @@ const MyBooks = () => {
                     />
                 ) : (
                     books.map((book) => (
-                        <BookTikets
-                            key={book.id}
-                            id={book.id}
-                            img={book.cover}
-                            title={book.title}
-                            create_date={book.created_at}
-                            edit_date={book.updated_at}
-                            file={book.file}
-                            status={book.status}
-                        />
+                        <Col xs={24} sm={24} md={12} lg={12}>
+                            <BookTikets
+                                key={book.id}
+                                id={book.id}
+                                img={book.cover}
+                                title={book.title}
+                                create_date={book.created_at}
+                                edit_date={book.updated_at}
+                                file={book.file}
+                                status={book.status}
+                            />
+                        </Col>
                     ))
                 )}
             </Row>

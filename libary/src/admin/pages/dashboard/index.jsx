@@ -1,39 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { EyeOutlined, HomeFilled, UserOutlined, WalletOutlined } from '@ant-design/icons';
-import { Card, Col, Row, Statistic, Layout, Flex, Progress, Typography, Table, Button, Skeleton } from 'antd';
+import { Card, Col, Row, Statistic, Layout, Typography, Table, Button, Skeleton, Progress, Grid } from 'antd';
 import AdminService from '../../../shared/services/adminService';
 import { truncateText } from '../../../shared/utils';
-import Title from 'antd/es/typography/Title';
 
-const { Text } = Typography
+const { Title, Text } = Typography;
+const { useBreakpoint } = Grid;
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [datas, setDatas] = useState({});
   const [books, setBooks] = useState([]);
   const [users, setUsers] = useState([]);
+  const screens = useBreakpoint();
 
   useEffect(() => {
     setLoading(true);
-    try {
-      AdminService.getDashboard().then((res) => {
-        setLoading(false);
+    AdminService.getDashboard()
+      .then((res) => {
         setDatas(res.data);
         setBooks(res.data.books);
         setUsers(res.data.users);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    finally {
-      setLoading(false);
-    }
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   }, []);
 
   const handelViewUser = (id) => {
-  }
+    console.log("Viewing user", id);
+  };
+
   const userColumns = [
     {
       title: 'Name',
@@ -50,12 +46,12 @@ const AdminDashboard = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text) => (
-        <Button type="default">
-          <EyeOutlined onClick={handelViewUser} />
+      render: (_, record) => (
+        <Button type="default" onClick={() => handelViewUser(record._id)}>
+          <EyeOutlined />
         </Button>
       ),
-    }
+    },
   ];
 
   const bookColumns = [
@@ -72,100 +68,73 @@ const AdminDashboard = () => {
       render: (text) => truncateText(text, 20),
     },
   ];
+
   return (
-    loading ? <Skeleton active /> : (
-      <Layout>
-        <Title level={3}><HomeFilled /> Dashboard</Title>
-        <Row gutter={16} style={{ gap: '16px' }}>
-          <Col span={12}>
-            <Row style={{ width: '100%', gap: '16px' }}>
-              <Col span={7}>
-                <Card bordered={false} hoverable >
-                  <Statistic
-                    title="Active Users"
-                    value={datas.total_users}
-                    prefix={<UserOutlined />}
-                    valueStyle={{
-                      color: '#3f8600',
-                    }}
-                  />
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card bordered={false} hoverable>
-                  <Statistic
-                    title="Active Books"
-                    value={datas.total_books - datas.pending_books}
-                    prefix={<WalletOutlined />}
-                    valueStyle={{
-                      color: '#1a9ce7',
-                    }}
-                  />
-                </Card>
-              </Col>
-              <Col span={7}>
-                <Card bordered={false} hoverable>
-                  <Statistic
-                    title="Posts"
-                    value={datas.total_posts}
-                    prefix={<WalletOutlined />}
-                    valueStyle={{
-                      color: '#3f8600',
-                    }}
-                  />
-                </Card>
-              </Col>
-            </Row>
-            <Row style={{ width: '100%', marginTop: '16px' }}>
-              <Col span={24}>
-                <Title level={4}>New users</Title>
-                <Table
-                  columns={userColumns}
-                  pagination={false}
-                  dataSource={users}
-                  rowKey="_id"
-                />
-              </Col>
-            </Row>
-          </Col>
-          <Col span={10} style={{ display: 'flex', flexDirection: 'column' }}>
-            <Row>
-
-              <Card bordered={false} style={{ width: '100%' }} hoverable>
-                <Flex gap="middle" wrap>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Progress
-                      type="dashboard"
-                      precision={2}
-                      size={250}
-                      percent={((datas.total_books - datas.pending_books) / datas.total_books * 100).toFixed(2)} // Làm tròn đến 2 chữ số thập phân
-                      status='normal'
-                    />
-                    <Text>Approved Books</Text>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Progress type="dashboard" precision={2} percent={(datas.pending_books / datas.total_books * 100).toFixed(2)} size={150} status="normal" />
-                    <Text>Pending Books</Text>
-                  </div>
-                </Flex>
+    <Layout>
+      {loading ? (
+        <Skeleton active />
+      ) : (
+        <>
+          <Title level={3}><HomeFilled /> Dashboard</Title>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={24} md={8} lg={6}>
+              <Card bordered={false} hoverable>
+                <Statistic title="Active Users" value={datas.total_users} prefix={<UserOutlined />} valueStyle={{ color: '#3f8600' }} />
               </Card>
-            </Row>
-            <Row style={{ width: '100%', marginTop: '16px' }}>
-              <Col span={24}>
-                <Title level={4}>New books</Title>
-                <Table
-                  columns={bookColumns}
-                  pagination={false}
-                  dataSource={books}
-                  rowKey="_id"
-                />
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Layout>
-    )
-  )
-}
+            </Col>
+            <Col xs={24} sm={24} md={8} lg={6}>
+              <Card bordered={false} hoverable>
+                <Statistic title="Active Books" value={datas.total_books - datas.pending_books} prefix={<WalletOutlined />} valueStyle={{ color: '#1a9ce7' }} />
+              </Card>
+            </Col>
+            <Col xs={24} sm={24} md={8} lg={6}>
+              <Card bordered={false} hoverable>
+                <Statistic title="Posts" value={datas.total_posts} prefix={<WalletOutlined />} valueStyle={{ color: '#3f8600' }} />
+              </Card>
+            </Col>
+            <Col xs={24} sm={24} md={8} lg={6}>
+              <Card bordered={false} hoverable>
+                <Statistic title="Comments" value={datas.total_comments || 'N/A'} prefix={<WalletOutlined />} valueStyle={{ color: '#1a9ce7' }} />
+              </Card>
+            </Col>
+          </Row>
 
-export default AdminDashboard
+          <Row gutter={[16, 16]} style={{ marginTop: '16px' }}>
+            <Col xs={24} lg={14}>
+              <Title level={4}>New Users</Title>
+              <Table columns={userColumns} pagination={false} dataSource={users} rowKey="_id" size={screens.xs ? 'small' : 'middle'} scroll={{
+                x: 'max-content',
+              }} />
+            </Col>
+            <Col xs={24} lg={10}>
+              <Title level={4}>Book Status</Title>
+              <Card bordered={false} hoverable>
+                <Row gutter={[16, 16]} justify="center">
+                  <Col xs={24} sm={12} style={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                    <Progress type="dashboard" percent={((datas.total_books - datas.pending_books) / datas.total_books * 100).toFixed(2)} status='normal' size={screens.xs ? 120 : 200} />
+                    <Text>Approved Books</Text>
+                  </Col>
+                  <Col xs={24} sm={12} style={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                    <Progress type="dashboard" percent={(datas.pending_books / datas.total_books * 100).toFixed(2)} status="normal" size={screens.xs ? 100 : 150} />
+                    <Text>Pending Books</Text>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+
+          <Row style={{ marginTop: '16px' }}>
+            <Col span={24}>
+              <Title level={4}>New Books</Title>
+              <Table columns={bookColumns} pagination={false} dataSource={books} rowKey="_id" size={screens.xs ? 'small' : 'middle'} scroll={{
+                x: 'max-content',
+              }} />
+            </Col>
+          </Row>
+        </>
+      )}
+    </Layout>
+  );
+};
+
+export default AdminDashboard;

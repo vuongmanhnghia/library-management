@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Layout, Typography, message, Row, Skeleton, Tag  } from 'antd';
-import {  DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Layout, Typography, message, Row, Skeleton, Tag } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import AdminServices from '../../../shared/services/adminService';
 import { truncateText } from '../../../shared/utils';
 import dayjs from 'dayjs';
@@ -55,25 +55,25 @@ const AllUsers = () => {
             title: 'Gender',
             dataIndex: 'gender',
             key: 'gender',
-            render: (text) => text === null ? "N/A": text,
+            render: (text) => text === null ? "N/A" : text,
         },
         {
             title: 'Phone',
             dataIndex: 'phone_number',
             key: 'phone_number',
-            render: (text) => text === null ? "N/A": text,
+            render: (text) => text === null ? "N/A" : text,
         },
         {
             title: 'Address',
             dataIndex: 'address',
             key: 'address',
-            render: (text) => text === null ? "N/A": text,
+            render: (text) => text === null ? "N/A" : text,
         },
         {
             title: 'Date of Birth',
             dataIndex: 'date_of_birth',
             key: 'date_of_birth',
-            render: (text) =>   text !== null ? dayjs(text).format('DD/MM/YYYY') : "N/A" 
+            render: (text) => text !== null ? dayjs(text).format('DD/MM/YYYY') : "N/A"
         },
         {
             title: 'Action',
@@ -101,6 +101,9 @@ const AllUsers = () => {
                 </Row>
             ) : (
                 <Table
+                    scroll={{
+                        x: 'max-content',
+                    }}
                     columns={columns}
                     dataSource={users}
                     loading={loading}
@@ -111,6 +114,7 @@ const AllUsers = () => {
                         total: totalusers,
                         onChange: (page) => setCurrentPage(page),
                     }}
+
                 />
             )}
         </Layout>

@@ -1,15 +1,17 @@
-import { Layout, Input, Divider, Empty, Row, Col, Descriptions, Typography, Tag, Button, Modal, Form, message } from 'antd';
+import { Layout, Input, Divider, Empty, Row, Col, Descriptions, Typography, Tag, Button, Modal, Form, message, Grid } from 'antd';
 import { useState } from 'react';
 import AdminService from '../../../shared/services/adminService';
 import React from 'react';
 
 const { Search } = Input;
 const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 const FindUser = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [userFind, setUserFind] = useState(null);
     const [form] = Form.useForm();
+    const screen = useBreakpoint();
 
     const handleChangePassword = () => {
         setIsModalVisible(true); // Show modal when "Change Password" is clicked
@@ -68,7 +70,7 @@ const FindUser = () => {
                 enterButton="Search"
                 size="large"
                 onSearch={onSearch}
-                style={{ flex: 1, marginRight: "16px", width: "60%" }}
+                style={{ flex: 1, marginRight: "16px", width: screen.md ? '60%' : '100%' }}
             />
             <Divider />
             <Row>
@@ -78,12 +80,12 @@ const FindUser = () => {
                     </Row>
                 ) : (
                     <Row gutter={[16, 16]} align="middle" style={{ gap: 16, width: '100%' }}>
-                        <Col span={12} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                        <Col xs={24} md={24} lg={16} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                             <Descriptions bordered size="middle" column={1} style={{ width: '100%' }}>
                                 <Descriptions.Item label="User ID">{userFind.id || "N/A"}</Descriptions.Item>
                                 <Descriptions.Item label="Full Name">{userFind.full_name || "N/A"}</Descriptions.Item>
                                 <Descriptions.Item label="Date of Birth">
-                                { userFind.date_of_birth !== null ?Intl.DateTimeFormat('vi-VN').format(new Date(userFind.date_of_birth)) : "N/A"}
+                                    {userFind.date_of_birth !== null ? Intl.DateTimeFormat('vi-VN').format(new Date(userFind.date_of_birth)) : "N/A"}
                                 </Descriptions.Item>
                                 <Descriptions.Item label='Address'>{userFind.address || "N/A"}</Descriptions.Item>
                                 <Descriptions.Item label="Email">{userFind.email || "N/A"}</Descriptions.Item>
@@ -109,7 +111,7 @@ const FindUser = () => {
                             </Row>
                         </Col>
                         <Col span={10} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            
+
                         </Col>
                     </Row>
                 )}

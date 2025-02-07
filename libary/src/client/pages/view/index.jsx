@@ -83,48 +83,35 @@ const ViewBook = () => {
                             background: '#fff',
                             padding: '32px',
                             borderRadius: '8px',
-                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                         }}
                     >
                         <Row justify="center">
                             <Title level={2}>Book Details</Title>
                         </Row>
-                        <Row
-                            style={{
-                                width: '100%',
-                                display: 'flex',
-                                justifyContent: 'space-around',
-                                padding: 20,
-                                gap: 20,
-                            }}
-                        >
-                            <Col span={6} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Row gutter={[16, 16]} justify="center" align="middle">
+                            <Col xs={24} sm={12} md={8} lg={6} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <img
                                     draggable={false}
                                     src={book.cover || 'https://via.placeholder.com/150'}
                                     alt={book.title}
                                     style={{
-                                        width: '300px',
-                                        height: '360px',
+                                        width: '100%',
+                                        maxWidth: '300px',
+                                        height: 'auto',
                                         objectFit: 'cover',
                                         borderRadius: '10px',
-                                        marginBottom: 20,
-                                        padding: 20,
-                                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
                                     }}
                                 />
-                                <Title level={4} style={{ margin: '8px 0' }}>
-                                    {book.title}
-                                </Title>
+                                <Title level={4} style={{ margin: '8px 0' }}>{book.title}</Title>
                                 <Space style={{ marginTop: 20 }}>
                                     <Button type="primary">Add to Favorites</Button>
-                                    <Button type="default" download={`${book.title}.pdf`} href={book.file}>
-                                        Download
-                                    </Button>
+                                    <Button type="default" download={`${book.title}.pdf`} href={book.file}>Download</Button>
                                 </Space>
                             </Col>
-                            <Col span={12}>
-                                <Descriptions bordered size="small" column={1} style={{ width: '100%', marginTop: 40 }}>
+                            <Col xs={24} sm={12} md={16} lg={12}>
+                                <Descriptions bordered size="small" column={1} style={{ width: '100%', marginTop: 20 }}>
                                     <Descriptions.Item label="Title">{book.title}</Descriptions.Item>
                                     <Descriptions.Item label="Status">{book.status === 'false' ? <Tag color="red">Unavailable</Tag> : <Tag color="green">Available</Tag>}</Descriptions.Item>
                                     <Descriptions.Item label="Author">{book.author}</Descriptions.Item>
@@ -133,31 +120,21 @@ const ViewBook = () => {
                                     <Descriptions.Item label="Price">${book.price || '000'}</Descriptions.Item>
                                     <Descriptions.Item label="Introduction">{book.introduction}</Descriptions.Item>
                                 </Descriptions>
-                                <Row style={{ marginTop: 30 }}>
-                                    <Text strong style={{ marginRight: 8 }}>
-                                        Rate:
-                                    </Text>
+                                <Row style={{ marginTop: 20 }}>
+                                    <Text strong style={{ marginRight: 8 }}>Rate:</Text>
                                     <Rate allowHalf defaultValue={4.5} />
                                 </Row>
                             </Col>
                         </Row>
                         <Divider />
                         <Row justify="center">
-                            {book.file === null ? (<Text>Invalid URL</Text>) : 
-                            (<iframe src={book.file} width="80%" height="600px" title={`${book.title}.pdf`} ></iframe>)}
+                            {book.file && (
+                                <iframe src={book.file} width="100%" height="500px" title={`${book.title}.pdf`} style={{ maxWidth: '800px' }}></iframe>
+                            )}
                         </Row>
-                        <Card
-                            style={{
-                                display: 'inline-block',
-                                width: '80%',
-                                textAlign: 'center',
-                                marginTop: '24px',
-                            }}
-                        >
-                            <Title level={4} style={{ marginTop: '0' }}>
-                                Share your feedback
-                            </Title>
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '20px' }}>
+                        <Card style={{ width: '100%', maxWidth: '800px', margin: '24px auto', textAlign: 'center' }}>
+                            <Title level={4}>Share your feedback</Title>
+                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                                 <Input
                                     size="large"
                                     placeholder="Share your thoughts about the book..."
@@ -169,12 +146,8 @@ const ViewBook = () => {
                                 <Button type="primary" icon={<ArrowUpOutlined />} onClick={handleSubmitFeedback} />
                             </div>
                             <Divider />
-                            <div style={{ display: 'inline-block', textAlign: 'start', width: '90%' }}>
-                                {feedbackList.length === 0 ? (
-                                    <Empty />
-                                ) : (
-                                    <Feedbacks comments={feedbackList} />
-                                )}
+                            <div style={{ textAlign: 'start' }}>
+                                {feedbackList.length === 0 ? <Empty /> : <Feedbacks comments={feedbackList} />}
                             </div>
                         </Card>
                     </Content>

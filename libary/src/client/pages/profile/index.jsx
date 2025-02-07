@@ -4,9 +4,9 @@
 */
 
 import React, { useState } from 'react';
-import { Layout, Form, Input, Button, Upload, message, Row, Col, Avatar, Select, DatePicker, Typography } from 'antd';
+import { Layout, Form, Input, Button, Upload, message, Row, Col, Avatar, Select, DatePicker, Typography, Grid } from 'antd';
 import { UserOutlined, UploadOutlined } from '@ant-design/icons';
-import { getBase64,truncateText } from '../../../shared/utils';
+import { getBase64, truncateText } from '../../../shared/utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { update } from '../../../redux/userSlice';
 import UserService from '../../../shared/services/userService'; // Import the service
@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 const { Content } = Layout;
 const { Option } = Select;
 const { Title, Text } = Typography;
+const { useBreakpoint } = Grid;
 
 const ProfilePage = () => {
     const [form] = Form.useForm();
@@ -22,6 +23,7 @@ const ProfilePage = () => {
     const [previewAvatar, setPreviewAvatar] = useState(null);
     const [formData, setFormData] = useState({});
     const dispatch = useDispatch();
+    const screen = useBreakpoint();
 
     const userValue = useSelector((state) => state.user.user);
 
@@ -39,15 +41,16 @@ const ProfilePage = () => {
             date_of_birth: values.date_of_birth ? values.date_of_birth.toDate() : userValue.date_of_birth.toDate(),
             address: values.address || userValue.address,
         };
-        try{
-        const response = await UserService.update(updatedUser); 
-        if (response.success) {
-            message.success(response.message);
-            dispatch(update(response.data));
-        } else {
-            message.error(response.message);
-        }}
-        catch(error){
+        try {
+            const response = await UserService.update(updatedUser);
+            if (response.success) {
+                message.success(response.message);
+                dispatch(update(response.data));
+            } else {
+                message.error(response.message);
+            }
+        }
+        catch (error) {
             message.error('Failed to update user. Please try again.');
         }
     };
@@ -78,11 +81,11 @@ const ProfilePage = () => {
     };
 
     return (
-        <Layout style={{ padding: '24px' }}>
+        <Layout>
             <Content
                 style={{
                     background: '#fff',
-                    padding: '32px',
+                    padding: '8px',
                     borderRadius: '8px',
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                 }}
@@ -170,7 +173,7 @@ const ProfilePage = () => {
                         }}
                     >
                         <Avatar
-                            size={256}
+                            size={screen.xs ? 150 : 256}
                             icon={!previewAvatar ? <UserOutlined /> : null}
                             src={previewAvatar || userValue.avatar}
                             style={{ marginBottom: '16px', backgroundColor: '#f0f0f0' }}
@@ -179,13 +182,13 @@ const ProfilePage = () => {
                             maxCount={1}
                             beforeUpload={(file) => {
                                 const isImage = file.type.startsWith('image/');
-                                const isSmallEnough = file.size / 1024 / 1024 < 1.5; 
+                                const isSmallEnough = file.size / 1024 / 1024 < 1.5;
                                 if (!isImage) {
-                                    message.error(`${truncateText(file.name,10)} is not an image file`);
+                                    message.error(`${truncateText(file.name, 10)} is not an image file`);
                                     return Upload.LIST_IGNORE;
                                 }
                                 if (!isSmallEnough) {
-                                    message.error(`${truncateText(file.name,10)} is larger than 1,5MB`);
+                                    message.error(`${truncateText(file.name, 10)} is larger than 1,5MB`);
                                     return Upload.LIST_IGNORE;
                                 }
                                 return false;

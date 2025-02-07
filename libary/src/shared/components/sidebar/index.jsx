@@ -7,7 +7,6 @@ import { logoutBook } from '../../../redux/bookSlice';
 import { LogoutOutlined } from '@ant-design/icons';
 
 const { Sider } = Layout;
-const PUBLIC_URL = process.env.PUBLIC_URL;
 
 const SiderComponent = ({ collapsed, onCollapse, items }) => {
     const dispatch = useDispatch();
@@ -22,45 +21,45 @@ const SiderComponent = ({ collapsed, onCollapse, items }) => {
     };
 
     const logoutItem = (
-        <Menu.Item  key="logout"  style={{ color: 'red' }} icon={<LogoutOutlined />} onClick={handleLogout}>
+        <Menu.Item key="logout" style={{ color: 'red' }} icon={<LogoutOutlined />} onClick={handleLogout}>
             Logout
         </Menu.Item>
     );
+
     return (
-        <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={onCollapse}
-            style={{
-                height: '100vh',
-                position: 'fixed',
-                left: 0,
-                top: 0,
-                bottom: 0,
-                
-            }}
-        >
-            <div
+        <>
+            <Sider
+                collapsible
+                collapsed={collapsed}
+                onCollapse={onCollapse}
                 style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '4px',
-                    marginTop: '16px',
+                    height: '100vh',
+                    position: 'fixed',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
                 }}
             >
-                <img
-                    src={`${PUBLIC_URL}/static/imgs/logo-LM.png`}
-                    alt="logo"
-                    style={{ width: collapsed ? '50%' : '70%', transition: 'width 0.3s' }}
-                    draggable={false}
-                />
-            </div>
-            <div>
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '4px',
+                        marginTop: '16px',
+                    }}
+                >
+                    <img
+                        src={`${window.location.origin}/static/logoPage/logo.png`}
+                        alt="logo"
+                        style={{ width: collapsed ? '50%' : '70%', transition: 'width 0.3s' }}
+                        draggable={false}
+                    />
+                </div>
                 <Menu defaultSelectedKeys={['1']} mode="inline" items={items} style={{ border: 'none' }} />
-                <Menu mode="inline" >{logoutItem}</Menu>
-            </div>
-        </Sider>
+                <Menu mode="inline">{logoutItem}</Menu>
+            </Sider>
+        </>
     );
 };
 

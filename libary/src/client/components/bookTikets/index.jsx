@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col, message, Modal, Tag, Image } from 'antd';
+import { Card, Button, Row, Col, message, Modal, Tag, Image, Typography } from 'antd';
 import { EditOutlined, DeleteOutlined, DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { removeBook } from '../../../redux/bookSlice';
@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import React from 'react';
 
+const { Title } = Typography;
 
 const BookTikets = ({ id, img, title, create_date, edit_date, file, status }) => {
     const navigate = useNavigate();
@@ -27,7 +28,6 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file, status }) =>
                     throw new Error(errorData.message || 'Failed to delete book');
                 }
                 message.success('Delete book successfully');
-                // Xóa book và cập nhật lại sáchsách
                 dispatch(removeBook(id));
             } catch (error) {
                 console.error('Error deleting book:', error.message);
@@ -54,26 +54,27 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file, status }) =>
     };
 
     return (
-        <Card style={{ width: '80%', margin: '8px', padding: '8px' }}>
-            <Row gutter={16} align="middle">
+        <Card style={{ width: '100%', margin: '8px 0', padding: '8px' }}>
+            <Row gutter={[16, 16]} align="middle">
                 {/* Ảnh bìa */}
-                <Col flex="120px">
+                <Col xs={24} sm={12} md={8} lg={6}>
                     <Image
-                        width={100}
-                        height={100}
+                        width="100%"
                         src={img}
+                        alt={title}
+                        style={{ width: '120px', height: '120px', objectFit: 'cover' }}
                     />
                 </Col>
 
                 {/* Nội dung */}
-                <Col flex="auto">
+                <Col xs={24} sm={24} md={16} lg={18}>
                     <Card.Meta
                         description={
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 <div>
-                                    <h3 style={{ fontWeight: 'bold', color: 'var(--ant-primary-8)', margin: '0' }}>
+                                    <Title level={5} style={{ fontWeight: 'bold', color: 'var(--ant-primary-8)', margin: '0' }}>
                                         {title}
-                                    </h3>
+                                    </Title>
                                     <span style={{ fontWeight: 'bold' }}>Upload Date:</span>{' '}
                                     {create_date.split('T')[0]}
                                     <br />
@@ -81,18 +82,18 @@ const BookTikets = ({ id, img, title, create_date, edit_date, file, status }) =>
                                     <br />
                                     <span style={{ fontWeight: 'bold' }}>Status:</span> {status === 'false' ? <Tag color="red">Inactive</Tag> : <Tag color="green">Active</Tag>}
                                 </div>
-                                <div style={{ display: 'flex', gap: '8px', marginRight: '8px' }}>
-                                    <Button download={`${title}.pdf`} href={file}>
-                                        <DownloadOutlined />
+                                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                                    <Button download={`${title}.pdf`} href={file} icon={<DownloadOutlined />}>
+                                        Download
                                     </Button>
-                                    <Button onClick={() => navigate(`/view-book/${id}`)}>
-                                        <EyeOutlined />
+                                    <Button onClick={() => navigate(`/view-book/${id}`)} icon={<EyeOutlined />}>
+                                        View
                                     </Button>
-                                    <Button onClick={() => navigate(`/edit-book/${id}`)}>
-                                        <EditOutlined />
+                                    <Button onClick={() => navigate(`/edit-book/${id}`)} icon={<EditOutlined />}>
+                                        Edit
                                     </Button>
-                                    <Button danger onClick={() => confirmDelete(id)}>
-                                        <DeleteOutlined />
+                                    <Button danger onClick={() => confirmDelete(id)} icon={<DeleteOutlined />}>
+                                        Delete
                                     </Button>
                                 </div>
                             </div>
