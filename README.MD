@@ -1,4 +1,4 @@
-# **Team CHIVAS**: dự án Libary Forum
+# **Team CHIVAS**: dự án Library Forum
 
 ## **1. Mentor**
 -  Mentor: Kiều Hồng Phong
@@ -63,22 +63,6 @@ git clone <link_git_repo>
 cd <thư_mục_dự_án>
 ```
 
-### Cách 1: Setup auto
-1. Cài đặt python
-- Tham khảo link: https://www.python.org/
-
-2. Bật dự án lên và chạy file
-- Với thiết bị window
-```bash
-   python3 setup_window.py
-   ```
-- Với thiết bị Mac/Linux
-```bash
-   python3 setup_mac_linux.py
-   ```
-
-### Cách 2: Setup thủ công
-
 ### **⚠️ Lưu ý chạy Frontend và Backend ở 2 terminal khác nhau để dự án hoạt động. ⚠️**
 
 ### **Cài đặt Backend**
@@ -118,7 +102,7 @@ uvicorn app.main:app --reload
 1.- Từ thư mục gốc của dự án
 
 ```bash
-cd libary
+cd library
 ```
 
 2. Cài đặt thư viện 
@@ -136,7 +120,7 @@ npm start
 ### Cài đặt các thư viện bổ sung (nếu có)
 - Từ thư mục gốc dự án điều hướng đến file
 ```bash
-cd libary
+cd library
 ```
 - React Router Dom (quản lý điều hướng):
 ```bash
