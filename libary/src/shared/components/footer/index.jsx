@@ -13,7 +13,7 @@ const Footer = () => {
                 fontSize: '90%'
             }}
         >
-            Libary Forum ©{new Date().getFullYear()} Created by Team Chivas Probation
+            Library Forum ©{new Date().getFullYear()} Created by Team Chivas
             <br />
             Google Developer Group - GDG on Campus: PTIT
         </div>

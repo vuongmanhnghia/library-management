@@ -1,3 +1,8 @@
+/* 
+  Chức năng chính page: Trang chính admin hiện thị sơ bộ thông tin hệ thống
+  Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
+*/
+
 import React, { useEffect, useState } from 'react';
 import { EyeOutlined, HomeFilled, UserOutlined, WalletOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Statistic, Layout, Typography, Table, Button, Skeleton, Progress, Grid } from 'antd';

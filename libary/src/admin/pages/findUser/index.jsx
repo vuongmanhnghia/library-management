@@ -1,3 +1,8 @@
+/* 
+    Chức năng chính page: Tìm kiếm thông tin user bằng email
+    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
+*/
+
 import { Layout, Input, Divider, Empty, Row, Col, Descriptions, Typography, Tag, Button, Modal, Form, message, Grid } from 'antd';
 import { useState } from 'react';
 import AdminService from '../../../shared/services/adminService';

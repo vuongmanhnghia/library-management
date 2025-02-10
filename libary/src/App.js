@@ -1,14 +1,13 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { notification } from 'antd';
 import { privateRoutes, publicRoutes, adminRoutes } from './routes';
 import DefaultLayout from './client/components/layouts/DefaultLayout';
 import './shared/styles/GlobalStyle';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './redux/userSlice';
-import {  useEffect } from 'react';
+import { useEffect } from 'react';
 
 function App() {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const isAdmin = user?.role === 'admin';
@@ -22,7 +21,7 @@ function App() {
             const currentTime = Date.now();
             if (expirationTime < currentTime) {
                 dispatch(logout());
-                navigate('/login'); 
+                window.location.href = '/login'; 
                 notification.error({
                     message: 'Token expired, please login again.',
                 })

@@ -1,3 +1,8 @@
+/*
+    Chức năng chính page: Trang xem toàn bộ người dùng trong hệ thống (chỉ người dùng có role = user)
+    Công nghệ sử dụng: dayjs (fomat ngày tháng)
+*/
+
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Layout, Typography, message, Row, Skeleton, Tag } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';

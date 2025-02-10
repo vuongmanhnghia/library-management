@@ -1,3 +1,8 @@
+/*
+    Chức năng chính page: Trang xem toàn bộ sachs trong hệ thống chưa được duyệt được duyệt (duyệt, view, ...)
+    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
+*/
+
 import React, { useEffect, useState } from 'react';
 import { Table, Button, message, Layout, Typography, Row, Skeleton } from 'antd';
 import { EyeOutlined, CheckOutlined } from '@ant-design/icons';
