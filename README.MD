@@ -40,10 +40,10 @@ Dự án **Library Forum** cho phép:
 - Xem chi tiết sách.
 - Đánh giá sao, feedback (đang phát triển).
 
-#### c. Diễn đàn *(đang phát triển)*
+#### c. Diễn đàn 
 - Đăng bài: Đăng bài thảo luận các vấn đề liên quan đến sách.
 - Bình luận: Bình luận các bài của người khác đăng.
-- Chia sẻ bài: Chia sẻ bài đăng.
+- Chia sẻ bài: Chia sẻ bài đăng. (đang phát triển)
 
 #### d. Tìm kiếm và phân loại
 - Tìm kiếm toàn văn: Hỗ trợ tìm kiếm nhanh bằng tiêu đề, nội dung hoặc tag.
@@ -55,6 +55,7 @@ Dự án **Library Forum** cho phép:
 
 ## **5. Hướng dẫn cài đặt**
 ### Cài đặt và chạy dự án
+### **5.0 Anh chị có thể chạy dự án tại: https://libary-forum.onrender.com/
 
 ### **5.1 Clone project**
 1. Clone dự án
@@ -62,23 +63,6 @@ Dự án **Library Forum** cho phép:
 git clone <link_git_repo>
 cd <thư_mục_dự_án>
 ```
-
-### Cách 1: Setup auto
-1. Cài đặt python
-- Tham khảo link: https://www.python.org/
-
-2. Bật dự án lên và chạy file
-- Với thiết bị window
-```bash
-   python3 setup_window.py
-   ```
-- Với thiết bị Mac/Linux
-```bash
-   python3 setup_mac_linux.py
-   ```
-
-### Cách 2: Setup thủ công
-
 ### **⚠️ Lưu ý chạy Frontend và Backend ở 2 terminal khác nhau để dự án hoạt động. ⚠️**
 
 ### **Cài đặt Backend**
