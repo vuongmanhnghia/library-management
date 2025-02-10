@@ -40,10 +40,10 @@ Dự án **Library Forum** cho phép:
 - Xem chi tiết sách.
 - Đánh giá sao, feedback (đang phát triển).
 
-#### c. Diễn đàn *(đang phát triển)*
+#### c. Diễn đàn 
 - Đăng bài: Đăng bài thảo luận các vấn đề liên quan đến sách.
 - Bình luận: Bình luận các bài của người khác đăng.
-- Chia sẻ bài: Chia sẻ bài đăng.
+- Chia sẻ bài: Chia sẻ bài đăng. (đang phát triển)
 
 #### d. Tìm kiếm và phân loại
 - Tìm kiếm toàn văn: Hỗ trợ tìm kiếm nhanh bằng tiêu đề, nội dung hoặc tag.
