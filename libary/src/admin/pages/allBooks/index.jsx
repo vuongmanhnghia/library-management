@@ -1,8 +1,3 @@
-/*
-    Chức năng chính page: Trang xem toàn bộ sachs trong hệ thống đã được duyệt
-    Công nghệ sử dụng: null ( không có công nghệ gì đặc biệt)
-*/
-
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Layout, Typography, message, Row, Modal, Skeleton } from 'antd';
 import { DeleteOutlined, MinusSquareOutlined, EyeOutlined } from '@ant-design/icons';

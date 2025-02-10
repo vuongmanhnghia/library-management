@@ -1,5 +1,5 @@
 {
-  "name": "library",
+  "name": "libary",
   "version": "0.1.0",
   "homepage": "/",
   "private": true,
@@ -48,7 +48,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
-    "prettier": "3.4.2",
     "sass": "^1.83.1"
   },
   "engines": {
