@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { notification } from 'antd';
 import { privateRoutes, publicRoutes, adminRoutes } from './routes';
 import DefaultLayout from './client/components/layouts/DefaultLayout';
@@ -8,38 +8,21 @@ import { logout } from './redux/userSlice';
 import { useEffect } from 'react';
 
 function App() {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const isAdmin = user?.role === 'admin';
     const isAuthenticated = Boolean(user);
 
-    const checkTokenExpiration = () => {
-        const token = localStorage.getItem('access_token');
-        if (token) {
-            const decodedToken = JSON.parse(atob(token.split('.')[1]));
-            const expirationTime = decodedToken.exp * 1000;
-            const currentTime = Date.now();
-            if (expirationTime < currentTime) {
-                dispatch(logout());
-                navigate('/login');
-                notification.error({
-                    message: 'Token expired, please login again.',
-                })
-            }
-        }
-    };
-
     return (
         <Router>
-            <TokenChecker checkTokenExpiration={checkTokenExpiration} />
+            <TokenChecker dispatch={dispatch} />
             <div className="App">
                 <Routes>
                     {/* Public routes */}
                     {renderRoutes(publicRoutes, isAuthenticated, isAdmin)}
-                    {/* Private routes (requires authentication) */}
+                    {/* Private routes */}
                     {renderRoutes(privateRoutes, isAuthenticated, isAdmin, true)}
-                    {/* Admin routes (requires admin role) */}
+                    {/* Admin routes */}
                     {renderRoutes(adminRoutes, isAuthenticated, isAdmin, true, true)}
                 </Routes>
             </div>
@@ -47,15 +30,39 @@ function App() {
     );
 }
 
-const TokenChecker = ({ checkTokenExpiration }) => {
+
+const TokenChecker = ({ dispatch }) => {
+    const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
-        checkTokenExpiration();
-    }, [location]);
+        if (checkTokenExpiration()) {
+            dispatch(logout());
+            notification.error({
+                message: 'Token expired, please login again.',
+            });
+            navigate('/login'); 
+        }
+    }, [location, dispatch, navigate]);
 
     return null;
 };
+
+
+const checkTokenExpiration = () => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+        try {
+            const decodedToken = JSON.parse(atob(token.split('.')[1]));
+            const expirationTime = decodedToken.exp * 1000;
+            return expirationTime < Date.now(); 
+        } catch (error) {
+            return true; 
+        }
+    }
+    return false;
+};
+
 
 const renderRoutes = (routes, isAuthenticated, isAdmin, isPrivate = false, isAdminRoute = false) => {
     return routes.map((route, index) => {
