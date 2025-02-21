@@ -6,7 +6,7 @@ from bcrypt import hashpw, gensalt
 
 # Schema cho Book
 class User(BaseModel):
-    id: Optional[str] = Field(default=None, alias="_id")  # Alias cho MongoDB ObjectId
+    id: Optional[str] = Field(default=None, alias="_id")
     email: str = Field(..., description="Email of the user")
     password: str = Field(..., description="Password of the user")
     phone_number: str = Field(..., description="Phone number of the user")

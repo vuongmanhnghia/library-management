@@ -31,10 +31,9 @@ async def get_all_users(query_params):
         users_cursor = users.find({"role": "user"}).skip(skip).limit(per_page)
         raw_users = await users_cursor.to_list(length=per_page)
 
-        # Chuyển đổi sang đối tượng Pydantic
         list_users = []
         for user in raw_users:
-            user["_id"] = str(user["_id"])  # Chuyển ObjectId sang chuỗi
+            user["_id"] = str(user["_id"])
             list_users.append(details_user(user))
 
         return {

@@ -6,12 +6,13 @@ from app.middleware.require_authentication import require_authentication
 
 userRouter = APIRouter()
 
-
+# Lấy sách của tôi
 @userRouter.get("/my-books", dependencies=[Depends(require_authentication)])
 async def read_my_books(request: Request):
     print("user_router.py")
     return await book_controller.read_my_books(request)
 
+# Tìm kiếm user theo email
 @userRouter.post("/find-user-by-email", dependencies=[Depends(require_authentication)])
 async def read_users(payload: ReadUserByEmail, request: Request):
     current_user = request.current_user
@@ -24,7 +25,8 @@ async def read_users(payload: ReadUserByEmail, request: Request):
         "success": True,
         "data": result
     }
-    
+
+# Lay toan bo user
 @userRouter.get("/", dependencies=[Depends(require_authentication)])
 async def get_all_users(request: Request):
     user = request.current_user
@@ -32,6 +34,7 @@ async def get_all_users(request: Request):
         raise HTTPException(status_code=403, detail="Only admin can get all users")
     return await user_controller.get_all_users(request)
 
+# Lay thong tin dashboard
 @userRouter.get("/dashboard", dependencies=[Depends(require_authentication)])
 async def get_dashboard_data(request: Request):
     user = request.current_user

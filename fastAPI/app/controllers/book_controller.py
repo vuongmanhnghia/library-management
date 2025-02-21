@@ -50,11 +50,12 @@ async def delete_book(request: Request, id: str):
         "data": result,
     }
 
-
+# Lay danh sach sach cua nguoi dung
 async def read_my_books(request):
     list_books = await book_service.read_my_books(request.current_user)
     return {"status": 200, "success": True, "message": "OK", "data": list_books}
 
+# cap nhat trang thai sach
 async def update_book_status(id: str):
     result = await book_service.update_book_status(id)
     return {
@@ -64,7 +65,7 @@ async def update_book_status(id: str):
         "data": result,
     }
 
-
+# Lay danh sach sach dang cho duyet
 async def get_pending_books():
     books = await book_service.get_pending_books()
     return {

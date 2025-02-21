@@ -5,9 +5,6 @@ from app.models.book import BookCreate, BookUpdate
 
 bookRouter = APIRouter()
 
-# Lấy danh sách sách (phân trang)
-
-
 # Cập nhật sách theo ID
 @bookRouter.put("/{id}", dependencies=[Depends(require_authentication)])
 async def update_book(request: Request, id: str, book: BookUpdate):
@@ -25,11 +22,12 @@ async def delete_book(request: Request, id: str):
 async def create_book(request: Request, book: BookCreate):
     return await book_controller.create_book(request, book)
 
-
+# Lấy danh sách sách
 @bookRouter.get("/", dependencies=[Depends(require_authentication)])
 async def read_root(request: Request):
     return await book_controller.read_root(request.query_params)
 
+# Lấy danh sách sách chờ duyệt
 @bookRouter.get("/pending", dependencies=[Depends(require_authentication)])
 async def get_pending_books(request: Request):
     user = request.current_user
@@ -38,11 +36,12 @@ async def get_pending_books(request: Request):
 
     return await book_controller.get_pending_books()
 
+# Lấy sách theo ID
 @bookRouter.get("/{id}", dependencies=[Depends(require_authentication)])
 async def read_book_by_id(request: Request, id: str):
     return await book_controller.read_book_by_id(request, id)
 
-
+# Cập nhật trạng thái sách theo ID
 @bookRouter.patch("/{id}/status", dependencies=[Depends(require_authentication)])
 async def update_book_status(request: Request, id: str):
     user = request.current_user

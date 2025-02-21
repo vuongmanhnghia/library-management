@@ -14,6 +14,7 @@ postRouter = APIRouter()
 async def read_root(request: Request):
     return await post_service.get_all_posts(request.query_params)
 
+# Lấy sách theo ID
 @postRouter.post("/", dependencies=[Depends(require_authentication)])
 async def create_post(request: Request, post: CreatePost):
     return await post_service.create_post(request.current_user, post)

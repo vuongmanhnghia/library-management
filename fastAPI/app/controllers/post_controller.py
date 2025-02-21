@@ -1,8 +1,7 @@
-from fastAPI import HTTPException, Query, Request
+from fastAPI import Request
 from app.configs.database import posts
 from app.models.post import CreatePost
 from app.services import post_service
-from bson import ObjectId
 
 async def get_all_posts(request: Request):
     list_posts = await post_service.get_all_posts(request)

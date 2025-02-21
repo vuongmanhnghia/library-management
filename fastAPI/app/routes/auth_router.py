@@ -35,11 +35,12 @@ async def delete_user(request: Request):
 async def me(request: Request):
     return await auth_controller.get_me(request)
 
-
+# Thay đổi mật khẩu
 @authRouter.put("/change-password", dependencies=[Depends(require_authentication)])
 async def change_password(request: Request, password: UserChangePassword):
     return await auth_controller.change_password(request, password)
 
+# Thay đổi mật khẩu bởi admin
 @authRouter.put("/change-password-by-id/{id}", dependencies=[Depends(require_authentication)])
 async def change_password_by_id(request: Request, password: ChangePasswordByAdmin, id: str):
         return await auth_controller.change_password_by_id(request, password, id)

@@ -5,7 +5,7 @@ from typing import Optional
 
 # Schema cho Book
 class Book(BaseModel):
-    id: Optional[str] = Field(default=None, alias="_id")  # Alias cho MongoDB ObjectId
+    id: Optional[str] = Field(default=None, alias="_id")
     title: str = Field(..., description="Title of the book")
     author: str = Field(..., description="Author of the book")
     published_date: Optional[str] = Field(default=None, description="Publication date of the book")
