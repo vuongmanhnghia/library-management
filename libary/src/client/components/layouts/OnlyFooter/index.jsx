@@ -12,7 +12,6 @@ const OnlyFooter = ({ children }) => {
                 gutter={[0, 24]}
                 style={{ flex: 1, display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}
             >
-                {/* Cột hình ảnh và tiêu đề */}
                 <Col
                     xs={24} sm={24} md={12} lg={15}
                     style={{
@@ -47,7 +46,6 @@ const OnlyFooter = ({ children }) => {
                     />
                 </Col>
 
-                {/* Cột nội dung */}
                 <Col
                     xs={24} sm={24} md={12} lg={9}
                     style={{
@@ -65,8 +63,6 @@ const OnlyFooter = ({ children }) => {
                     {children}
                 </Col>
             </Row>
-
-            {/* Footer dạng Watermark */}
             <AntFooter
                 style={{
                     position: 'absolute',

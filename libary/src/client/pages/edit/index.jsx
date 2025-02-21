@@ -13,7 +13,7 @@ import BookService from '../../../shared/services/bookService';
 import dayjs from 'dayjs';
 
 const { Title } = Typography;
-const defaultImage = 'https://via.placeholder.com/150';
+const defaultImage = 'https://via.placeholder.com/280x280.png?text=No+Cover';
 const EditBook = () => {
     const { id } = useParams();
 
@@ -39,7 +39,7 @@ const EditBook = () => {
                     setPreviewDate(result.published_date || null);
                     setPreviewIntroduction(result.introduction || 'This is a brief introduction of the book.');
 
-                    // Chuẩn bị fileList cho upload
+                    
                     const coverFileList = result.cover
                         ? [{ uid: '-1', name: `${result.title}.jpg`, status: 'done', url: result.cover }]
                         : [];
@@ -47,7 +47,7 @@ const EditBook = () => {
                         ? [{ uid: '-2', name: `${result.title}.pdf`, status: 'done', url: result.file }]
                         : [];
 
-                    // Update form fields với dữ liệu hiện tại
+                    
                     form.setFieldsValue({
                         title: result.title,
                         author: result.author,
@@ -75,7 +75,7 @@ const EditBook = () => {
         const encodedFile = bookFile ? await getBase64(bookFile) : null;
 
         const payload = {
-            ...book, // Giữ lại các trường cũ
+            ...book, 
             title: values.title,
             author: values.author,
             published_date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : book.published_date,
@@ -207,7 +207,7 @@ const EditBook = () => {
                                         message.error(`${truncateText(file.name, 10)} is larger than 1,5MB`);
                                         return Upload.LIST_IGNORE;
                                     }
-                                    handlePreviewCover(file); // Xử lý file ở đây
+                                    handlePreviewCover(file); 
                                     return false;
                                 }}
                                 onChange={(info) => {

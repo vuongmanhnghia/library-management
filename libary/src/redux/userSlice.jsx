@@ -1,5 +1,3 @@
-// Tạo redux user để tái sử dụng trong app
-
 import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({

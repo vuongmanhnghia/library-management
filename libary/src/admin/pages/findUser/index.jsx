@@ -14,7 +14,7 @@ const FindUser = () => {
     const screen = useBreakpoint();
 
     const handleChangePassword = () => {
-        setIsModalVisible(true); // Show modal when "Change Password" is clicked
+        setIsModalVisible(true); 
     };
 
     const handleOk = () => {

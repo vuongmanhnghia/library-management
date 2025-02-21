@@ -86,12 +86,6 @@ const AllUsers = () => {
         },
     ];
 
-
-    const handleView = (id) => {
-        console.log(id);
-    };
-
-
     return (
         <Layout>
             <Title level={3}>All users</Title>

@@ -25,13 +25,11 @@ import FindUser from '../admin/pages/findUser';
 import AllUsers from '../admin/pages/allUsers';
 
 import DefaultLayoutAdmin from '../admin/components/layout/DeafultLayoutAdmin';
-// allow view, user can't login
 const publicRoutes = [
     { path: '/login', component: Login, layout: OnlyFooter },
     { path: '/register', component: Register, layout: OnlyFooter },
 ];
 
-// allow view , user can login
 const privateRoutes = [
     { path: '/', component: Home },
     { path: '/home', component: Home },

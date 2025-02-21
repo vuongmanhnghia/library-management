@@ -130,8 +130,6 @@ const AllBooks = () => {
     return (
         <Layout>
             <Title level={3} >All Books </Title>
-
-
             {loading ? (
                 <Row justify="center">
                     <Skeleton active />

@@ -25,11 +25,6 @@ const AdminDashboard = () => {
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
-
-  const handelViewUser = (id) => {
-    console.log("Viewing user", id);
-  };
-
   const userColumns = [
     {
       title: 'Name',
@@ -46,8 +41,8 @@ const AdminDashboard = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => (
-        <Button type="default" onClick={() => handelViewUser(record._id)}>
+      render: () => (
+        <Button type="default">
           <EyeOutlined />
         </Button>
       ),

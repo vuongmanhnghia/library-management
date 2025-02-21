@@ -1,7 +1,6 @@
 import React from 'react';
 
-// Style for Carousel Slide
-const slideStyle = {
+const slideStyleCarousel = {
     borderRadius: 6,
     width: '100%',
     margin: 0,
@@ -18,7 +17,7 @@ const CarouselSlide = ({ text, image, position='center' }) => {
     return (
         <div
             style={{
-                ...slideStyle,
+                ...slideStyleCarousel,
                 backgroundImage: `url(${image})`,
                 backgroundPosition: position,
             }}

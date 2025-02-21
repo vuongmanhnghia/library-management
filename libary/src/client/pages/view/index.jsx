@@ -6,7 +6,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, Space, Row, Layout, Col, Descriptions, Rate, Input, Empty, Card, message, Tag, Divider } from 'antd';
-import { ArrowUpOutlined } from '@ant-design/icons'; // Feedback logic, update later
+import { ArrowUpOutlined } from '@ant-design/icons'; 
 import { useParams } from 'react-router-dom';
 import Loading from '../../../shared/components/loadingUI';
 import BookService from '../../../shared/services/bookService';

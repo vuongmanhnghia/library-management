@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Table, Button, message, Layout, Typography, Row, Skeleton } from 'antd';
 import { EyeOutlined, CheckOutlined } from '@ant-design/icons';
 import BookService from '../../../shared/services/bookService';
@@ -6,6 +7,7 @@ import { truncateText } from '../../../shared/utils';
 const { Title } = Typography;
 
 const BookChecker = () => {
+    const navigate = useNavigate();
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -77,7 +79,6 @@ const BookChecker = () => {
             const response = await BookService.updateStatus(id);
             if (response.success) {
                 message.success('Book approved successfully');
-                // Chỉ cập nhật lại bảng mà không thay đổi status
                 setBooks((prevBooks) =>
                     prevBooks.filter((book) => book.id !== id)
                 );
@@ -88,7 +89,7 @@ const BookChecker = () => {
     };
 
     const handleView = (id) => {
-        console.log(id);
+        navigate(`/admin/view_book/${id}`);
     };
 
     return (

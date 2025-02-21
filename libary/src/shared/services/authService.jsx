@@ -13,7 +13,7 @@ const AuthService = {
             const response = await axios.post(`${apiUrl}/auth/login`, payload);
             if (response.data.status === 200) {
                 const { access_token } = response.data.data;
-                localStorage.setItem('access_token', access_token); // Lưu token vào localStorage
+                localStorage.setItem('access_token', access_token);
                 return { success: true, token: access_token, message: 'Login successful!' };
             } else {
                 return {

@@ -35,7 +35,7 @@ const Register = () => {
                 backgroundColor: 'transparent',
                 border: 'none',
                 width: '100%',
-                maxWidth: '400px', // Giới hạn chiều rộng tối đa
+                maxWidth: '400px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -65,7 +65,6 @@ const Register = () => {
                         width: '100%',
                     }}
                 >
-                    {/* Full Name */}
                     <Form.Item
                         className="custom-form-item"
                         label="Full Name"
@@ -78,7 +77,6 @@ const Register = () => {
                         <Input placeholder="Enter full name" />
                     </Form.Item>
 
-                    {/* Email */}
                     <Form.Item
                         className="custom-form-item"
                         label="Email address"
@@ -91,7 +89,6 @@ const Register = () => {
                         <Input placeholder="Enter email" />
                     </Form.Item>
 
-                    {/* Phone Number */}
                     <Form.Item
                         className="custom-form-item"
                         label="Phone Number"
@@ -107,7 +104,6 @@ const Register = () => {
                         <Input placeholder="Enter phone number" />
                     </Form.Item>
 
-                    {/* Password */}
                     <Form.Item
                         className="custom-form-item"
                         label="Password"
@@ -120,14 +116,12 @@ const Register = () => {
                         <Input.Password placeholder="Password" />
                     </Form.Item>
 
-                    {/* Submit Button */}
                     <Form.Item className="custom-form-item">
                         <Button type="primary" htmlType="submit" block>
                             Submit
                         </Button>
                     </Form.Item>
 
-                    {/* Login Button - THÊM marginBottom để tránh footer watermark che mất */}
                     <Form.Item
                         style={{
                             fontSize: '14px',

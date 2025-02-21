@@ -9,7 +9,7 @@ import { UserOutlined, UploadOutlined } from '@ant-design/icons';
 import { getBase64, truncateText } from '../../../shared/utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { update } from '../../../redux/userSlice';
-import UserService from '../../../shared/services/userService'; // Import the service
+import UserService from '../../../shared/services/userService'; 
 import dayjs from 'dayjs';
 
 const { Content } = Layout;

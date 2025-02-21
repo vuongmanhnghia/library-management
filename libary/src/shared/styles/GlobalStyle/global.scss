@@ -1,10 +1,9 @@
-// Định nghĩa breakpoints
+
 $mobile: 576px;
 $tablet: 768px;
 $desktop: 1024px;
 $large-desktop: 1440px;
 
-// Định nghĩa font-size cho từng thiết bị
 $font-sizes: (
     mobile: 12px,
     tablet: 16px,
@@ -12,7 +11,6 @@ $font-sizes: (
     large-desktop: 20px
 );
 
-// Mixin cho responsive typography
 @mixin responsive-font($size-map) {
     font-size: map-get($size-map, mobile);
 
@@ -29,14 +27,12 @@ $font-sizes: (
     }
 }
 
-// Áp dụng cho body
 body {
     font-family: "Arial", sans-serif;
     line-height: 1.5;
     @include responsive-font($font-sizes);
 }
 
-// Typography cho các tiêu đề
 h1 {
     @include responsive-font((mobile: 24px, tablet: 28px, desktop: 32px, large-desktop: 36px));
 }
@@ -61,12 +57,10 @@ p {
 
 ::-webkit-scrollbar-track {
     border-radius: 10px;
-    /* Bo góc cho khu vực thanh cuộn */
 }
 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    /* Bo góc cho thanh cuộn */
 }
 
 .ant-layout-footer,
@@ -86,39 +80,29 @@ p {
 .ant-layout-sider-trigger>* {
     color: var(--ant-primary-color) !important;
 }
-
-/* Tùy chỉnh thanh cuộn cho hộp chat */
 .custom-scrollbar {
     scrollbar-width: thin;
-    /* Thanh cuộn mỏng (cho Firefox) */
     scrollbar-color: hsl(0, 0%, 93%) #ffffff;
-    /* Màu thanh cuộn (cho Firefox) */
 }
 
 .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
-    /* Độ rộng của thanh cuộn */
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
     background: #f0f0f0;
-    /* Màu nền của track */
     border-radius: 50%;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #4f76ff;
-    /* Màu thanh kéo */
     border-radius: 10px;
-    /* Bo góc thanh kéo */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #3a5ec0;
-    /* Màu khi hover thanh kéo */
 }
 
-// src/styles/custom-theme.scss
 :root {
     --primary-background-color: #fef9f9;
     --ant-primary-color: rgb(204, 13, 0);
@@ -231,14 +215,10 @@ p {
     background-color: var(--primary-background-color) !important;
     color: var(--ant-primary-6) !important;
 }
-
-/* Label màu trắng */
 .custom-form-item .ant-form-item-label>label {
     color: var(--ant-primary-6) !important;
     font-weight: bold;
 }
-
-/* Dấu * required màu vàng */
 .custom-form-item .ant-form-item-required::before {
     color: var(--ant-primary-10) !important;
 }
@@ -246,39 +226,24 @@ p {
 .custom-form-item .ant-form-item-explain-error {
     color: var(--ant-primary-10) !important;
 }
-
-/* Tùy chỉnh Input thường */
 .custom-form-item .ant-input,
 .custom-form-item .ant-input-password {
     color: var(--ant-primary-8) !important;
-    /* Chữ trắng */
     background-color: var(--ant-primary-color-disabled) !important;
-    /* Nền trong suốt */
     border-color: transparent !important;
-    /* Viền vàng */
 }
-
-/* Placeholder */
 .custom-form-item .ant-input::placeholder,
 .custom-form-item .ant-input-password input::placeholder {
     color: var(--ant-primary-3) !important;
-    /* Màu trắng mờ */
 }
-
-/* Khi focus */
 .custom-form-item .ant-input:focus,
 .custom-form-item .ant-input-password input:focus {
     border-color: transparent;
-    /* Viền cyan khi active */
 }
-
-/* Khi nhập chữ vào input */
 .custom-form-item .ant-input:not(:placeholder-shown),
 .custom-form-item .ant-input-password input:not(:placeholder-shown) {
     color: var(--ant-primary-8) !important;
 }
-
-/* Tùy chỉnh icon mắt của Input.Password */
 .custom-form-item .ant-input-password .anticon {
     color: var(--ant-primary-4) !important;
 }

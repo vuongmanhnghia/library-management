@@ -1,5 +1,3 @@
-// Tạo redux store giúp không bị mất thông tin user trong app
-
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import userReducer from './userSlice';
 import bookReducer from './bookSlice';

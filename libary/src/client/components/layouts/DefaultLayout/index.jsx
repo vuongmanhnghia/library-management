@@ -27,12 +27,10 @@ const DefaultLayout = ({ children }) => {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            {/* Sidebar */}
             {!breakpoint.md ?
                 <HeaderMB items={menuItems} /> :
                 <SiderComponent collapsed={collapsed} onCollapse={setCollapsed} items={menuItems} />}
 
-            {/* Main Layout */}
             <Layout
                 style={{
                     marginLeft: breakpoint.md ? (collapsed ? 80 : 200) : 0,
@@ -45,10 +43,9 @@ const DefaultLayout = ({ children }) => {
             >
                 <Header />
 
-                {/* Nội dung chính */}
                 <Content
                     style={{
-                        flex: 1, // Giúp nội dung chiếm hết khoảng trống
+                        flex: 1,
                         padding: '16px',
                         background: 'white',
                         borderRadius: 8,
@@ -59,11 +56,11 @@ const DefaultLayout = ({ children }) => {
                     {children}
                 </Content>
 
-                {/* Footer watermark */}
+
                 <Footer
                     style={{
                         textAlign: 'center',
-                        position: 'relative', // Không để absolute tránh bị che
+                        position: 'relative',
                         width: '100%',
                         background: 'transparent',
                         padding: '16px 0',

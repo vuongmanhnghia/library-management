@@ -114,7 +114,6 @@ const Login = () => {
                         </Button>
                     </Form.Item>
 
-                    {/* Thêm margin-bottom để tránh bị footer che mất */}
                     <Form.Item
                         style={{
                             fontSize: '14px',
@@ -123,7 +122,7 @@ const Login = () => {
                             justifyContent: 'center',
                             marginTop: '8px',
                             gap: '4px',
-                            marginBottom: '60px', // Thêm khoảng cách để tránh footer watermark
+                            marginBottom: '60px',
                         }}
                     >
                         <span>Don't have an account? </span>

@@ -32,10 +32,9 @@ function Header() {
         padding: "12px 16px",
         background: "#fff",
         borderBottom: "1px solid #ddd",
-        gap: "8px", // Giảm khoảng cách giữa các phần tử
+        gap: "8px", 
       }}
     >
-      {/* Chọn loại tìm kiếm */}
       <Select
         size="large"
         defaultValue="name"
@@ -48,7 +47,6 @@ function Header() {
         ]}
       />
 
-      {/* Ô tìm kiếm */}
       <Search
         placeholder="Search for a book or author here"
         allowClear
@@ -57,15 +55,14 @@ function Header() {
         onSearch={onSearch}
         style={{
           flex: "1 1 auto",
-          maxWidth: "400px", // Giới hạn độ rộng max
-          minWidth: "200px", // Đảm bảo không bị nhỏ quá trên mobile
+          maxWidth: "400px", 
+          minWidth: "200px", 
           order: searchOrder,
         }}
       />
 
       <Divider type="vertical" style={{ display: "none" }} />
 
-      {/* Hiển thị thông tin user */}
       <Link to="/profile" style={{ order: userOrder }}>
         <Text strong style={{ fontSize: "16px", whiteSpace: "nowrap" }}>
           Hi, {userValue?.full_name || "Guest"}

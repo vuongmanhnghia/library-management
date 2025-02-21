@@ -5,10 +5,10 @@ const MailService = {
     send: (values) => {
         emailjs
             .send(
-                'service_h53j3ji', // Service ID trong EmailJS
-                'template_w1ic71w', // Template ID trong EmailJS
+                'service_h53j3ji',
+                'template_w1ic71w',
                 values,
-                'GX77PhhpWopOUzlxQ', // User ID trong EmailJS
+                'GX77PhhpWopOUzlxQ',
             )
             .then(() => {
                 message.success('Inquiry Submitted Successfully');
