@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { itemsSibar } from '../valueSidbar';
 import Footer from '../../../../shared/components/footer';
-
+import FloatAI from '../../floatAI';
 const { Content } = Layout;
 const { useBreakpoint } = Grid;
 
@@ -70,6 +70,7 @@ const DefaultLayout = ({ children }) => {
                     }}
                 />
             </Layout>
+            <FloatAI />
         </Layout>
     );
 };

@@ -41,7 +41,7 @@ const TokenChecker = ({ dispatch }) => {
             notification.error({
                 message: 'Token expired, please login again.',
             });
-            navigate('/login'); 
+            navigate('/login');
         }
     }, [location, dispatch, navigate]);
 
@@ -55,9 +55,9 @@ const checkTokenExpiration = () => {
         try {
             const decodedToken = JSON.parse(atob(token.split('.')[1]));
             const expirationTime = decodedToken.exp * 1000;
-            return expirationTime < Date.now(); 
+            return expirationTime < Date.now();
         } catch (error) {
-            return true; 
+            return true;
         }
     }
     return false;

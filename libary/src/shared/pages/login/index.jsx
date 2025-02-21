@@ -18,6 +18,7 @@ const Login = () => {
         const onAuthFinish = await AuthService.login(values);
         if (onAuthFinish.success) {
             const userData = await getUser(onAuthFinish.token);
+            console.log(userData);
             if (userData) {
                 dispatch(update(userData));
                 setIsloading(false);

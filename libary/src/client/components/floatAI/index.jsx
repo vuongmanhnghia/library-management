@@ -1,25 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FloatButton, Tooltip, Popover, List, Input, Button } from 'antd';
 import { OpenAIOutlined } from '@ant-design/icons';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const API_KEY = process.env.REACT_APP_AI_KEY;
 
 const FloatAI = () => {
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-8b" });
+
     const [isPopoverVisible, setPopoverVisible] = useState(false);
     const [messages, setMessages] = useState([{ sender: 'AI', text: 'Hello! How can I help you today?' }]);
     const [newMessage, setNewMessage] = useState('');
     const chatBoxRef = useRef(null);
 
-    const handleSendMessage = () => {
-        if (newMessage.trim()) {
-            setMessages([...messages, { sender: 'User', text: newMessage }]);
-            // Simulate AI response
-            setTimeout(() => {
-                setMessages((prev) => [...prev, { sender: 'AI', text: `You said: ${newMessage}` }]);
-            }, 1000);
-            setNewMessage('');
+    const handleGenerateResponse = async (userMessage) => {
+        try {
+            const result = await model.generateContent(userMessage);
+            const responseText = await result.response.text();
+            setMessages((prev) => [...prev, { sender: 'AI', text: responseText }]);
+        } catch (error) {
+            console.error("Error fetching AI response:", error);
+            setMessages((prev) => [...prev, { sender: 'AI', text: 'Sorry, I encountered an error.' }]);
         }
     };
 
-    // Tự động cuộn xuống cuối khi danh sách tin nhắn thay đổi
+    const handleSendMessage = () => {
+        if (newMessage.trim()) {
+            const userMessage = newMessage;
+            setMessages([...messages, { sender: 'User', text: userMessage }]);
+            setNewMessage('');
+            handleGenerateResponse(userMessage);
+        }
+    };
+
     useEffect(() => {
         if (chatBoxRef.current) {
             chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
@@ -28,7 +42,7 @@ const FloatAI = () => {
 
     const content = (
         <div
-            className="custom-scrollbar" // Thêm ID để áp dụng CSS
+            className="custom-scrollbar"
             style={{
                 maxHeight: '400px',
                 overflowY: 'auto',
@@ -36,7 +50,7 @@ const FloatAI = () => {
                 flexDirection: 'column',
                 width: '300px',
             }}
-            ref={chatBoxRef} // Gắn ref vào hộp chat
+            ref={chatBoxRef}
         >
             <List
                 style={{ flex: 1, padding: '10px 0' }}

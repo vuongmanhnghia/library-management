@@ -6,6 +6,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
     "@emailjs/browser": "^4.4.1",
+    "@google/generative-ai": "^0.22.0",
     "@reduxjs/toolkit": "^2.5.0",
     "@testing-library/react": "^16.1.0",
     "antd": "^5.23.0",
