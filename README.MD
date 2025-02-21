@@ -55,7 +55,7 @@ Dự án **Library Forum** cho phép:
 
 ## **5. Hướng dẫn cài đặt**
 ### Cài đặt và chạy dự án
-### **5.0 Anh chị có thể chạy dự án tại: https://libary-forum.onrender.com/
+### **5.0 Anh chị có thể chạy dự án tại: https://library-forum.onrender.com/
 
 ### **5.1 Clone project**
 1. Clone dự án
