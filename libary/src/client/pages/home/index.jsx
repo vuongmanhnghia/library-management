@@ -30,7 +30,7 @@ const Home = () => {
     const [totalBooks, setTotalBooks] = useState(0);
     const [sortField, setSortField] = useState('name');
     const [sortOrder, setSortOrder] = useState('asc');
-    const perPage = 8;
+    const perPage = 5;
 
     const fetchBooks = async () => {
         setLoading(true);

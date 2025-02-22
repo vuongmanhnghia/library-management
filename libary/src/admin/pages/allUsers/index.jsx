@@ -12,7 +12,7 @@ const AllUsers = () => {
     const [users, setUsers] = useState([]);
     const [totalusers, setTotalUsers] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const perPage = 10;
+    const perPage = 5;
 
     useEffect(() => {
         const fetchUsers = async () => {
